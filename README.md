@@ -17,8 +17,11 @@ External script runner that executes scripts within a Truffle environment.
 
 ## Setup
 - Build the image
+
 `docker-compose -f local.yml build`
 - Run docker container
+
 `docker-compose -f local.yml up`
 - Enter container terminal
+
 `docker exec -it musicsmartcontracts_truffle_1 sh`
