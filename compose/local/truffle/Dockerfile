@@ -11,6 +11,7 @@ RUN mkdir /log
 RUN mkdir -p /app
 WORKDIR /app
 COPY ./package.json /app/package.json
+# when you have one, copy it as well
 # COPY ./package-lock.json /app/package-lock.json
 RUN npm install
 
