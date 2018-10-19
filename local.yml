@@ -17,5 +17,3 @@ services:
 
   ganache-cli:
     image: "trufflesuite/ganache-cli"
-    ports:
-      - "8545:8545"
