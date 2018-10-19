@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  truffle:
+    build:
+      context: .
+      dockerfile: ./compose/local/truffle/Dockerfile
+    image: music_smart_contracts_local_truffle
+    depends_on:
+      - ganache-cli
+    volumes:
+      - .:/app
+    entrypoint: sh
+    command: '-c "sleep 1d"'
+    ports:
+      - "8080:8080"
+
+  ganache-cli:
+    image: "trufflesuite/ganache-cli"
+    ports:
+      - "8545:8545"
