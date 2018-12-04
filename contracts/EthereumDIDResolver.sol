@@ -8,7 +8,7 @@ import './EthereumDIDRegistry.sol';
 contract EthereumDIDResolver {
     address public ethDIDReg;
 
-    function initResolver(address _ethDID) internal {
+    function setRegistry(address _ethDID) internal {
         ethDIDReg = _ethDID;
     }
 
