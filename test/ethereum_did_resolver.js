@@ -26,7 +26,7 @@ contract("EthereumDIDResolver", (accounts) => {
 
     it("should fail when run setRegistry() on production contract", async () => {
       try {
-        await ethDIDResolverProd._setRegistry(ethDIDReg.address);
+        await ethDIDResolverProd.setRegistry(ethDIDReg.address);
         assert.fail();
       } catch(err) {
         assert.equal('TypeError', err.name);
