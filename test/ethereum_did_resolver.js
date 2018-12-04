@@ -1,10 +1,11 @@
 import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
 var EthereumDIDRegistry = artifacts.require("./EthereumDIDRegistry.sol");
 var EthereumDIDResolver = artifacts.require("./mock/EthereumDIDResolverPublic.sol");
+var EthereumDIDResolverProd = artifacts.require("./EthereumDIDResolver.sol");
 
 
 contract("EthereumDIDResolver", (accounts) => {
-  let ethDIDReg, ethDIDResolver;
+  let ethDIDReg, ethDIDResolver, ethDIDResolverProd;
   let identity, identity2, identity3;
   identity = accounts[1];
   identity2 = accounts[2];
@@ -15,11 +16,21 @@ contract("EthereumDIDResolver", (accounts) => {
       ethDIDReg = await EthereumDIDRegistry.new();
       ethDIDResolver = await EthereumDIDResolver.new();
       await ethDIDResolver._setRegistry(ethDIDReg.address);
+      ethDIDResolverProd = await EthereumDIDResolverProd.new();
     });
 
     it("should set registry address", async () => {
       assert.equal(await ethDIDResolver.ethDIDReg(), ethDIDReg.address,
         "EthereumDIDRegistry address has not been set correctly");
+    });
+
+    it("should fail when run setRegistry() on production contract", async () => {
+      try {
+        await ethDIDResolverProd._setRegistry(ethDIDReg.address);
+        assert.fail();
+      } catch(err) {
+        assert.equal('TypeError', err.name);
+      }
     });
   })
 
