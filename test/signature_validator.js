@@ -1,5 +1,4 @@
-import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
-import { IpfsHash, ZERO_ADDRESS, stripHexPrefix } from './utils.js';
+import { stripHexPrefix } from './utils.js';
 var SignatureValidator = artifacts.require("./mock/SignatureValidatorPublic.sol");
 var Web3 = require('web3');
 var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
