@@ -1,5 +1,5 @@
 import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
-import { IpfsHash, ZERO_ADDRESS, stripHexPrefix, getEvent, printGas } from './utils.js';
+import { getEvent, printGas } from './utils.js';
 var FileRegistry = artifacts.require("./mock/FileRegistryPublic.sol");
 var Web3 = require('web3');
 var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
@@ -14,7 +14,7 @@ contract("FileRegistry", (accounts) => {
     ipfsHash: "",
     name: "",
     url: "",
-    fileType: 0
+    fileType: 10
   },
   {
     id: web3.utils.padLeft("0x570000000000000000000eda873fab21", 32),
@@ -28,7 +28,7 @@ contract("FileRegistry", (accounts) => {
     ipfsHash: "Qmb4atcgbbN5v4CDJ8nz5QG5L2pgwSTLd3raDrnyhLjnUH",
     name: "File 2",
     url: "https://ipfs.com/<hash>",
-    fileType: 7
+    fileType: 8
   }]
 
   before("deploy FileRegistry", async () => {
@@ -62,6 +62,16 @@ contract("FileRegistry", (accounts) => {
       FILES[0].fileType
     ).send({gas: 200000}));
   });
+
+  it("should add new file type", async () => {
+    let orgft = await fileReg.methods.getAllFileTypes().call();
+    let newFt = 'new File Type';
+    let txReceipt = await fileReg.methods.addFileType(newFt).send({gas: 200000});
+    printGas(txReceipt, "Add one file type");
+    let NewFileType = getEvent(txReceipt, "NewFileType");
+    new BN(NewFileType.index).toNumber().should.eq(orgft.length);
+    NewFileType.fileType.should.eq(newFt);
+  })
 
   it("should add file to registry", async () => {
     let txReceipt = await fileReg.methods.addFile(

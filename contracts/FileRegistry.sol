@@ -5,18 +5,17 @@ pragma experimental "ABIEncoderV2";
 
 contract FileRegistry {
 
-    // enum FileType { Other, Agreement, Sheets, Notes, Stem, Track, Demo, FinalMix }
+    string[] public FILE_TYPES =
+        ['Other', 'Agreement', 'Sheets', 'Notes', 'Stem', 'Track', 'Demo', 'FinalMix'];
 
     struct File {
         uint8 fileType;
         string ipfsHash;
     }
 
-    // QmahqCsAUAw7zMv6P6Ae8PjCTck7taQA6FgGQLnWdKG7U8
-
-    // workId/recordingId => keccak256(abi.encodePacked(IPFS) hash) => File
+    // workId/recordingId => keccak256(abi.encodePacked(IPFS hash)) => File
     mapping(bytes16 => mapping(bytes32 => File)) public files;
-    // workId/recordingId => FileType => keccak256(abi.encodePacked(IPFS) hashes)
+    // workId/recordingId => FILE_TYPES => keccak256(abi.encodePacked(IPFS hashes))
     mapping(bytes16 => mapping(uint8 => bytes32[])) public typeIndexes;
 
     event NewFile (
@@ -34,6 +33,12 @@ contract FileRegistry {
         uint8 fileType);
 
     event DeleteFile (bytes16 indexed projectId, string indexed hash);
+
+    event NewFileType (uint8 index, string fileType);
+
+    function getAllFileTypes() public view returns (string[]) {
+        return FILE_TYPES;
+    }
 
     function getFiles(bytes16 projectId, uint8 fileType) public view returns (File[]) {
         bytes32[] storage _fileHashes = typeIndexes[projectId][fileType];
@@ -56,6 +61,11 @@ contract FileRegistry {
         return typeIndexes[projectId][fileType];
     }
 
+    function _addFileType(string fileType) internal {
+        FILE_TYPES.push(fileType);
+        emit NewFileType(uint8(FILE_TYPES.length) - 1, fileType);
+    }
+
     function _addFile(
         bytes16 projectId,
         string ipfsHash,
@@ -64,7 +74,7 @@ contract FileRegistry {
         uint8 fileType
     ) internal {
         require(projectId != bytes16(0), 'Must have projectId');
-        require(uint8(fileType) > 0, "FileType must be correct value");
+        require(fileType < FILE_TYPES.length, "FileType must be correct value");
         require(bytes(ipfsHash).length > 0,
             'Must have non-zero IPFS hash');
 
