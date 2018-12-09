@@ -4,7 +4,7 @@ import "../SignatureValidator.sol";
 
 contract SignatureValidatorPublic is SignatureValidator{
 
-    function getHash(string memory str) public view returns(bytes32) {
+    function getHash(string memory str) public pure returns(bytes32) {
         return keccak256(abi.encodePacked(str));
     }
     /// @dev Recovers address who signed the message
