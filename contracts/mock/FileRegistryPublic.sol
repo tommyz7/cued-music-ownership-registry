@@ -28,4 +28,8 @@ contract FileRegistryPublic is FileRegistry {
     function removeFile(bytes16 projectId, string ipfsHash) public {
         _removeFile(projectId, ipfsHash);
     }
+
+    function addFileType(string fileType) public {
+        _addFileType(fileType);
+    }
 }
