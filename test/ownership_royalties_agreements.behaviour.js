@@ -325,6 +325,9 @@ function shouldBehaveLikeInit(Setup) {
     let addr = await Setup.ownershipContractConstant.methods.ethDIDReg().call()
     assert.equal(addr.toLowerCase(), Setup.ethDIDReg.address,
       "EthereumDIDRegistry address has not been set correctly");
+
+    let EthRegistrySet = getEvent(Setup.initialTX, 'EthRegistrySet');
+    EthRegistrySet.reg.toLowerCase().should.eq(Setup.ethDIDReg.address);
   });
 
   it("should mint 100% ownership and royalties to original owner", async () => {
