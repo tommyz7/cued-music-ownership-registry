@@ -7,8 +7,11 @@ import './interface/EthereumDIDRegistryInterface.sol';
 contract EthereumDIDResolver {
     address public ethDIDReg;
 
+    event EthRegistrySet(address reg);
+
     function setRegistry(address _ethDID) internal {
         ethDIDReg = _ethDID;
+        emit EthRegistrySet(_ethDID);
     }
 
     function isIdentityOwner(address identity, address actor) public view returns (bool) {
