@@ -1,9 +1,13 @@
-FROM node:8.7.0-alpine
+FROM node:8.14.0-alpine
 
-RUN apk add -t .gyp --no-cache git python g++ make vim \
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh yarn python make g++ vim
+
+RUN apk add -t .gyp --no-cache  \
     && npm install -g truffle \
     && apk del .gyp \
-    && npm install nodemon -g
+    && npm install nodemon -g \
+    && git --version && bash --version && ssh -V && npm -v && node -v && yarn -v
 
 RUN mkdir /log
 
@@ -19,4 +23,4 @@ EXPOSE 8080
 
 # if we want to compile and migrate contracts on container start, uncomment below
 # ENTRYPOINT ["npm", "run"]
-# CMD ["deploy"]
+CMD ["deploy"]
