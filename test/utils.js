@@ -25,10 +25,12 @@ export function getEvent(txReceipt, eventType, logIndex = 0) {
 }
 
 export function printGas(txReceipt, msg, margin = 4) {
-  process.stdout.clearLine()
-  process.stdout.cursorTo(margin)
-  process.stdout.write(msg + "\n");
-  process.stdout.cursorTo(margin + 2)
-  let gas = new Number(txReceipt.gasUsed)
-  process.stdout.write("- gasUsed: " + gas.toLocaleString() + '\n');
+  if (process.stdout.clearLine){
+    process.stdout.clearLine()
+    process.stdout.cursorTo(margin)
+    process.stdout.write(msg + "\n");
+    process.stdout.cursorTo(margin + 2)
+    let gas = new Number(txReceipt.gasUsed)
+    process.stdout.write("- gasUsed: " + gas.toLocaleString() + '\n');
+  }
 }
