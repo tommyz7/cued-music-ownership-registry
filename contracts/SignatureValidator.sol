@@ -1,4 +1,4 @@
-pragma solidity 0.4.24;
+pragma solidity ^0.4.24;
 
 
 /// @title SignatureValidator - recovers a sender from a signature
