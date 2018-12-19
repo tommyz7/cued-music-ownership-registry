@@ -9,7 +9,6 @@ contract("SignatureValidator", (accounts) => {
   let accountsPrivate = [];
   for (var i = 10 - 1; i >= 0; i--) {
     accountsPrivate[i] = web3.eth.accounts.create();
-    accountsPrivate[i].address = accountsPrivate[i].address.toLowerCase();
   }
 
   before(async () => {
