@@ -21,11 +21,11 @@ function shouldBehaveLikeProxyFactory (Setup) {
       assert.equal(roleRegistry, true);
 
       let RoleAdded0 = getEvent(Setup.initialTX, 'RoleAdded', 0);
-      RoleAdded0.operator.toLowerCase().should.eq(Setup.originalOwner);
+      RoleAdded0.operator.should.eq(Setup.originalOwner);
       RoleAdded0.role.should.eq("owner");
 
       let RoleAdded1 = getEvent(Setup.initialTX, 'RoleAdded', 1);
-      RoleAdded1.operator.toLowerCase().should.eq(Setup.registry);
+      RoleAdded1.operator.should.eq(Setup.registry);
       RoleAdded1.role.should.eq("registry");
 
       let impl = await Setup.proxyFactory.methods.implementation().call();
@@ -71,9 +71,9 @@ function shouldBehaveLikeProxyFactory (Setup) {
       printGas(tx, "Deploy new proxy", 6);
 
       let ProxyDeploy = getEvent(tx, 'ProxyDeploy');
-      assert.notEqual(ProxyDeploy.proxy.toLowerCase(), ZERO_ADDRESS);
-      assert.equal(ProxyDeploy.admin.toLowerCase(), Setup.proxyAdmin);
-      assert.equal(ProxyDeploy.sender.toLowerCase(), Setup.registry);
+      assert.notEqual(ProxyDeploy.proxy, ZERO_ADDRESS);
+      assert.equal(ProxyDeploy.admin, Setup.proxyAdmin);
+      assert.equal(ProxyDeploy.sender, Setup.registry);
     });
 
     it("should deploy new proxy and call init", async () => {
@@ -87,9 +87,9 @@ function shouldBehaveLikeProxyFactory (Setup) {
       printGas(Setup.initialTX, "Deploy new proxy and call init", 6);
 
       let ProxyDeploy = getEvent(Setup.initialTX, 'ProxyDeploy');
-      assert.notEqual(ProxyDeploy.proxy.toLowerCase(), ZERO_ADDRESS);
-      assert.equal(ProxyDeploy.admin.toLowerCase(), Setup.proxyAdmin);
-      assert.equal(ProxyDeploy.sender.toLowerCase(), Setup.registry);
+      assert.notEqual(ProxyDeploy.proxy, ZERO_ADDRESS);
+      assert.equal(ProxyDeploy.admin, Setup.proxyAdmin);
+      assert.equal(ProxyDeploy.sender, Setup.registry);
 
       Setup.ownershipContractConstant = new web3.eth.Contract(
         OwnershipRoyaltiesAgreements._json.abi,
@@ -114,12 +114,12 @@ function shouldBehaveLikeProxyFactory (Setup) {
       printGas(tx, "Change proxy admin", 6);
 
       let AdminChanged = getEvent(tx, 'AdminChanged');
-      assert.equal(AdminChanged.previousAdmin.toLowerCase(), Setup.proxyAdmin);
-      assert.equal(AdminChanged.newAdmin.toLowerCase(), Setup.newProxyAdmin);
+      assert.equal(AdminChanged.previousAdmin, Setup.proxyAdmin);
+      assert.equal(AdminChanged.newAdmin, Setup.newProxyAdmin);
 
       let newAdmin = await Setup.newAdminUpgradeabilityProxy.methods.admin()
         .call({from: Setup.newProxyAdmin});
-      assert.equal(newAdmin.toLowerCase(), Setup.newProxyAdmin);
+      assert.equal(newAdmin, Setup.newProxyAdmin);
     });
 
     it("should upgrade implementation to new version", async () => {
@@ -139,7 +139,7 @@ function shouldBehaveLikeProxyFactory (Setup) {
       printGas(tx, "Upgrade to new implementation", 6);
 
       let Upgraded = getEvent(tx, 'Upgraded');
-      assert.equal(Upgraded.implementation.toLowerCase(), upgradeImpl.address);
+      assert.equal(Upgraded.implementation, upgradeImpl.address);
 
       let result = await upgradedOwnershipContract.methods.getHashOfNumber(10).call();
       assert.equal(web3.utils.soliditySha3({t: 'uint', v: 10}), result);

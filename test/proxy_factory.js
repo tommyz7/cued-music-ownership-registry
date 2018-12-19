@@ -1,4 +1,3 @@
-import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
 import { shouldBehaveLikeProxyFactory } from './proxy_factory.behaviour.js';
 import { getEvent } from './utils.js';
 var ProxyFactory = artifacts.require("./ProxyFactory.sol");
@@ -7,7 +6,6 @@ var EthereumDIDRegistry = artifacts.require("./EthereumDIDRegistry.sol")
 var AdminUpgradeabilityProxy = artifacts.require("./AdminUpgradeabilityProxy.sol")
 var Web3 = require('web3');
 var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
-var BN = web3.utils.BN;
 
 
 contract("ProxyFactory", (accounts) => {
