@@ -1,7 +1,7 @@
 FROM node:8.7.0-alpine
 
 RUN apk add -t .gyp --no-cache git python g++ make vim \
-    && npm install -g truffle \
+    && npm install -g truffle@beta \
     && apk del .gyp \
     && npm install nodemon -g
 
