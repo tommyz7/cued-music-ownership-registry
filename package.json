@@ -1,0 +1,28 @@
+{
+  "name": "truffle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "./deploy.sh"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "chai-bignumber": "^3.0.0",
+    "js-sha3": "^0.8.0",
+    "openzeppelin-solidity": "^2.0.0",
+    "truffle-hdwallet-provider": "0.0.6",
+    "web3": "^1.0.0-beta.36",
+    "zos": "^2.0.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "solidity-coverage": "^0.5.11"
+  }
+}

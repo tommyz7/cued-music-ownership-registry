@@ -3,6 +3,7 @@ var sha3 = require("js-sha3").keccak_256;
 var EthereumDIDRegistry = artifacts.require("./EthereumDIDRegistry.sol");
 var BN = require("bn.js");
 import { IpfsHash, ZERO_ADDRESS, stripHexPrefix } from './utils.js';
+import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
 
 contract("EthereumDIDRegistry", function(accounts) {
   let didReg;
@@ -21,32 +22,23 @@ contract("EthereumDIDRegistry", function(accounts) {
     "a285ab66393c5fdda46d6fbad9e27fafd438254ab72ad5acb681a0e9f20f5d7b",
     "hex"
   );
-  const signerAddress = "0x2036c6cd85692f0fb2c26e6c6b2eced9e4478dfd";
+  const signerAddress = "0x2036C6CD85692F0Fb2C26E6c6B2ECed9e4478Dfd";
 
   const privateKey2 = Buffer.from(
     "a285ab66393c5fdda46d6fbad9e27fafd438254ab72ad5acb681a0e9f20f5d7a",
     "hex"
   );
-  const signerAddress2 = "0xea91e58e9fa466786726f0a947e8583c7c5b3185";
+  const signerAddress2 = "0xEA91e58E9Fa466786726F0a947e8583c7c5B3185";
 
-  // console.log({identity,identity2, delegate, delegate2, badboy})
   before(async () => {
     didReg = await EthereumDIDRegistry.new();
   });
+
   function getBlock(blockNumber) {
     return new Promise((resolve, reject) => {
       web3.eth.getBlock(blockNumber, (error, block) => {
         if (error) return reject(error);
         resolve(block);
-      });
-    });
-  }
-
-  function getLogs(filter) {
-    return new Promise((resolve, reject) => {
-      filter.get((error, events) => {
-        if (error) return reject(error);
-        resolve(events);
       });
     });
   }
@@ -75,7 +67,6 @@ contract("EthereumDIDRegistry", function(accounts) {
       stripHexPrefix(identity) +
       data;
     const hash = Buffer.from(sha3.buffer(Buffer.from(dataToSign, "hex")));
-    // console.log(hash.length, Buffer.from(dataToSign, "hex").length, sha3.buffer(Buffer.from(dataToSign, "hex")));
     const signature = ethutil.ecsign(hash, key);
     const publicKey = ethutil.ecrecover(
       hash,
@@ -193,33 +184,13 @@ contract("EthereumDIDRegistry", function(accounts) {
 
       describe("as original owner", () => {
         it("should fail", async () => {
-          try {
-            const tx = await didReg.addOwner(identity, identity, {
-              from: identity
-            });
-            assert.equal(tx, undefined, "this should not happen");
-          } catch (error) {
-            assert.equal(
-              error.message,
-              "VM Exception while processing transaction: revert"
-            );
-          }
+          await reverting(didReg.addOwner(identity, identity, {from: identity}))
         });
       });
 
       describe("as attacker", () => {
         it("should fail", async () => {
-          try {
-            const tx = await didReg.addOwner(identity, badboy, {
-              from: badboy
-            });
-            assert.equal(tx, undefined, "this should not happen");
-          } catch (error) {
-            assert.equal(
-              error.message,
-              "VM Exception while processing transaction: revert"
-            );
-          }
+          await reverting(didReg.addOwner(identity, badboy, {from: badboy}))
         });
       });
     });
@@ -300,7 +271,7 @@ contract("EthereumDIDRegistry", function(accounts) {
       it("validDelegate should be false", async () => {
         const valid = await didReg.validDelegate(
           identity,
-          "attestor",
+          web3.utils.asciiToHex("attestor"),
           delegate3
         );
         assert.equal(valid, false, "not yet assigned delegate correctly");
@@ -312,7 +283,7 @@ contract("EthereumDIDRegistry", function(accounts) {
           previousChange = await didReg.changed(identity);
           tx = await didReg.addDelegate(
             identity,
-            "attestor",
+            web3.utils.asciiToHex("attestor"),
             delegate3,
             86400,
             { from: delegate3 }
@@ -322,7 +293,7 @@ contract("EthereumDIDRegistry", function(accounts) {
         it("validDelegate should be true", async () => {
           const valid = await didReg.validDelegate(
             identity,
-            "attestor",
+            web3.utils.asciiToHex("attestor"),
             delegate3
           );
           assert.equal(valid, true, "assigned delegate correctly");
@@ -347,21 +318,13 @@ contract("EthereumDIDRegistry", function(accounts) {
 
       describe("as attacker", () => {
         it("should fail", async () => {
-          try {
-            const tx = await didReg.addDelegate(
-              identity,
-              "attestor",
-              badboy,
-              86400,
-              { from: badboy }
-            );
-            assert.equal(tx, undefined, "this should not happen");
-          } catch (error) {
-            assert.equal(
-              error.message,
-              "VM Exception while processing transaction: revert"
-            );
-          }
+          await reverting(didReg.addDelegate(
+            identity,
+            web3.utils.asciiToHex("attestor"),
+            badboy,
+            86400,
+            { from: badboy }
+          ))
         });
       });
     });
@@ -391,7 +354,7 @@ contract("EthereumDIDRegistry", function(accounts) {
             sig.v,
             sig.r,
             sig.s,
-            "attestor",
+            web3.utils.asciiToHex("attestor"),
             delegate,
             86400,
             { from: badboy }
@@ -401,7 +364,7 @@ contract("EthereumDIDRegistry", function(accounts) {
         it("validDelegate should be true", async () => {
           let valid = await didReg.validDelegate(
             signerAddress,
-            "attestor",
+            web3.utils.asciiToHex("attestor"),
             delegate
           );
           assert.equal(valid, true, "assigned delegate correctly");
@@ -431,7 +394,7 @@ contract("EthereumDIDRegistry", function(accounts) {
       it("validDelegate should be true", async () => {
         const valid = await didReg.validDelegate(
           identity,
-          "attestor",
+          web3.utils.asciiToHex("attestor"),
           delegate3
         );
         assert.equal(valid, true, "not yet revoked");
@@ -441,7 +404,7 @@ contract("EthereumDIDRegistry", function(accounts) {
         let block;
         before(async () => {
           previousChange = await didReg.changed(identity);
-          tx = await didReg.revokeDelegate(identity, "attestor", delegate3, {
+          tx = await didReg.revokeDelegate(identity, web3.utils.asciiToHex("attestor"), delegate3, {
             from: delegate3
           });
           block = await getBlock(tx.receipt.blockNumber);
@@ -449,7 +412,7 @@ contract("EthereumDIDRegistry", function(accounts) {
         it("validDelegate should be false", async () => {
           const valid = await didReg.validDelegate(
             identity,
-            "attestor",
+            web3.utils.asciiToHex("attestor"),
             delegate3
           );
           assert.equal(valid, false, "revoked correctly");
@@ -476,20 +439,12 @@ contract("EthereumDIDRegistry", function(accounts) {
       });
       describe("as attacker", () => {
         it("should fail", async () => {
-          try {
-            const tx = await didReg.revokeDelegate(
-              identity,
-              "attestor",
-              badboy,
-              { from: badboy }
-            );
-            assert.equal(tx, undefined, "this should not happen");
-          } catch (error) {
-            assert.equal(
-              error.message,
-              "VM Exception while processing transaction: revert"
-            );
-          }
+          await reverting(didReg.revokeDelegate(
+            identity,
+            web3.utils.asciiToHex("attestor"),
+            badboy,
+            { from: badboy }
+          ))
         });
       });
     });
@@ -513,7 +468,7 @@ contract("EthereumDIDRegistry", function(accounts) {
             sig.v,
             sig.r,
             sig.s,
-            "attestor",
+            web3.utils.asciiToHex("attestor"),
             delegate,
             { from: badboy}
           );
@@ -522,7 +477,7 @@ contract("EthereumDIDRegistry", function(accounts) {
         it("validDelegate should be false", async () => {
           const valid = await didReg.validDelegate(
             signerAddress,
-            "attestor",
+            web3.utils.asciiToHex("attestor"),
             delegate
           );
           assert.equal(valid, false, "revoked delegate correctly");
@@ -559,8 +514,8 @@ contract("EthereumDIDRegistry", function(accounts) {
           previousChange = await didReg.changed(identity);
           tx = await didReg.setAttribute(
             identity,
-            "encryptionKey",
-            "mykey",
+            web3.utils.asciiToHex("encryptionKey"),
+            web3.utils.asciiToHex("mykey"),
             86400,
             { from: delegate3 }
           );
@@ -586,21 +541,13 @@ contract("EthereumDIDRegistry", function(accounts) {
 
       describe("as attacker", () => {
         it("should fail", async () => {
-          try {
-            const tx = await didReg.setAttribute(
-              identity,
-              "encryptionKey",
-              "mykey",
-              86400,
-              { from: badboy }
-            );
-            assert.equal(tx, undefined, "this should not happen");
-          } catch (error) {
-            assert.equal(
-              error.message,
-              "VM Exception while processing transaction: revert"
-            );
-          }
+          await reverting(didReg.setAttribute(
+            identity,
+            web3.utils.asciiToHex("encryptionKey"),
+            web3.utils.asciiToHex("mykey"),
+            86400,
+            { from: badboy }
+          ))
         });
       });
     });
@@ -626,8 +573,8 @@ contract("EthereumDIDRegistry", function(accounts) {
             sig.v,
             sig.r,
             sig.s,
-            "encryptionKey",
-            "mykey",
+            web3.utils.asciiToHex("encryptionKey"),
+            web3.utils.asciiToHex("mykey"),
             86400,
             { from: badboy }
           );
@@ -662,8 +609,8 @@ contract("EthereumDIDRegistry", function(accounts) {
           previousChange = await didReg.changed(identity);
           tx = await didReg.revokeAttribute(
             identity,
-            "encryptionKey",
-            "mykey",
+            web3.utils.asciiToHex("encryptionKey"),
+            web3.utils.asciiToHex("mykey"),
             { from: delegate3 }
           );
           block = await getBlock(tx.receipt.blockNumber);
@@ -688,20 +635,12 @@ contract("EthereumDIDRegistry", function(accounts) {
 
       describe("as attacker", () => {
         it("should fail", async () => {
-          try {
-            const tx = await didReg.revokeAttribute(
-              identity,
-              "encryptionKey",
-              "mykey",
-              { from: badboy }
-            );
-            assert.equal(tx, undefined, "this should not happen");
-          } catch (error) {
-            assert.equal(
-              error.message,
-              "VM Exception while processing transaction: revert"
-            );
-          }
+          await reverting(didReg.revokeAttribute(
+            identity,
+            web3.utils.asciiToHex("encryptionKey"),
+            web3.utils.asciiToHex("mykey"),
+            { from: badboy }
+          ))
         });
       });
     });
@@ -726,8 +665,8 @@ contract("EthereumDIDRegistry", function(accounts) {
             sig.v,
             sig.r,
             sig.s,
-            "encryptionKey",
-            "mykey",
+            web3.utils.asciiToHex("encryptionKey"),
+            web3.utils.asciiToHex("mykey"),
             { from: badboy }
           );
           let block = await getBlock(tx.receipt.blockNumber);
@@ -756,19 +695,14 @@ contract("EthereumDIDRegistry", function(accounts) {
     it("can create list", async () => {
       const history = [];
       previousChange = await didReg.changed(identity);
-      while (previousChange) {
-        const filter = await didReg.allEvents({
-          topics: [identity],
-          fromBlock: previousChange,
-          toBlock: previousChange
-        });
-        const events = await getLogs(filter);
-        previousChange = undefined;
-        for (let event of events) {
-          history.unshift(event.event);
-          previousChange = event.args.previousChange;
-        }
-      }
+      const events = await didReg.getPastEvents('allEvents', {
+        fromBlock: 0,
+        toBlock: 'latest'
+      })
+      events.map((event, index) => {
+        if (event.args.identity == identity)
+          history.push(event.event);
+      })
       assert.deepEqual(history, [
         "DIDOwnerChanged",
         "DIDOwnerChanged",
