@@ -32,7 +32,7 @@ contract FileRegistry {
         string url,
         uint8 fileType);
 
-    event DeleteFile (bytes16 indexed projectId, string indexed hash);
+    event DeleteFile (bytes16 indexed projectId, string hash);
 
     event NewFileType (uint8 index, string fileType);
 

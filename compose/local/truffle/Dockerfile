@@ -4,7 +4,7 @@ RUN apk update && apk upgrade && \
     apk add --no-cache bash git openssh yarn python make g++ vim
 
 RUN apk add -t .gyp --no-cache  \
-    && npm install -g truffle \
+    && npm install -g truffle@beta \
     && apk del .gyp \
     && npm install nodemon -g \
     && git --version && bash --version && ssh -V && npm -v && node -v && yarn -v
