@@ -1072,7 +1072,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingValidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 400000});
+    ).send({gas: 700000});
 
     assertNewRoyaltiesAgreementEvent(txReceipt, args);
 
