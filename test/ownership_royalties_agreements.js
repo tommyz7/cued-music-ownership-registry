@@ -1,7 +1,5 @@
 import { shouldBehaveLikeOwnershipRoyaltiesAgreements } from './ownership_royalties_agreements.behaviour.js';
 
-var Web3 = require('web3');
-var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 var OwnershipRoyaltiesAgreements = artifacts.require("./mock/OwnershipRoyaltiesAgreementsPublic.sol");
 var EthereumDIDRegistry = artifacts.require("./EthereumDIDRegistry.sol")
 
@@ -11,13 +9,7 @@ contract("OwnershipRoyaltiesAgreements", function(accounts){
 
   for (var i = 0; i < 10; i++) {
     accountsPrivate[i] = web3.eth.accounts.create();
-  }
-
-  for (var i = 0; i < 10; i++) {
     Setup.owner[i] = web3.eth.accounts.create();
-  }
-
-  for (var i = 0; i < 10; i++) {
     Setup.contributor[i] = web3.eth.accounts.create();
   }
 

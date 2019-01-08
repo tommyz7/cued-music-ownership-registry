@@ -4,9 +4,6 @@ var ProxyFactory = artifacts.require("./ProxyFactory.sol");
 var OwnershipRoyaltiesAgreements = artifacts.require("./mock/OwnershipRoyaltiesAgreementsPublic.sol");
 var EthereumDIDRegistry = artifacts.require("./EthereumDIDRegistry.sol")
 var AdminUpgradeabilityProxy = artifacts.require("./AdminUpgradeabilityProxy.sol")
-var Web3 = require('web3');
-var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
-
 
 contract("ProxyFactory", (accounts) => {
   let Setup = {}

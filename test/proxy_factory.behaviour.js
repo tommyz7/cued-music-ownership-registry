@@ -6,9 +6,6 @@ var AdminUpgradeabilityProxy = artifacts.require("./AdminUpgradeabilityProxy.sol
 var OwnershipRoyaltiesAgreements = artifacts.require("./mock/OwnershipRoyaltiesAgreementsPublic.sol");
 var UpgradedOwnershipRoyaltiesAgreementsPublic = artifacts.require("./mock/UpgradedOwnershipRoyaltiesAgreementsPublic.sol");
 
-var Web3 = require('web3');
-var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
-
 function shouldBehaveLikeProxyFactory (Setup) {
   describe("init()", () => {
     it("should set owner, registry and implementation address", async () => {

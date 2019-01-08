@@ -6,11 +6,10 @@ pragma experimental "ABIEncoderV2";
 import "zos-lib/contracts/Initializable.sol";
 import "./interface/OwnershipRoyaltiesAgreementsI.sol";
 import "./interface/ProxyFactoryI.sol";
-import "./FileRegistry.sol";
 import "./UUIDCounter.sol";
 import "./EthereumDIDResolver.sol";
 import "./SignatureValidator.sol";
-
+import "./library/MusicLib.sol";
 
 /**
  * @title Music Registry Smart Contract
@@ -21,29 +20,19 @@ import "./SignatureValidator.sol";
  * See https://omi01.docs.apiary.io/#reference/work-related-apis/works-collection/register-a-work
  *
  */
-contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, FileRegistry, SignatureValidator {
+contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, SignatureValidator {
+
+    using MusicLib for MusicLib.Work;
+    using MusicLib for MusicLib.Recording;
 
     uint8 public constant WORK_FLAG = 87;
     uint8 public constant RECORDING_FLAG = 82;
 
-    ProxyFactoryI public factory;
+    ProxyFactoryI public proxyFactory;
 
-    mapping(address => uint256) private nonce;
+    mapping(address => uint256) public nonce;
 
-    /**
-     * For now, alternateTitles and alternate_TitleSoundRecording are strings storing
-     * comma separated titles ie. "title1,title2,title3"
-     */
-    struct Work {
-        string title;
-        string titleSoundRecording;
-        bytes32 iswc;
-        bytes32 territory;
-        address[] publishers;
-        address ownershipContract;
-    }
-
-    mapping(bytes32 => Work) public works;
+    mapping(bytes32 => MusicLib.Work) public works;
 
     event WorkRegistered(
         bytes32 indexed workId,
@@ -65,18 +54,7 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, FileR
 
     event WorkRemoved(bytes32 workId);
 
-    struct Recording {
-        string title;
-        string versionTitle;
-        bytes32 isrc;
-        bytes32 territory;
-        bytes32 album_upc;
-        address[] labels;
-        bytes32[] workIds;
-        address ownershipContract;
-    }
-
-    mapping(bytes32 => Recording) public recordings;
+    mapping(bytes32 => MusicLib.Recording) public recordings;
 
     event RecordingRegistered(
         bytes32 indexed recordingId,
@@ -114,49 +92,40 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, FileR
         _;
     }
 
-    function init(address factory) public initializer {
-        factory = ProxyFactoryI(factory);
+    function init(address ethDIDAddress, address factory) public initializer {
+        setRegistry(ethDIDAddress);
+        proxyFactory = ProxyFactoryI(factory);
+    }
+
+    function getPublishers(bytes32 projectId) public view returns (address[]) {
+        return works[projectId].publishers;
+    }
+
+    function getLabels(bytes32 projectId) public view returns (address[]) {
+        return recordings[projectId].labels;
+    }
+
+    function getWorkIds(bytes32 projectId) public view returns (bytes32[]) {
+        return recordings[projectId].workIds;
     }
 
     function registerWork(
-        Work metadata,
+        MusicLib.Work metadata,
         bytes signature,
         bytes data,
         address signer
     ) public {
-        bytes32 hash = keccak256(
-            abi.encodePacked(
-                abi.encodePacked(
-                    byte(0x19), byte(0), address(this),
-                    "registerWork"
-                ),
-                abi.encodePacked(
-                    metadata.title,
-                    metadata.titleSoundRecording,
-                    metadata.iswc,
-                    metadata.territory,
-                    metadata.publishers,
-                    data,
-                    nonce[signer]
-                )
-            )
-        );
+        require(bytes(metadata.title).length > 0, "metadata.title is required");
+        require(bytes(metadata.titleSoundRecording).length > 0, "metadata.title is required");
+        require(signature.length > 0, "signature is required");
+        require(signer != address(0), "signer is required");
 
+        bytes32 hash = metadata.getWorkHash("registerWork", data, nonce[signer]);
         address admin = _validateSignature(hash, signature, signer);
-        address proxyAddress = factory.deploy(admin, data);
-
-        Work memory _work = Work(
-            metadata.title,
-            metadata.titleSoundRecording,
-            metadata.iswc,
-            metadata.territory,
-            metadata.publishers,
-            proxyAddress
-        );
-
+        address proxyAddress = proxyFactory.deploy(admin, data);
+        metadata.ownershipContract = proxyAddress;
         bytes32 workId = newID(WORK_FLAG);
-        require(works[workId].ownershipContract == address(0), 'workId must be unused');
-        works[workId] = _work;
+        works[workId] = metadata;
 
         emit WorkRegistered(
             workId,
@@ -170,34 +139,22 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, FileR
 
     function updateWork(
         bytes32 workId,
-        Work metadata,
+        MusicLib.Work metadata,
         bytes signature,
         address signer
     ) public onlyOwner(workId, signer) {
-        bytes32 hash = keccak256(
-            abi.encodePacked(
-                abi.encodePacked(
-                    byte(0x19), byte(0), address(this),
-                    "updateWork"
-                ),
-                abi.encodePacked(
-                    workId,
-                    metadata.title,
-                    metadata.titleSoundRecording,
-                    metadata.iswc,
-                    metadata.territory,
-                    metadata.publishers,
-                    nonce[signer]
-                )
-            )
-        );
-        _validateSignature(hash, signature, signer);
+        require(workId != bytes32(0), "workId is required");
+        require(works[workId].ownershipContract != address(0), 'Work must exist');
+        require(bytes(metadata.title).length > 0, "metadata.title is required");
+        require(bytes(metadata.titleSoundRecording).length > 0, "metadata.title is required");
+        require(signature.length > 0, "signature is required");
+        require(signer != address(0), "signer is required");
 
-        works[workId].title = metadata.title;
-        works[workId].titleSoundRecording = metadata.titleSoundRecording;
-        works[workId].iswc = metadata.iswc;
-        works[workId].territory = metadata.territory;
-        works[workId].publishers = metadata.publishers;
+        bytes32 hash = metadata.getWorkHash("updateWork", workId, nonce[signer]);
+        _validateSignature(hash, signature, signer);
+        // do not allow for ownership contract address change
+        metadata.ownershipContract = works[workId].ownershipContract;
+        works[workId] = metadata;
 
         emit WorkUpdated(
             workId,
@@ -206,21 +163,18 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, FileR
             metadata.iswc,
             metadata.territory,
             metadata.publishers,
-            works[workId].ownershipContract);
+            metadata.ownershipContract);
     }
 
     function removeWork(bytes32 workId, bytes signature, address signer)
         public
         onlyOwner(workId, signer)
     {
-        bytes32 hash = keccak256(
-            abi.encodePacked(
-                byte(0x19), byte(0), address(this),
-                "removeWork",
-                workId,
-                nonce[signer]
-            )
-        );
+        require(workId != bytes32(0), "workId is required");
+        require(signature.length > 0, "signature is required");
+        require(signer != address(0), "signer is required");
+
+        bytes32 hash = MusicLib.getWorkHash("removeWork", workId, nonce[signer]);
         _validateSignature(hash, signature, signer);
 
         delete works[workId];
@@ -228,50 +182,24 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, FileR
     }
 
     function registerRecording(
-        Recording metadata,
+        MusicLib.Recording metadata,
         bytes signature,
         bytes data,
         address signer
     ) public {
-        // saving variables as workaround for stack too deep error
-        address proxyAddress = factory.deploy(
-            _validateSignature(keccak256(
-                abi.encodePacked(
-                    abi.encodePacked(
-                        byte(0x19), byte(0), address(this),
-                        "registerRecording"
-                    ),
-                    abi.encodePacked(
-                        metadata.title,
-                        metadata.versionTitle,
-                        metadata.isrc,
-                        metadata.territory,
-                        metadata.album_upc
-                    ),
-                    abi.encodePacked(
-                        metadata.labels,
-                        metadata.workIds,
-                        data,
-                        nonce[signer]
-                    )
-                )
-            ), signature, signer), data);
+        require(bytes(metadata.title).length > 0, "metadata.title is required");
+        require(signature.length > 0, "signature is required");
+        require(signer != address(0), "signer is required");
 
-        Recording memory _recording = Recording(
-            metadata.title,
-            metadata.versionTitle,
-            metadata.isrc,
-            metadata.territory,
-            metadata.album_upc,
-            metadata.labels,
-            metadata.workIds,
-            proxyAddress
+        // saving usage of variables as workaround for stack too deep error
+        bytes32 hash = metadata.getRecordingHash("registerRecording", data, nonce[signer]);
+        address proxyAddress = proxyFactory.deploy(
+            _validateSignature(hash, signature, signer),
+            data
         );
-
+        metadata.ownershipContract = proxyAddress;
         bytes32 recordingId = newID(RECORDING_FLAG);
-        require(recordings[recordingId].ownershipContract == address(0),
-            'recordingId must not be used previously');
-        recordings[recordingId] = _recording;
+        recordings[recordingId] = metadata;
 
         emit RecordingRegistered(
             recordingId,
@@ -287,40 +215,20 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, FileR
 
     function updateRecording(
         bytes32 recordingId,
-        Recording metadata,
+        MusicLib.Recording metadata,
         bytes signature,
         address signer
     ) public onlyOwner(recordingId, signer) {
-        bytes32 hash = keccak256(
-            abi.encodePacked(
-                abi.encodePacked(
-                    byte(0x19), byte(0), address(this),
-                    "updateRecording"
-                ),
-                abi.encodePacked(
-                    recordingId,
-                    metadata.title,
-                    metadata.versionTitle,
-                    metadata.isrc,
-                    metadata.territory
-                ),
-                abi.encodePacked(
-                    metadata.album_upc,
-                    metadata.labels,
-                    metadata.workIds,
-                    nonce[signer]
-                )
-            )
-        );
-        _validateSignature(hash, signature, signer);
+        require(recordingId != bytes32(0), "recordingId is required");
+        require(bytes(metadata.title).length > 0, "metadata.title is required");
+        require(signature.length > 0, "signature is required");
+        require(signer != address(0), "signer is required");
 
-        recordings[recordingId].title = metadata.title;
-        recordings[recordingId].versionTitle = metadata.versionTitle;
-        recordings[recordingId].isrc = metadata.isrc;
-        recordings[recordingId].territory = metadata.territory;
-        recordings[recordingId].album_upc = metadata.album_upc;
-        recordings[recordingId].labels = metadata.labels;
-        recordings[recordingId].workIds = metadata.workIds;
+        bytes32 hash = metadata.getRecordingHash("updateRecording", recordingId, nonce[signer]);
+        _validateSignature(hash, signature, signer);
+        // do not allow for ownership contract address change
+        metadata.ownershipContract = recordings[recordingId].ownershipContract;
+        recordings[recordingId] = metadata;
 
         emit RecordingUpdated(
             recordingId,
@@ -338,14 +246,11 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, FileR
         public
         onlyOwner(recordingId, signer)
     {
-        bytes32 hash = keccak256(
-            abi.encodePacked(
-                byte(0x19), byte(0), address(this),
-                "removeRecording",
-                recordingId,
-                nonce[signer]
-            )
-        );
+        require(recordingId != bytes32(0), "recordingId is required");
+        require(signature.length > 0, "signature is required");
+        require(signer != address(0), "signer is required");
+
+        bytes32 hash = MusicLib.getRecordingHash("removeRecording", recordingId, nonce[signer]);
         _validateSignature(hash, signature, signer);
 
         delete recordings[recordingId];
