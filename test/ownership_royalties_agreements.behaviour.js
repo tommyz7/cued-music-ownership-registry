@@ -1,7 +1,5 @@
 import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
 import { IpfsHash,ZERO_ADDRESS, stripHexPrefix, getEvent, printGas } from './utils.js';
-var Web3 = require('web3');
-var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 var BN = web3.utils.BN;
 var Account = require("eth-lib/lib/account");
 

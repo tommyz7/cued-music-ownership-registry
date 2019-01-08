@@ -1,8 +1,6 @@
 import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
 import { getEvent, printGas } from './utils.js';
 var FileRegistry = artifacts.require("./mock/FileRegistryPublic.sol");
-var Web3 = require('web3');
-var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 var BN = web3.utils.BN;
 
 

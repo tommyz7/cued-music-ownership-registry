@@ -1,7 +1,5 @@
 import { stripHexPrefix } from './utils.js';
 var SignatureValidator = artifacts.require("./mock/SignatureValidatorPublic.sol");
-var Web3 = require('web3');
-var web3 = new Web3(Web3.givenProvider || "ws://localhost:8546");
 var Account = require("eth-lib/lib/account");
 
 contract("SignatureValidator", (accounts) => {
