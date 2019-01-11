@@ -5,8 +5,8 @@ pragma experimental "ABIEncoderV2";
 import "../FileRegistry.sol";
 
 contract FileRegistryPublic is FileRegistry {
-    function addFile(
-        bytes16 projectId,
+    function addFilePublic(
+        bytes32 projectId,
         string ipfsHash,
         string name,
         string url,
@@ -15,8 +15,8 @@ contract FileRegistryPublic is FileRegistry {
         _addFile(projectId, ipfsHash, name, url, fileType);
     }
 
-    function updateFile(
-        bytes16 projectId,
+    function updateFilePublic(
+        bytes32 projectId,
         string ipfsHash,
         string name,
         string url,
@@ -25,11 +25,18 @@ contract FileRegistryPublic is FileRegistry {
         _updateFile(projectId, ipfsHash, name, url, fileType);
     }
 
-    function removeFile(bytes16 projectId, string ipfsHash) public {
+    function removeFilePublic(bytes32 projectId, string ipfsHash) public {
         _removeFile(projectId, ipfsHash);
     }
 
     function addFileType(string fileType) public {
         _addFileType(fileType);
+    }
+
+    function validateSignature(bytes32 hash, bytes signature, address signer)
+        public
+        returns (address)
+    {
+        return _validateSignature(hash, signature, signer);
     }
 }

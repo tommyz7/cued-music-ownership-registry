@@ -175,16 +175,18 @@ function shouldBehaveLikeInit(Setup) {
 function shouldBehaveLikeValidateSignature(Setup) {
   describe("should match JS hashes with MusicLib hashes", () => {
     it("New getWorkHash", async () => {
-      let obj = await getWorkHash(Setup, Setup.musicRegistryPublicConstant, Setup.firstOwner.address, "registerWork", 0, Setup.works[0]);
-      let solHash = await Setup.musicRegistryPublicConstant.contract.methods[
+      let nonce = await getNonce(Setup.musicRegistryPublicConstant, Setup.firstOwner.address);
+      let obj = await getWorkHash(Setup, Setup.MusicLibPublic, Setup.firstOwner.address, "registerWork", 0, Setup.works[0], null, nonce);
+      let solHash = await Setup.MusicLibPublic.contract.methods[
         'getWorkHash((string,string,bytes32,bytes32,address[],address),string,bytes,uint256)'
       ](obj.work, obj.funcName, obj.data, obj.nonce).call();
       assert.equal(solHash, obj.hash, 'hashes do not match');
     });
 
     it("Update getWorkHash", async () => {
-      let obj = await getWorkHash(Setup, Setup.musicRegistryPublicConstant, Setup.firstOwner.address, "updateWork", web3.utils.asciiToHex('1'), Setup.works[1]);
-      let solHash = await Setup.musicRegistryPublicConstant.contract.methods.getWorkHash(
+      let nonce = await getNonce(Setup.musicRegistryPublicConstant, Setup.firstOwner.address);
+      let obj = await getWorkHash(Setup, Setup.MusicLibPublic, Setup.firstOwner.address, "updateWork", web3.utils.asciiToHex('1'), Setup.works[1], null, nonce);
+      let solHash = await Setup.MusicLibPublic.contract.methods.getWorkHash(
         obj.work, obj.funcName, obj.workId, obj.nonce).call();
       assert.equal(solHash, obj.hash, 'hashes do not match');
     });
@@ -197,35 +199,40 @@ function shouldBehaveLikeValidateSignature(Setup) {
       let metadata = '';
       let obj = await getWorkHash(
         Setup,
-        Setup.musicRegistryPublicConstant,
+        Setup.MusicLibPublic,
         Setup.firstOwner.address,
         funcName,
         workId,
-        metadata
+        metadata,
+        null,
+        nonce
       );
-      let solHash = await Setup.musicRegistryPublicConstant.contract.methods.getWorkHash(
+      let solHash = await Setup.MusicLibPublic.contract.methods.getWorkHash(
         funcName, workId, nonce).call();
       assert.equal(solHash, obj.hash, 'hashes do not match');
     });
 
     it("New getRecordingHash", async () => {
-      let obj = await getRecordingHash(Setup, Setup.musicRegistryPublicConstant, Setup.firstOwner.address, "registerRecording", 0, Setup.recordings[0])
-      let solHash = await Setup.musicRegistryPublicConstant.contract.methods.getRecordingHash(
+      let nonce = await getNonce(Setup.musicRegistryPublicConstant, Setup.firstOwner.address);
+      let obj = await getRecordingHash(Setup, Setup.MusicLibPublic, Setup.firstOwner.address, "registerRecording", 0, Setup.recordings[0], null, nonce)
+      let solHash = await Setup.MusicLibPublic.contract.methods.getRecordingHash(
         obj.recording, obj.funcName, obj.data, obj.nonce).call();
       assert.equal(solHash, obj.hash, 'hashes do not match');
     });
 
     it("Update getRecordingHash", async () => {
-      let obj = await getRecordingHash(Setup, Setup.musicRegistryPublicConstant, Setup.firstOwner.address, "updateRecording", web3.utils.asciiToHex('11'), Setup.recordings[1])
-      let solHash = await Setup.musicRegistryPublicConstant.contract.methods[
+      let nonce = await getNonce(Setup.musicRegistryPublicConstant, Setup.firstOwner.address);
+      let obj = await getRecordingHash(Setup, Setup.MusicLibPublic, Setup.firstOwner.address, "updateRecording", web3.utils.asciiToHex('11'), Setup.recordings[1], null, nonce)
+      let solHash = await Setup.MusicLibPublic.contract.methods[
         'getRecordingHash((string,string,bytes32,bytes32,bytes32,address[],bytes32[],address),string,bytes32,uint256)'
       ](obj.recording, obj.funcName, obj.recordingId, obj.nonce).call();
       assert.equal(solHash, obj.hash, 'hashes do not match');
     });
 
     it("Delete getRecordingHash", async () => {
-      let obj = await getRecordingHash(Setup, Setup.musicRegistryPublicConstant, Setup.firstOwner.address, "removeRecording", web3.utils.asciiToHex('22'), '')
-      let solHash = await Setup.musicRegistryPublicConstant.contract.methods.getRecordingHash(obj.funcName, obj.recordingId, obj.nonce).call();
+      let nonce = await getNonce(Setup.musicRegistryPublicConstant, Setup.firstOwner.address);
+      let obj = await getRecordingHash(Setup, Setup.MusicLibPublic, Setup.firstOwner.address, "removeRecording", web3.utils.asciiToHex('22'), '', null, nonce)
+      let solHash = await Setup.MusicLibPublic.contract.methods.getRecordingHash(obj.funcName, obj.recordingId, obj.nonce).call();
       assert.equal(solHash, obj.hash, 'hashes do not match');
     });
   });
@@ -617,6 +624,10 @@ function shouldBehaveLikeUpdateWork(Setup) {
       ).send({from: Setup.admin, gas: 500000}))
     });
 
+    it("should revert() if non owner in isOwner()", async () => {
+      await reverting(Setup.musicRegistryConstant.contract.methods.isOwner(WorkRegistered.workId, Setup.random.address).call())
+    });
+
     it("should revert() if function name is corrupted", async () => {
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "WRONG___registerWork", WorkRegistered.workId, Setup.works[1]);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
@@ -659,6 +670,11 @@ function shouldBehaveLikeUpdateWork(Setup) {
       ).send({from: Setup.admin, gas: 900000})
       WorkRegistered = getEvent(WorkRegisteredTX, 'WorkRegistered');
     })
+
+    it("should confirm ownership in isOwner()", async () => {
+      let isOwner = await Setup.musicRegistryConstant.contract.methods.isOwner(WorkRegistered.workId, Setup.firstOwner.address).call()
+      assert.equal(isOwner, true)
+    });
 
     it("should update work", async () => {
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateWork", WorkRegistered.workId, Setup.works[5]);
@@ -1460,5 +1476,6 @@ function shouldBehaveLikeMusicRegistry(Setup) {
 }
 
 module.exports = {
-  shouldBehaveLikeMusicRegistry
+  shouldBehaveLikeMusicRegistry,
+  getWorkHash
 };
