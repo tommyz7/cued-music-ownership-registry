@@ -5,4 +5,5 @@ pragma experimental "ABIEncoderV2";
 
 interface MusicRegistryI {
     modifier onlyRole(bytes16 _projectId, string _role){_;}
+    function isOwner(bytes32 projectId, address sender) external returns (bool);
 }
