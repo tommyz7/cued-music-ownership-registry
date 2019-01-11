@@ -88,13 +88,23 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
         else if (uint8(projectId[0]) == RECORDING_FLAG)
             ownershipContract = recordings[projectId].ownershipContract;
         require(ownershipContract != address(0), 'ownershipContract cannot be zero');
-        require(OwnershipRoyaltiesAgreementsI(ownershipContract).balanceOfOwnership(getIdentity(sender)) > 0, 'sender must have ownership');
+        require(OwnershipRoyaltiesAgreementsI(ownershipContract)
+            .balanceOfOwnership(getIdentity(sender)) > 0, 'sender must have ownership');
         _;
     }
 
     function init(address ethDIDAddress, address factory) public initializer {
         setRegistry(ethDIDAddress);
         proxyFactory = ProxyFactoryI(factory);
+    }
+
+    function isOwner(bytes32 projectId, address sender)
+        public
+        view
+        onlyOwner(projectId, sender)
+        returns (bool)
+    {
+        return true;
     }
 
     function getPublishers(bytes32 projectId) public view returns (address[]) {
