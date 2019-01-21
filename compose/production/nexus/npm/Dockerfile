@@ -9,7 +9,6 @@ RUN mkdir /log
 RUN mkdir -p /app
 
 WORKDIR /app
-COPY ./compose/production/nexus/npm/.npmrc /root/.npmrc
 COPY . /app
 
 RUN npm config set user 0
