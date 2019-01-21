@@ -22,5 +22,5 @@ RUN npm install
 EXPOSE 8080
 
 # if we want to compile and migrate contracts on container start, uncomment below
-# ENTRYPOINT ["npm", "run"]
+ENTRYPOINT ["npm", "run"]
 CMD ["deploy"]
