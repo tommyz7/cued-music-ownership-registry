@@ -1,27 +1,28 @@
 pipeline {
-    agent {
-        docker {
-            image 'music-smart-contracts'
-            args '-p 3000:3000'
-        }
-    }
+    agent any
     environment {
-        CI = 'ture'
+        CI = 'true'
     }
     stages {
-        stage('Build') {
+        stage('Build and compile for npm') {
+            agent {
+                dockerfile {
+                    filename 'compose/production/nexus/npm/Dockerfile'
+                    additionalBuildArgs '-t cued-sc'
+                }
+            }
             steps {
-                sh 'docker build -t music-smart-contracts .'
+                echo 'Built docker and compiled smart contracts'
             }
         }
-        stage('Test') {
+        stage('Publish "builds" to npm') {
             steps {
-
+                sh 'docker run --rm cued-sc'
             }
         }
-        stage('Deliver') {
+        stage('Clean up docker images') {
             steps {
-
+                sh 'docker image prune -f'
             }
         }
     }
