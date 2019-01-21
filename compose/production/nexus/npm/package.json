@@ -1,0 +1,24 @@
+{
+  "name": "cued-smart-contracts",
+  "version": "0.1.0",
+  "description": "Blockchain backend for CUED app",
+  "main": "index.js",
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://bitbucket.coreum.io/scm/cor/music-smart-contracts.git"
+  },
+  "keywords": [
+    "blockchain",
+    "smart contracts",
+    "cued",
+    "music ownership"
+  ],
+  "author": "Tomasz Zacharczuk <tom@coreum.io>",
+  "license": "ISC",
+  "publishConfig": {
+    "registry": "http://nexus.coreum.io/repository/npm-private/"
+  }
+}
