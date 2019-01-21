@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "./deploy.sh",
-    "publish": "./publish.sh"
+    "publish": "sh publish.sh"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
