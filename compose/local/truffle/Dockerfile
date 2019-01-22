@@ -17,4 +17,4 @@ RUN npm install -g truffle@beta
 RUN npm install
 RUN truffle version
 
-EXPOSE 8080
+EXPOSE 8081
