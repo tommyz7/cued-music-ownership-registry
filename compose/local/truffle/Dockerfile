@@ -1,26 +1,20 @@
 FROM node:8.14.0-alpine
 
 RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh yarn python make g++ vim
+    apk add --no-cache python make g++ git
 
-RUN apk add -t .gyp --no-cache  \
-    && npm install -g truffle@beta \
-    && apk del .gyp \
-    && npm install nodemon -g \
-    && git --version && bash --version && ssh -V && npm -v && node -v && yarn -v
+ENV MNEMONIC skip
 
 RUN mkdir /log
-
-# install smart-contracts dependencies
 RUN mkdir -p /app
+
 WORKDIR /app
-COPY ./package.json /app/package.json
-# when you have one, copy it as well
-# COPY ./package-lock.json /app/package-lock.json
+COPY . /app
+
+RUN npm config set user 0
+RUN npm config set unsafe-perm true
+RUN npm install -g truffle@beta
 RUN npm install
+RUN truffle version
 
 EXPOSE 8080
-
-# if we want to compile and migrate contracts on container start, uncomment below
-ENTRYPOINT ["npm", "run"]
-CMD ["deploy"]
