@@ -2,4 +2,4 @@
 rm /app/node_modules/.bin/truffle
 ln -s /usr/local/bin/truffle /app/node_modules/.bin/truffle
 truffle version
-truffle test test/proxy_factory.js --network development
+truffle test --network development
