@@ -4,6 +4,11 @@ pipeline {
         CI = 'true'
     }
     stages {
+        stage('Run unit & integration tests') {
+            steps {
+                echo 'TODO'
+            }
+        }
         stage('Build and compile for npm') {
             agent {
                 dockerfile {
@@ -18,6 +23,16 @@ pipeline {
         stage('Publish "builds" to npm') {
             steps {
                 sh 'docker run --rm cued-sc'
+            }
+        }
+        stage('Create java classes from solidity') {
+            steps {
+                echo 'TODO'
+            }
+        }
+        stage('Publish java classes to maven') {
+            steps {
+                echo 'TODO'
             }
         }
         stage('Clean up docker images') {
