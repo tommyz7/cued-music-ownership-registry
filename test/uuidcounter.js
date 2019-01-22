@@ -15,6 +15,7 @@ contract('UUIDCounter', function(accounts) {
   })
 
   it("should create " + countID + " UUIDs", async function() {
+    let printed = 0;
     for (var i = 0; i < countID; i++) {
       let tx = await provider.contract.methods.newIDPublic(WORK_FLAG).send({from: admin})
       let UUID = getEvent(tx, 'UUID');
@@ -24,9 +25,15 @@ contract('UUIDCounter', function(accounts) {
       let expectedID = web3.utils.padRight(web3.utils.numberToHex(WORK_FLAG), 64 - len) + index;
       assert.equal(UUID.uuid, expectedID)
       IDs.push(UUID.uuid)
-      process.stdout.clearLine()
-      process.stdout.cursorTo(4)
-      process.stdout.write("UUIDs tested: " + (i+1))
+      if (process.stdout.clearLine) {
+        process.stdout.clearLine()
+        process.stdout.cursorTo(4)
+        process.stdout.write("UUIDs tested: " + (i+1))
+        printed = i;
+      }
+    }
+    if (printed == 0) {
+      console.log("UUIDs tested: " + (printed+1))
     }
     console.log('')
   });
