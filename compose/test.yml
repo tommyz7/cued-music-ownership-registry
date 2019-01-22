@@ -4,16 +4,12 @@ services:
   truffle:
     build:
       context: ../
-      dockerfile: ./compose/local/truffle/Dockerfile
+      dockerfile: ./compose/production/truffle/Dockerfile
     image: music_smart_contracts_local_truffle
     depends_on:
       - ganache-cli
-    # volumes:
-      # - ../:/app
     entrypoint: npm run
     command: 'test'
-    ports:
-      - "8081:8081"
 
   ganache-cli:
     image: "trufflesuite/ganache-cli:v6.1.0"
