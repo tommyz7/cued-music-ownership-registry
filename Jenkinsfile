@@ -6,6 +6,7 @@ pipeline {
     stages {
         stage('Run unit & integration tests') {
             steps {
+                sh 'docker-compose -f compose/test.yml build'
                 sh 'docker-compose -f compose/test.yml up -d'
                 sh 'docker attach compose_truffle_1'
             }
@@ -26,7 +27,7 @@ pipeline {
                 sh 'docker run --rm cued-sc'
             }
         }
-        stage('Create java classes from solidity') {
+        stage('Create java classes') {
             steps {
                 echo 'TODO'
             }
