@@ -16,4 +16,4 @@ services:
       - "8080:8080"
 
   ganache-cli:
-    image: "trufflesuite/ganache-cli"
+    image: "trufflesuite/ganache-cli:v6.1.0"
