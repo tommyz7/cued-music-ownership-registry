@@ -18,4 +18,3 @@ RUN npm install
 RUN truffle version
 
 EXPOSE 8081
-
