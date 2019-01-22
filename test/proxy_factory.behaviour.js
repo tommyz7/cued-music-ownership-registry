@@ -143,7 +143,6 @@ function shouldBehaveLikeProxyFactory (Setup) {
     });
 
     it("should upgrade implementation to new version and call init()", async () => {
-      assert.equal(1,0);
       let upgradeImpl = await UpgradedOwnershipRoyaltiesAgreementsPublic.new();
 
       let upgradedOwnershipContract = new web3.eth.Contract(
