@@ -6,7 +6,8 @@ pipeline {
     stages {
         stage('Run unit & integration tests') {
             steps {
-                echo 'TODO'
+                sh 'docker-compose -f compose/test.yml up -d'
+                sh 'docker attach compose_truffle_1'
             }
         }
         stage('Build and compile for npm') {
