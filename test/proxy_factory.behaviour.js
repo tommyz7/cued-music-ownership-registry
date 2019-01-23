@@ -42,7 +42,7 @@ function shouldBehaveLikeProxyFactory (Setup) {
     it("should set implementation to new address", async () => {
       let tx = await Setup.proxyFactory.methods.setImplementation(
         Setup.implementation.options.address
-      ).send({from: Setup.originalOwner});
+      ).send({from: Setup.originalOwner, gas: 300000});
       printGas(tx, "Set implementation", 6);
 
       let ImplementationUpdate = getEvent(tx, 'ImplementationUpdate');

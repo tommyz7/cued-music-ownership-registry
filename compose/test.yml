@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  truffle:
+    build:
+      context: ../
+      dockerfile: ./compose/production/truffle/Dockerfile
+    image: music_smart_contracts_local_truffle
+    depends_on:
+      - ganache-cli
+    entrypoint: npm run
+    command: 'test'
+
+  ganache-cli:
+    image: "trufflesuite/ganache-cli:v6.1.0"

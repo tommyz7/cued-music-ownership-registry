@@ -16,5 +16,7 @@ RUN npm config set unsafe-perm true
 RUN npm install -g truffle@beta
 RUN npm install
 RUN truffle version
+RUN truffle compile --all
 
-EXPOSE 8080
+ENTRYPOINT ["npm", "run"]
+CMD ["publish"]
