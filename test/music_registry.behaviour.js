@@ -285,16 +285,17 @@ function shouldBehaveLikeRegisterWork(Setup) {
       ).send({from: Setup.admin, gas: 1900000}))
     });
 
-    it("should revert() if metadata.titleSoundRecording is missing", async () => {
-      let metadata = Setup.works[8];
-      metadata.titleSoundRecording = '';
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerWork(
-          metadata,
-          signature,
-          data,
-          Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 1900000}))
-    });
+    // titleSoundRecording is no longer required
+    // it("should revert() if metadata.titleSoundRecording is missing", async () => {
+    //   let metadata = Setup.works[8];
+    //   metadata.titleSoundRecording = '';
+    //   await reverting(Setup.musicRegistryConstant.contract.methods.registerWork(
+    //       metadata,
+    //       signature,
+    //       data,
+    //       Setup.firstOwner.address
+    //   ).send({from: Setup.admin, gas: 1900000}))
+    // });
 
     it("should revert() if signature is missing", async () => {
       await reverting(Setup.musicRegistryConstant.contract.methods.registerWork(
