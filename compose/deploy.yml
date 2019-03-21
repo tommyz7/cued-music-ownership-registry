@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  truffle:
+    build:
+      context: ../
+      dockerfile: ./compose/production/nexus/npm/Dockerfile
+    image: music_smart_contracts_local_truffle
+    depends_on:
+      - ganache-cli
+    # entrypoint: npm run
+    command: sh compose/production/nexus/npm/publish.sh
+
+  ganache-cli:
+    image: "trufflesuite/ganache-cli:v6.1.0"
+    command: --networkId 2833
