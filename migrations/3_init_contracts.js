@@ -10,7 +10,6 @@ module.exports = async function(deployer, network, accounts) {
   let er = await EthereumDIDRegistry.deployed();
 
   let tx = await pf.contract.methods.init(accounts[0], mr.address, ora.address).send({from: accounts[0], gas: 2000000});
-  console.log(tx);
   tx = await mr.contract.methods.init(er.address, pf.address).send({from: accounts[0], gas: 2000000});
   console.log(tx);
 };

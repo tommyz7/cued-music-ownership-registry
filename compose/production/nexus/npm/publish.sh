@@ -1,3 +1,6 @@
+truffle compile --all
+truffle migrate --reset --network development
+
 cp -r build ./compose/production/nexus/npm/
 cd ./compose/production/nexus/npm/
 cp .npmrc /root/.npmrc
