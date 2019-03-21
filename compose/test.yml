@@ -13,3 +13,4 @@ services:
 
   ganache-cli:
     image: "trufflesuite/ganache-cli:v6.1.0"
+    command: --networkId 2833
