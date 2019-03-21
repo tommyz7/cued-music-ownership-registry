@@ -17,6 +17,7 @@ RUN npm install -g truffle@beta
 RUN npm install
 RUN truffle version
 RUN truffle compile --all
+RUN truffle migrate --network development
 
 ENTRYPOINT ["npm", "run"]
 CMD ["publish"]
