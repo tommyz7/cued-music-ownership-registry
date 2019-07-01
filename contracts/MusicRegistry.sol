@@ -156,7 +156,7 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
         require(workId != bytes32(0), "workId is required");
         require(works[workId].ownershipContract != address(0), 'Work must exist');
         require(bytes(metadata.title).length > 0, "metadata.title is required");
-        require(bytes(metadata.titleSoundRecording).length > 0, "metadata.title is required");
+        // require(bytes(metadata.titleSoundRecording).length > 0, "metadata.title is required");
         require(signature.length > 0, "signature is required");
         require(signer != address(0), "signer is required");
 

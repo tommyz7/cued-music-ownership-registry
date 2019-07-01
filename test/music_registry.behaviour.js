@@ -349,7 +349,6 @@ function shouldBehaveLikeRegisterWork(Setup) {
       ).encodeABI();
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "registerWork", 0, Setup.works[0], data);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-
       WorkRegisteredTX = await Setup.musicRegistryConstant.contract.methods.registerWork(
           Setup.works[0],
           signature,
@@ -582,18 +581,19 @@ function shouldBehaveLikeUpdateWork(Setup) {
       ).send({from: Setup.admin, gas: 500000}))
     });
 
-    it("should revert() if metadata.titleSoundRecording is missing", async () => {
-      let metadata = Setup.works[6];
-      metadata.titleSoundRecording = '';
-      let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateWork", WorkRegistered.workId, metadata);
-      let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
-          WorkRegistered.workId,
-          metadata,
-          signature,
-          Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
-    });
+    // titleSoundRecording is no longer required
+    // it("should revert() if metadata.titleSoundRecording is missing", async () => {
+    //   let metadata = Setup.works[6];
+    //   metadata.titleSoundRecording = '';
+    //   let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateWork", WorkRegistered.workId, metadata);
+    //   let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
+    //   await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
+    //       WorkRegistered.workId,
+    //       metadata,
+    //       signature,
+    //       Setup.firstOwner.address
+    //   ).send({from: Setup.admin, gas: 500000}))
+    // });
 
     it("should revert() if signature is missing", async () => {
       await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
