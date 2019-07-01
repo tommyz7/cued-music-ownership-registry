@@ -59,18 +59,18 @@ module.exports = {
     local: {
       host: "localhost",
       port: 8545,
-      network_id: "*", // Match any network id
+      network_id: "*",
       gas: 6721975
     },
     development: {
       host: "ganache-cli",
       port: 8545,
-      network_id: "*", // Match any network id
+      network_id: 2833,
       gas: 6721975
     },
     rinkeby: {
       provider: new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io'),
-      network_id: '*',
+      network_id: '*', // Match any network id
       gas: 6900000,
       gasPrice: 5000000000
     },
@@ -124,7 +124,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.4.25",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.4.26",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
