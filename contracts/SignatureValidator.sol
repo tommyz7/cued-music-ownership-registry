@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.5.0 <0.6.0;
 
 
 /// @title SignatureValidator - recovers a sender from a signature
@@ -12,7 +12,7 @@ contract SignatureValidator {
     /// @param pos which signature to read
     function recoverKey (
         bytes32 txHash,
-        bytes messageSignature,
+        bytes memory messageSignature,
         uint256 pos
     )
         pure
@@ -29,7 +29,7 @@ contract SignatureValidator {
     /// @dev divides bytes signature into `uint8 v, bytes32 r, bytes32 s`
     /// @param pos which signature to read
     /// @param signatures concatenated rsv signatures
-    function signatureSplit(bytes signatures, uint256 pos)
+    function signatureSplit(bytes memory signatures, uint256 pos)
         pure
         internal
         returns (uint8 v, bytes32 r, bytes32 s)

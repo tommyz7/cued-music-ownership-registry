@@ -1,5 +1,4 @@
-pragma solidity ^0.4.24;
-pragma experimental "v0.5.0";
+pragma solidity >=0.5.0 <0.6.0;
 pragma experimental "ABIEncoderV2";
 
 
@@ -110,12 +109,12 @@ contract OwnershipRoyaltiesAgreements is Initializable, EthereumDIDResolver, Sig
      */
     function newOwnershipTransferAgreement(
         bytes32 templateHash,
-        string templateVersion,
-        bytes sigSenders,
-        bytes sigReceivers,
-        address[] senderSigners,
-        address[] receiverSigners,
-        uint256[] values
+        string memory templateVersion,
+        bytes memory sigSenders,
+        bytes memory sigReceivers,
+        address[] memory senderSigners,
+        address[] memory receiverSigners,
+        uint256[] memory values
     ) public {
         // 780 gas
         address[] memory senderIds = new address[](values.length);
@@ -176,12 +175,12 @@ contract OwnershipRoyaltiesAgreements is Initializable, EthereumDIDResolver, Sig
      */
     function newRoyaltiesTransferAgreement(
         bytes32 templateHash,
-        string templateVersion,
-        bytes sigSenders,
-        bytes sigReceivers,
-        address[] senderSigners,
-        address[] receiverSigners,
-        uint256[] values
+        string memory templateVersion,
+        bytes memory sigSenders,
+        bytes memory sigReceivers,
+        address[] memory senderSigners,
+        address[] memory receiverSigners,
+        uint256[] memory values
     ) public {
         address[] memory senderIds = new address[](values.length);
         address[] memory receiverIds = new address[](values.length);
@@ -227,13 +226,13 @@ contract OwnershipRoyaltiesAgreements is Initializable, EthereumDIDResolver, Sig
     }
 
     function _validateSignatures(
-        string transferType,
+        string memory transferType,
         bytes32 templateHash,
         address senderSigner,
         address receiverSigner,
         uint256 value,
-        bytes sigSenders,
-        bytes sigReceivers,
+        bytes memory sigSenders,
+        bytes memory sigReceivers,
         uint8 i
     ) internal returns (address senderId, address receiverId) {
         require(senderSigner != address(0), 'Zero address cannot send TX');
@@ -271,14 +270,14 @@ contract OwnershipRoyaltiesAgreements is Initializable, EthereumDIDResolver, Sig
         nonce[receiverSigner]++;
         // 5k gas
         require(receiverSigner == recoverKey(hash, sigReceivers, i),
-            'Message has not been signed proporly by receiver');
+            'Message has not been signed properly by receiver');
     }
 
     function getHash(
         address signer,
-        string transferType,
+        string memory transferType,
         bytes32 templateHash,
-        address[2] identities,
+        address[2] memory identities,
         uint value
     ) public view returns(bytes32) {
         return keccak256(

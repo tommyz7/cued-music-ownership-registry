@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.5.0 <0.6.0;
 
 import "../SignatureValidator.sol";
 
@@ -13,7 +13,7 @@ contract SignatureValidatorPublic is SignatureValidator{
     /// @param pos which signature to read
     function _recoverKey (
         bytes32 txHash,
-        bytes messageSignature,
+        bytes memory messageSignature,
         uint256 pos
     )
         pure
@@ -26,7 +26,7 @@ contract SignatureValidatorPublic is SignatureValidator{
     /// @dev divides bytes signature into `uint8 v, bytes32 r, bytes32 s`
     /// @param pos which signature to read
     /// @param signatures concatenated rsv signatures
-    function _signatureSplit(bytes signatures, uint256 pos)
+    function _signatureSplit(bytes memory signatures, uint256 pos)
         pure
         public
         returns (uint8 v, bytes32 r, bytes32 s)

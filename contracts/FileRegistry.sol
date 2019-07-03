@@ -1,5 +1,4 @@
-pragma solidity ^0.4.24;
-pragma experimental "v0.5.0";
+pragma solidity >=0.5.0 <0.6.0;
 pragma experimental "ABIEncoderV2";
 
 import "zos-lib/contracts/Initializable.sol";
@@ -52,15 +51,15 @@ contract FileRegistry is Initializable, SignatureValidator {
         emit MusicRegistrySet(musicRegistryAddr);
     }
 
-    function getAllFileTypes() public view returns (string[]) {
+    function getAllFileTypes() public view returns (string[] memory) {
         return FILE_TYPES;
     }
 
-    function getFile(bytes32 projectId, string ipfsHash) public view returns (File) {
+    function getFile(bytes32 projectId, string memory ipfsHash) public view returns (File memory) {
         return files[projectId][keccak256(abi.encodePacked(ipfsHash))];
     }
 
-    function getFiles(bytes32 projectId, uint8 fileType) public view returns (File[]) {
+    function getFiles(bytes32 projectId, uint8 fileType) public view returns (File[] memory) {
         bytes32[] storage _fileHashes = typeIndexes[projectId][fileType];
         File[] memory result = new File[](_fileHashes.length);
         for (uint256 i = 0; i < _fileHashes.length; i++) {
@@ -69,26 +68,26 @@ contract FileRegistry is Initializable, SignatureValidator {
         return result;
     }
 
-    function getFileType(bytes32 projectId, string ipfsHash) public view returns (uint8) {
+    function getFileType(bytes32 projectId, string memory ipfsHash) public view returns (uint8) {
         return files[projectId][keccak256(abi.encodePacked(ipfsHash))].fileType;
     }
 
-    function isProjectFile(bytes32 projectId, string ipfsHash) public view returns (bool) {
+    function isProjectFile(bytes32 projectId, string memory ipfsHash) public view returns (bool) {
         return bytes(files[projectId][keccak256(abi.encodePacked(ipfsHash))].ipfsHash).length > 0;
     }
 
 
 
-    function getIndexes(bytes32 projectId, uint8 fileType) public view returns (bytes32[]) {
+    function getIndexes(bytes32 projectId, uint8 fileType) public view returns (bytes32[] memory) {
         return typeIndexes[projectId][fileType];
     }
 
     function getHash(
-        string funcName,
+        string memory funcName,
         bytes32 projectId,
-        string ipfsHash,
-        string name,
-        string url,
+        string memory ipfsHash,
+        string memory name,
+        string memory url,
         uint8 fileType,
         uint256 _nonce
     )
@@ -112,18 +111,18 @@ contract FileRegistry is Initializable, SignatureValidator {
 
     // TODO: allow contract admin to add file types
     event NewFileType (uint8 index, string fileType);
-    function _addFileType(string fileType) internal {
+    function _addFileType(string memory fileType) internal {
         FILE_TYPES.push(fileType);
         emit NewFileType(uint8(FILE_TYPES.length) - 1, fileType);
     }
 
     function addFile(
         bytes32 projectId,
-        string ipfsHash,
-        string name,
-        string url,
+        string memory ipfsHash,
+        string memory name,
+        string memory url,
         uint8 fileType,
-        bytes signature,
+        bytes memory signature,
         address signer
     ) public {
         bytes32 hash = getHash("addFile", projectId, ipfsHash, name, url, fileType, nonce[signer]);
@@ -133,11 +132,11 @@ contract FileRegistry is Initializable, SignatureValidator {
 
     function updateFile(
         bytes32 projectId,
-        string ipfsHash,
-        string name,
-        string url,
+        string memory ipfsHash,
+        string memory name,
+        string memory url,
         uint8 fileType,
-        bytes signature,
+        bytes memory signature,
         address signer
     ) public onlyOwner(projectId, signer) {
         bytes32 hash = getHash("updateFile", projectId, ipfsHash, name, url, fileType, nonce[signer]);
@@ -145,7 +144,7 @@ contract FileRegistry is Initializable, SignatureValidator {
         _updateFile(projectId, ipfsHash, name, url, fileType);
     }
 
-    function removeFile(bytes32 projectId, string ipfsHash, bytes signature, address signer)
+    function removeFile(bytes32 projectId, string memory ipfsHash, bytes memory signature, address signer)
         public
         onlyOwner(projectId, signer)
     {
@@ -164,9 +163,9 @@ contract FileRegistry is Initializable, SignatureValidator {
 
     function _addFile(
         bytes32 projectId,
-        string ipfsHash,
-        string name,
-        string url,
+        string memory ipfsHash,
+        string memory name,
+        string memory url,
         uint8 fileType
     ) internal {
         require(projectId != bytes32(0), 'Must have projectId');
@@ -182,9 +181,9 @@ contract FileRegistry is Initializable, SignatureValidator {
 
     function _updateFile(
         bytes32 projectId,
-        string ipfsHash,
-        string name,
-        string url,
+        string memory ipfsHash,
+        string memory name,
+        string memory url,
         uint8 fileType
     ) internal {
         require(projectId != bytes32(0), 'Must have projectId');
@@ -209,7 +208,7 @@ contract FileRegistry is Initializable, SignatureValidator {
         emit UpdateFile(projectId, ipfsHash, name, url, fileType);
     }
 
-    function _removeFile(bytes32 projectId, string ipfsHash) internal {
+    function _removeFile(bytes32 projectId, string memory ipfsHash) internal {
         require(bytes(files[projectId][keccak256(abi.encodePacked(ipfsHash))].ipfsHash).length > 0);
 
         uint8 fileType = getFileType(projectId, ipfsHash);
@@ -228,7 +227,7 @@ contract FileRegistry is Initializable, SignatureValidator {
         emit DeleteFile(projectId, ipfsHash);
     }
 
-    function _validateSignature(bytes32 hash, bytes signature, address signer)
+    function _validateSignature(bytes32 hash, bytes memory signature, address signer)
         internal
         returns (address)
     {

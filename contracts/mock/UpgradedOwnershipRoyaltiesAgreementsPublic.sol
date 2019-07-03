@@ -1,5 +1,4 @@
-pragma solidity ^0.4.24;
-pragma experimental "v0.5.0";
+pragma solidity >=0.5.0 <0.6.0;
 pragma experimental "ABIEncoderV2";
 
 
@@ -9,13 +8,13 @@ import "../OwnershipRoyaltiesAgreements.sol";
 contract UpgradedOwnershipRoyaltiesAgreementsPublic is OwnershipRoyaltiesAgreements {
 
     function validateSignatures(
-        string trasnferType,
+        string memory trasnferType,
         bytes32 templateHash,
         address senderSigner,
         address receiverSigner,
         uint256 value,
-        bytes sigSenders,
-        bytes sigReceivers,
+        bytes memory sigSenders,
+        bytes memory sigReceivers,
         uint8 i
     ) public returns (address senderId, address receiverId) {
         (senderId, receiverId) = super._validateSignatures(trasnferType, templateHash, senderSigner, receiverSigner, value, sigSenders, sigReceivers, i);

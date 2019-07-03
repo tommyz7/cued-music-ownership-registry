@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.5.0 <0.6.0;
 
 import './Proxy.sol';
 import 'openzeppelin-solidity/contracts/utils/Address.sol';
@@ -35,7 +35,8 @@ contract UpgradeabilityProxy is Proxy {
     assert(IMPLEMENTATION_SLOT == keccak256("org.zeppelinos.proxy.implementation"));
     _setImplementation(_implementation);
     if(_data.length > 0) {
-      require(_implementation.delegatecall(_data));
+      (bool success,) = _implementation.delegatecall(_data);
+      require(success);
     }
   }
 

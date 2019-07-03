@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.5.0 <0.6.0;
 
 interface EthereumDIDRegistryI {
     function getIdentity (address actor) external view returns(address);
@@ -8,6 +8,6 @@ interface EthereumDIDRegistryI {
     function changeOwnerSigned (address identity, uint8 sigV, bytes32 sigR, bytes32 sigS, address newOwner) external;
     function addDelegate (address identity, bytes32 delegateType, address delegate, uint validity) external;
     function revokeDelegate (address identity, bytes32 delegateType, address delegate) external;
-    function setAttribute (address identity, bytes32 name, bytes value, uint validity) external;
-    function revokeAttribute (address identity, bytes32 name, bytes value) external;
+    function setAttribute (address identity, bytes32 name, bytes calldata value, uint validity) external;
+    function revokeAttribute (address identity, bytes32 name, bytes calldata value) external;
 }
