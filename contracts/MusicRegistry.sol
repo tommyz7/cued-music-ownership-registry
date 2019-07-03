@@ -1,5 +1,4 @@
-pragma solidity ^0.4.24;
-pragma experimental "v0.5.0";
+pragma solidity >=0.5.0 <0.6.0;
 pragma experimental "ABIEncoderV2";
 
 
@@ -8,7 +7,7 @@ import "./interface/OwnershipRoyaltiesAgreementsI.sol";
 import "./interface/ProxyFactoryI.sol";
 import "./UUIDCounter.sol";
 import "./EthereumDIDResolver.sol";
-import "./SignatureValidator.sol";
+import "./SignatureDecoder.sol";
 import "./library/MusicLib.sol";
 
 /**
@@ -20,7 +19,7 @@ import "./library/MusicLib.sol";
  * See https://omi01.docs.apiary.io/#reference/work-related-apis/works-collection/register-a-work
  *
  */
-contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, SignatureValidator {
+contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, SignatureDecoder {
 
     using MusicLib for MusicLib.Work;
     using MusicLib for MusicLib.Recording;
@@ -82,6 +81,9 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
 
 
     modifier onlyOwner(bytes32 projectId, address sender) {
+        require(projectId != bytes32(0), "projectId is required");
+        require(sender != address(0), "sender is required");
+
         address ownershipContract;
         if (uint8(projectId[0]) == WORK_FLAG)
             ownershipContract = works[projectId].ownershipContract;
@@ -107,26 +109,26 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
         return true;
     }
 
-    function getPublishers(bytes32 projectId) public view returns (address[]) {
+    function getPublishers(bytes32 projectId) public view returns (address[] memory) {
         return works[projectId].publishers;
     }
 
-    function getLabels(bytes32 projectId) public view returns (address[]) {
+    function getLabels(bytes32 projectId) public view returns (address[] memory) {
         return recordings[projectId].labels;
     }
 
-    function getWorkIds(bytes32 projectId) public view returns (bytes32[]) {
+    function getWorkIds(bytes32 projectId) public view returns (bytes32[] memory) {
         return recordings[projectId].workIds;
     }
 
     function registerWork(
-        MusicLib.Work metadata,
-        bytes signature,
-        bytes data,
+        MusicLib.Work memory metadata,
+        bytes memory signature,
+        bytes memory data,
         address signer
     ) public {
         require(bytes(metadata.title).length > 0, "metadata.title is required");
-        // require(bytes(metadata.titleSoundRecording).length > 0, "metadata.title is required");
+        // require(bytes(metadata.titleSoundRecording).length > 0, "metadata.titleSoundRecording is required");
         require(signature.length > 0, "signature is required");
         require(signer != address(0), "signer is required");
 
@@ -149,16 +151,14 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
 
     function updateWork(
         bytes32 workId,
-        MusicLib.Work metadata,
-        bytes signature,
+        MusicLib.Work memory metadata,
+        bytes memory signature,
         address signer
     ) public onlyOwner(workId, signer) {
-        require(workId != bytes32(0), "workId is required");
         require(works[workId].ownershipContract != address(0), 'Work must exist');
         require(bytes(metadata.title).length > 0, "metadata.title is required");
-        // require(bytes(metadata.titleSoundRecording).length > 0, "metadata.title is required");
+        // require(bytes(metadata.titleSoundRecording).length > 0, "metadata.titleSoundRecording is required");
         require(signature.length > 0, "signature is required");
-        require(signer != address(0), "signer is required");
 
         bytes32 hash = metadata.getWorkHash("updateWork", workId, nonce[signer]);
         _validateSignature(hash, signature, signer);
@@ -176,13 +176,11 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
             metadata.ownershipContract);
     }
 
-    function removeWork(bytes32 workId, bytes signature, address signer)
+    function removeWork(bytes32 workId, bytes memory signature, address signer)
         public
         onlyOwner(workId, signer)
     {
-        require(workId != bytes32(0), "workId is required");
         require(signature.length > 0, "signature is required");
-        require(signer != address(0), "signer is required");
 
         bytes32 hash = MusicLib.getWorkHash("removeWork", workId, nonce[signer]);
         _validateSignature(hash, signature, signer);
@@ -192,9 +190,9 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
     }
 
     function registerRecording(
-        MusicLib.Recording metadata,
-        bytes signature,
-        bytes data,
+        MusicLib.Recording memory metadata,
+        bytes memory signature,
+        bytes memory data,
         address signer
     ) public {
         require(bytes(metadata.title).length > 0, "metadata.title is required");
@@ -225,14 +223,12 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
 
     function updateRecording(
         bytes32 recordingId,
-        MusicLib.Recording metadata,
-        bytes signature,
+        MusicLib.Recording memory metadata,
+        bytes memory signature,
         address signer
     ) public onlyOwner(recordingId, signer) {
-        require(recordingId != bytes32(0), "recordingId is required");
         require(bytes(metadata.title).length > 0, "metadata.title is required");
         require(signature.length > 0, "signature is required");
-        require(signer != address(0), "signer is required");
 
         bytes32 hash = metadata.getRecordingHash("updateRecording", recordingId, nonce[signer]);
         _validateSignature(hash, signature, signer);
@@ -252,13 +248,11 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
             recordings[recordingId].ownershipContract);
     }
 
-    function removeRecording(bytes32 recordingId, bytes signature, address signer)
+    function removeRecording(bytes32 recordingId, bytes memory signature, address signer)
         public
         onlyOwner(recordingId, signer)
     {
-        require(recordingId != bytes32(0), "recordingId is required");
         require(signature.length > 0, "signature is required");
-        require(signer != address(0), "signer is required");
 
         bytes32 hash = MusicLib.getRecordingHash("removeRecording", recordingId, nonce[signer]);
         _validateSignature(hash, signature, signer);
@@ -267,7 +261,7 @@ contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, Signa
         emit RecordingRemoved(recordingId);
     }
 
-    function _validateSignature(bytes32 hash, bytes signature, address signer)
+    function _validateSignature(bytes32 hash, bytes memory signature, address signer)
         internal
         returns (address)
     {

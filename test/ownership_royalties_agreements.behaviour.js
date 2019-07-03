@@ -1,4 +1,4 @@
-import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
+const { expectRevert } = require('openzeppelin-test-helpers');
 import { IpfsHash,ZERO_ADDRESS, stripHexPrefix, getEvent, printGas } from './utils.js';
 var BN = web3.utils.BN;
 var Account = require("eth-lib/lib/account");
@@ -217,14 +217,14 @@ function assertOwnershipTransferEvents(txReceipt, originalBalances, from, to, va
   let RoyaltiesTransfer, OwnershipTransfer;
   for (var i = 0; i < from.length; i++) {
     OwnershipTransfer = getEvent(txReceipt, 'OwnershipTransfer', i)
-    OwnershipTransfer.from.should.eq(users[from[i]].address);
-    OwnershipTransfer.to.should.eq(users[to[i]].address);
-    OwnershipTransfer.value.should.equal(web3.utils.toWei(values[i].toString(), "ether"));
+    assert.equal(OwnershipTransfer.from, users[from[i]].address, "from incorrect");
+    assert.equal(OwnershipTransfer.to, users[to[i]].address, "to incorrect");
+    assert.equal(OwnershipTransfer.value, web3.utils.toWei(values[i].toString(), "ether"), "value incorrect");
 
     RoyaltiesTransfer = getEvent(txReceipt, 'RoyaltiesTransfer', i)
-    RoyaltiesTransfer.from.should.eq(users[from[i]].address);
-    RoyaltiesTransfer.to.should.eq(users[to[i]].address);
-    RoyaltiesTransfer.value.should.equal(web3.utils.toWei(royaltiesValue[i].toString(), "ether"));
+    assert.equal(RoyaltiesTransfer.from, users[from[i]].address, "from incorrect");
+    assert.equal(RoyaltiesTransfer.to, users[to[i]].address, "to incorrect");
+    assert.equal(RoyaltiesTransfer.value, web3.utils.toWei(royaltiesValue[i].toString(), "ether"), "value incorrect");
   }
 }
 
@@ -234,9 +234,9 @@ function assertRoyaltiesTransferEvents(txReceipt, originalBalances, from, to, va
   let RoyaltiesTransfer;
   for (var i = 0; i < from.length; i++) {
     RoyaltiesTransfer = getEvent(txReceipt, 'RoyaltiesTransfer', i)
-    RoyaltiesTransfer.from.should.eq(users[from[i]].address);
-    RoyaltiesTransfer.to.should.eq(users[to[i]].address);
-    RoyaltiesTransfer.value.should.equal(web3.utils.toWei(values[i].toString(), "ether"));
+    assert.equal(RoyaltiesTransfer.from, users[from[i]].address, "from incorrect");
+    assert.equal(RoyaltiesTransfer.to, users[to[i]].address, "to incorrect");
+    assert.equal(RoyaltiesTransfer.value, web3.utils.toWei(values[i].toString(), "ether"), "value incorrect");
   }
 }
 
@@ -294,28 +294,29 @@ function corruptAddress(obj) {
 
 function assertNewOwnershipAgreementEvent(txReceipt, args) {
   let NewOwnershipAgreement = getEvent(txReceipt, "NewOwnershipAgreement");
-  NewOwnershipAgreement.templateVersion.should.eq(args.templateVersion);
-  NewOwnershipAgreement.templateHash.should.eq(args.templateHash);
-  NewOwnershipAgreement.sigSenders.should.eq(args.sigSenders);
-  NewOwnershipAgreement.sigReceivers.should.eq(args.sigReceivers);
-  NewOwnershipAgreement.senderSigners.should.eql(args.senderSigners);
-  NewOwnershipAgreement.senderIdentities.should.eql(args.senderSigners);
-  NewOwnershipAgreement.receiverSigners.should.eql(args.receiverSigners);
-  NewOwnershipAgreement.receiverIdentities.should.eql(args.receiverSigners);
-  NewOwnershipAgreement.values.should.eql(args.values);
+
+  assert.equal(NewOwnershipAgreement.templateVersion, args.templateVersion, "templateVersion incorrect");
+  assert.equal(NewOwnershipAgreement.templateHash, args.templateHash, "templateHash incorrect");
+  assert.equal(NewOwnershipAgreement.sigSenders, args.sigSenders, "sigSenders incorrect");
+  assert.equal(NewOwnershipAgreement.sigReceivers, args.sigReceivers, "sigReceivers incorrect");
+  assert.deepEqual(NewOwnershipAgreement.senderSigners, args.senderSigners, "senderSigners incorrect");
+  assert.deepEqual(NewOwnershipAgreement.senderIdentities, args.senderSigners, "senderSigners incorrect");
+  assert.deepEqual(NewOwnershipAgreement.receiverSigners, args.receiverSigners, "receiverSigners incorrect");
+  assert.deepEqual(NewOwnershipAgreement.receiverIdentities, args.receiverSigners, "receiverSigners incorrect");
+  assert.deepEqual(NewOwnershipAgreement.values, args.values, "values incorrect");
 }
 
 function assertNewRoyaltiesAgreementEvent(txReceipt, args) {
   let NewRoyaltiesAgreement = getEvent(txReceipt, "NewRoyaltiesAgreement");
-  NewRoyaltiesAgreement.templateVersion.should.eq(args.templateVersion);
-  NewRoyaltiesAgreement.templateHash.should.eq(args.templateHash);
-  NewRoyaltiesAgreement.sigSenders.should.eq(args.sigSenders);
-  NewRoyaltiesAgreement.sigReceivers.should.eq(args.sigReceivers);
-  NewRoyaltiesAgreement.senderSigners.should.eql(args.senderSigners);
-  NewRoyaltiesAgreement.senderIdentities.should.eql(args.senderSigners);
-  NewRoyaltiesAgreement.receiverSigners.should.eql(args.receiverSigners);
-  NewRoyaltiesAgreement.receiverIdentities.should.eql(args.receiverSigners);
-  NewRoyaltiesAgreement.values.should.eql(args.values);
+  assert.equal(NewRoyaltiesAgreement.templateVersion, args.templateVersion, "templateVersion incorrect");
+  assert.equal(NewRoyaltiesAgreement.templateHash, args.templateHash, "templateHash incorrect");
+  assert.equal(NewRoyaltiesAgreement.sigSenders, args.sigSenders, "sigSenders incorrect");
+  assert.equal(NewRoyaltiesAgreement.sigReceivers, args.sigReceivers, "sigReceivers incorrect");
+  assert.deepEqual(NewRoyaltiesAgreement.senderSigners, args.senderSigners, "senderSigners incorrect");
+  assert.deepEqual(NewRoyaltiesAgreement.senderIdentities, args.senderSigners, "senderSigners incorrect");
+  assert.deepEqual(NewRoyaltiesAgreement.receiverSigners, args.receiverSigners, "receiverSigners incorrect");
+  assert.deepEqual(NewRoyaltiesAgreement.receiverIdentities, args.receiverSigners, "receiverSigners incorrect");
+  assert.deepEqual(NewRoyaltiesAgreement.values, args.values, "values incorrect");
 }
 
 function shouldBehaveLikeInit(Setup) {
@@ -325,7 +326,7 @@ function shouldBehaveLikeInit(Setup) {
       "EthereumDIDRegistry address has not been set correctly");
 
     let EthRegistrySet = getEvent(Setup.initialTX, 'EthRegistrySet');
-    EthRegistrySet.reg.should.eq(Setup.ethDIDReg.address);
+    assert.equal(EthRegistrySet.reg, Setup.ethDIDReg.address, "ethDIDReg.address incorrect");
   });
 
   it("should mint 100% ownership and royalties to original owner", async () => {
@@ -334,18 +335,18 @@ function shouldBehaveLikeInit(Setup) {
     await assertOwnershipBalances(originalBalances, [0], [0], [100], users, Setup.ownershipContractConstant);
 
     let OwnershipTransfer = getEvent(Setup.initialTX, 'OwnershipTransfer');
-    OwnershipTransfer.from.should.eq(ZERO_ADDRESS);
-    OwnershipTransfer.to.should.eq(Setup.originalOwner.address);
-    OwnershipTransfer.value.should.equal(web3.utils.toWei('100', "ether"));
+    assert.equal(OwnershipTransfer.from, ZERO_ADDRESS, "OwnershipTransfer.from incorrect");
+    assert.equal(OwnershipTransfer.to, Setup.originalOwner.address, "OwnershipTransfer.from incorrect");
+    assert.equal(OwnershipTransfer.value, web3.utils.toWei('100', "ether"), "OwnershipTransfer.from incorrect");
 
     let RoyaltiesTransfer = getEvent(Setup.initialTX, 'RoyaltiesTransfer');
-    RoyaltiesTransfer.from.should.eq(ZERO_ADDRESS);
-    RoyaltiesTransfer.to.should.eq(Setup.originalOwner.address);
-    RoyaltiesTransfer.value.should.equal(web3.utils.toWei('100', "ether"));
+    assert.equal(RoyaltiesTransfer.from, ZERO_ADDRESS, "RoyaltiesTransfer.from incorrect");
+    assert.equal(RoyaltiesTransfer.to, Setup.originalOwner.address, "RoyaltiesTransfer.from incorrect");
+    assert.equal(RoyaltiesTransfer.value, web3.utils.toWei('100', "ether"), "RoyaltiesTransfer.from incorrect");
   });
 
   it("should revert() when run init() again", async () => {
-    await reverting(Setup.ownershipContractConstant.methods.init(Setup.originalOwner.address, Setup.ethDIDReg.address).send());
+    await expectRevert.unspecified(Setup.ownershipContractConstant.methods.init(Setup.originalOwner.address, Setup.ethDIDReg.address).send());
   });
 }
 
@@ -411,36 +412,22 @@ function shouldBehaveLikeValidateSignatures(Setup) {
   it("should NOT validate signatures", async () => {
     let users = [Setup.originalOwner, Setup.owner1, Setup.owner2];
     let transferType = "OwnershipTransfer";
-    let args = await prepareTransferData([0, 1], [2, 2], [10, 10], users, transferType, Setup.ownershipContractConstant);
+    let args = await prepareTransferData([0, 1], [2, 2], [10, 10], users, transferType, Setup.ownershipContract);
     let corruptSigSenders = corrupt(args.sigSenders);
-
-    let result = await Setup.ownershipContractConstant.methods.validateSignatures(
+    let result = await Setup.ownershipContract.methods.validateSignatures(
       transferType,
       args.templateHash,
       args.senderSigners[0],
       args.receiverSigners[0],
       args.values[0],
-      corruptSigSenders,
+      args.sigSenders,
       args.sigReceivers,
       0
     ).call();
-
-    // do .send() so nonce can increase
-    await Setup.ownershipContractConstant.methods.validateSignatures(
-      transferType,
-      args.templateHash,
-      args.senderSigners[0],
-      args.receiverSigners[0],
-      args.values[0],
-      corruptSigSenders,
-      args.sigReceivers,
-      0
-    ).send({gas: 300000});
-
     assert.equal(args.senderSigners[0], result.senderId);
     assert.equal(args.receiverSigners[0], result.receiverId);
 
-    await reverting(Setup.ownershipContractConstant.methods.validateSignatures(
+    await expectRevert(Setup.ownershipContract.methods.validateSignatures(
       transferType,
       args.templateHash,
       args.senderSigners[1],
@@ -448,8 +435,8 @@ function shouldBehaveLikeValidateSignatures(Setup) {
       args.values[1],
       corruptSigSenders,
       args.sigReceivers,
-      1
-    ).call());
+      0
+    ).send(), "Message has not been signed properly by sender");
   })
 }
 
@@ -470,12 +457,12 @@ function shouldBehaveLikeTransferOwnership(Setup) {
   it("should fail to transfer ownership", async () => {
     let users = [Setup.owner1, Setup.originalOwner];
     let value = 10;
-    await reverting(
+    await expectRevert(
       Setup.ownershipContract.methods._transferOwnership(
         users[0].address,
         users[1].address,
         web3.utils.toWei(value.toString(), 'ether')
-      ).send());
+      ).send(), "division by zero");
   })
 }
 
@@ -496,12 +483,12 @@ function shouldBehaveLikeTransferRoyalties(Setup) {
   it("should fail to transfer royalties", async () => {
     let users = [Setup.owner1, Setup.originalOwner];
     let value = 10;
-    await reverting(
+    await expectRevert(
       Setup.ownershipContract.methods._transferRoyalties(
         users[0].address,
         users[1].address,
         web3.utils.toWei(value.toString(), 'ether')
-      ).send());
+      ).send(), "Cannot transfer bigger value than balance");
   })
 }
 
@@ -761,13 +748,13 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
   it("should revert() when revokedOwner is no longer an owner of identity signed", async () => {
     let args = await prepareRevokeOwnerSigned(Setup.ethDIDReg, Setup.revokedOwner1, Setup.revokedOwner1);
     await Setup.ethDIDReg.revokeOwnerSigned(args.identity, args.nonce, args.sigV, args.sigR, args.sigS, args.oldOwner);
-    await reverting(Setup.ownershipContract.methods.getIdentity(Setup.revokedOwner1.address).send());
+    await expectRevert(Setup.ownershipContract.methods.getIdentity(Setup.revokedOwner1.address).send(), "0x0 Identity is not allowed to perform any action");
 
     let users = [Setup.originalOwner, Setup.revokedOwner1];
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     args =
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -775,7 +762,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "0x0 Identity is not allowed to perform any action");
   });
 
   it("should revert() when templateHash is different by single byte", async () => {
@@ -786,7 +773,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
 
     let corruptedTemplateHash = corrupt(args.templateHash);
 
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       corruptedTemplateHash,
       args.templateVersion,
       args.sigSenders,
@@ -794,7 +781,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   })
 
   it("should revert() when sigSenders is different by single byte", async () => {
@@ -805,7 +792,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
 
     let corruptSigSenders = corrupt(args.sigSenders);
 
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       corruptSigSenders,
@@ -813,7 +800,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   })
 
   it("should revert() when sigReceivers is different by single byte", async () => {
@@ -824,7 +811,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
 
     let corruptSigReceivers = corrupt(args.sigReceivers);
 
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -832,7 +819,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by receiver");
   });
 
   it("should revert() when senderSigners addresses are different by single byte", async () => {
@@ -843,7 +830,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
 
     let corruptSenderSigners = corruptAddress(args.senderSigners);
 
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -851,7 +838,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       corruptSenderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when receiverSigners addresses are different by single byte", async () => {
@@ -861,7 +848,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
     let corruptReceiverSigners = corruptAddress(args.receiverSigners);
 
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -869,7 +856,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       corruptReceiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when values are different by single byte", async () => {
@@ -880,7 +867,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
 
     let corruptValues = corrupt(args.values);
 
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -888,7 +875,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       corruptValues
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when different sender identity signed", async () => {
@@ -897,7 +884,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
     let args =
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
 
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -905,7 +892,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when different receiver identity signed", async () => {
@@ -914,7 +901,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
     let args =
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
 
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -922,7 +909,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by receiver");
   });
 
   it("should revert() when sigSenders is missing", async () => {
@@ -931,7 +918,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
     let args =
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
     let zeroSigSenders = '0x00000000000000000000000000000000000000000000000000000000000000000';
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       zeroSigSenders,
@@ -939,7 +926,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Each value trasnfer should have a signature");
   });
 
   it("should revert() when sigReceivers is missing", async () => {
@@ -948,7 +935,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
     let args =
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
     let zerosigReceivers = '0x00000000000000000000000000000000000000000000000000000000000000000';
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -956,7 +943,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Each value trasnfer should have a signature");
   });
 
   it("should revert() when senderSigners is 0x0", async () => {
@@ -964,7 +951,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -972,7 +959,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       [ZERO_ADDRESS],
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Zero address cannot send TX");
   });
 
   it("should revert() when receiverSigners is 0x0", async () => {
@@ -980,7 +967,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -988,7 +975,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       [ZERO_ADDRESS],
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Zero address cannot receive rights");
   });
 
   it("should revert() when missing a value", async () => {
@@ -996,7 +983,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1004,7 +991,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       [0]
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Value must be greater than zero");
   });
 
   it("should revert() when balance of sender is not sufficient for transfer", async () => {
@@ -1012,7 +999,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [10], users, "OwnershipTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1020,7 +1007,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "division by zero");
   });
 
   it("should revert() when balance of sender goes under 0.1% after transfer", async ()
@@ -1029,7 +1016,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [99.91], users, "OwnershipTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1037,14 +1024,14 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Sender balance cannot be smaller than 0.1% after transfer");
     });
   it("should revert() when transfer value is below 0.1%", async () => {
     let users = [Setup.originalOwner, Setup.owner1];
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [0.09], users, "OwnershipTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newOwnershipTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1052,7 +1039,7 @@ function shouldBehaveLikenewOwnershipTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Require percentage transfer at least of 0.1%");
   });
 }
 
@@ -1083,13 +1070,13 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
   it("should revert() when revokedOwner is no longer an owner of identity signed", async () => {
     let args = await prepareRevokeOwnerSigned(Setup.ethDIDReg, Setup.revokedOwner2, Setup.revokedOwner2);
     await Setup.ethDIDReg.revokeOwnerSigned(args.identity, args.nonce, args.sigV, args.sigR, args.sigS, args.oldOwner);
-    await reverting(Setup.ownershipContract.methods.getIdentity(Setup.revokedOwner2.address).send());
+    await expectRevert.unspecified(Setup.ownershipContract.methods.getIdentity(Setup.revokedOwner2.address).send());
 
     let users = [Setup.originalOwner, Setup.revokedOwner2]
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     args = await prepareTransferData([0], [1], [15], users, "RoyaltiesTransfer", Setup.ownershipContract);
 
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1097,7 +1084,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 400000}));
+    ).send({gas: 400000}), "0x0 Identity is not allowed to perform any action");
   });
 
   it("should revert() when templateHash is different by single byte", async () => {
@@ -1108,7 +1095,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
 
     let corruptedTemplateHash = corrupt(args.templateHash);
 
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       corruptedTemplateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1116,7 +1103,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when sigSenders is different by single byte", async () => {
@@ -1127,7 +1114,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
 
     let corruptSigSenders = corrupt(args.sigSenders);
 
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       corruptSigSenders,
@@ -1135,7 +1122,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when sigReceivers is different by single byte", async () => {
@@ -1146,7 +1133,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
 
     let corruptSigReceivers = corrupt(args.sigReceivers);
 
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1154,7 +1141,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by receiver");
   });
 
   it("should revert() when senderSigners addresses are different by single byte", async () => {
@@ -1165,7 +1152,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
 
     let corruptSenderSigners = corruptAddress(args.senderSigners);
 
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1173,7 +1160,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       corruptSenderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when receiverSigners addresses are different by single byte", async () => {
@@ -1183,7 +1170,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       await prepareTransferData([0], [1], [10], users, "RoyaltiesTransfer", Setup.ownershipContract);
     let corruptReceiverSigners = corruptAddress(args.receiverSigners);
 
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1191,7 +1178,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       corruptReceiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when values are different by single byte", async () => {
@@ -1202,7 +1189,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
 
     let corruptValues = corrupt(args.values);
 
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1210,7 +1197,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       corruptValues
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when different sender identity signed", async () => {
@@ -1219,7 +1206,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let args =
       await prepareTransferData([0], [1], [10], users, "RoyaltiesTransfer", Setup.ownershipContract);
 
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1227,7 +1214,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by sender");
   });
 
   it("should revert() when different receiver identity signed", async () => {
@@ -1236,7 +1223,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let args =
       await prepareTransferData([0], [1], [10], users, "RoyaltiesTransfer", Setup.ownershipContract);
 
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1244,7 +1231,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Message has not been signed properly by receiver");
   });
 
   it("should revert() when sigSenders is missing", async () => {
@@ -1253,7 +1240,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let args =
       await prepareTransferData([0], [1], [10], users, "RoyaltiesTransfer", Setup.ownershipContract);
     let zeroSigSenders = '0x00000000000000000000000000000000000000000000000000000000000000000';
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       zeroSigSenders,
@@ -1261,7 +1248,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Each value trasnfer should have a signature");
   });
 
   it("should revert() when sigReceivers is missing", async () => {
@@ -1270,7 +1257,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let args =
       await prepareTransferData([0], [1], [10], users, "RoyaltiesTransfer", Setup.ownershipContract);
     let zerosigReceivers = '0x00000000000000000000000000000000000000000000000000000000000000000';
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1278,7 +1265,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Each value trasnfer should have a signature");
   });
 
   it("should revert() when senderSigners is 0x0", async () => {
@@ -1286,7 +1273,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [10], users, "RoyaltiesTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1294,7 +1281,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       [ZERO_ADDRESS],
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Zero address cannot send TX");
   });
 
   it("should revert() when receiverSigners is 0x0", async () => {
@@ -1302,7 +1289,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [10], users, "RoyaltiesTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1310,7 +1297,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       [ZERO_ADDRESS],
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Zero address cannot receive rights");
   });
 
   it("should revert() when missing a value", async () => {
@@ -1318,7 +1305,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [10], users, "RoyaltiesTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1326,7 +1313,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       [0]
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Value must be greater than zero");
   });
 
   it("should revert() when balance of sender is not sufficient for transfer", async () => {
@@ -1334,7 +1321,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [10], users, "RoyaltiesTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1342,7 +1329,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Cannot transfer bigger value than balance");
   });
 
   it("should revert() when balance of sender goes under 0.1% after transfer", async () => {
@@ -1350,7 +1337,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [99.91], users, "RoyaltiesTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1358,7 +1345,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Sender balance cannot be smaller than 0.1% after transfer");
   });
 
   it("should revert() when transfer value is below 0.1%", async () => {
@@ -1366,7 +1353,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
     let originalBalances = await getOriginalBalances(users, Setup.ownershipContract);
     let args =
       await prepareTransferData([0], [1], [0.09], users, "RoyaltiesTransfer", Setup.ownershipContract);
-    await reverting(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
+    await expectRevert(Setup.ownershipContract.methods.newRoyaltiesTransferAgreement(
       args.templateHash,
       args.templateVersion,
       args.sigSenders,
@@ -1374,7 +1361,7 @@ function shouldBehaveLikenewRoyaltiesTransferAgreementUsingInvalidData(Setup) {
       args.senderSigners,
       args.receiverSigners,
       args.values
-    ).send({gas: 1500000}));
+    ).send({gas: 1500000}), "Require percentage transfer at least of 0.1%");
   });
 }
 

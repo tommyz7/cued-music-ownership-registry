@@ -56,13 +56,13 @@ module.exports = {
     //  port: 8545,            // Standard Ethereum port (default: none)
     //  network_id: "*",       // Any network (default: none)
     // },
-    local: {
+    development: {
       host: "localhost",
       port: 8545,
       network_id: "*",
       gas: 6721975
     },
-    development: {
+    local: {
       host: "ganache-cli",
       port: 8545,
       network_id: 2833,
@@ -124,7 +124,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.4.26",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.5.10",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {

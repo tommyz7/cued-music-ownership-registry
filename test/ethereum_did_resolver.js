@@ -1,4 +1,4 @@
-import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
+const { expectRevert } = require('openzeppelin-test-helpers');
 var EthereumDIDRegistry = artifacts.require("./EthereumDIDRegistry.sol");
 var EthereumDIDResolver = artifacts.require("./mock/EthereumDIDResolverPublic.sol");
 var EthereumDIDResolverProd = artifacts.require("./EthereumDIDResolver.sol");
@@ -91,7 +91,7 @@ contract("EthereumDIDResolver", (accounts) => {
       it("should return zero address for old owner", async () => {
         const result = await ethDIDResolver.isIdentityOwner(identity2, identity2);
         assert.equal(result, false);
-        await reverting(ethDIDResolver.getIdentity(identity2));
+        await expectRevert(ethDIDResolver.getIdentity(identity2), "0x0 Identity is not allowed to perform any action");
       });
     })
   })

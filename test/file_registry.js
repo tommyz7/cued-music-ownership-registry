@@ -1,4 +1,4 @@
-import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
+const { expectRevert } = require('openzeppelin-test-helpers');
 import { getEvent, printGas, ZERO_ADDRESS } from './utils.js';
 import { getWorkHash } from './music_registry.behaviour.js';
 var FileRegistry = artifacts.require("./mock/FileRegistryPublic.sol");
@@ -103,7 +103,7 @@ contract("FileRegistry", (accounts) => {
     });
 
     it("should revert() when run init() again", async () => {
-      await reverting(
+      await expectRevert.unspecified(
         fileReg.methods.init(musicRegistry.address).send({from: admin, gas: 400000}))
     });
   })
@@ -116,40 +116,40 @@ contract("FileRegistry", (accounts) => {
         let txReceipt = await fileReg.methods.addFileType(newFt).send({gas: 500000});
         printGas(txReceipt, "Add one file type", 9);
         let NewFileType = getEvent(txReceipt, "NewFileType");
-        new BN(NewFileType.index).toNumber().should.eq(orgft.length);
-        NewFileType.fileType.should.eq(newFt);
+        assert.equal(new BN(NewFileType.index).toNumber(), orgft.length, "New file index incorrect")
+        assert.equal(NewFileType.fileType, newFt, "New file type incorrect")
       })
     })
 
     describe("_addFile()", () => {
       it("should revert() if ID is 0x0", async () => {
-        await reverting(fileReg.methods.addFilePublic(
+        await expectRevert(fileReg.methods.addFilePublic(
           FILES[0].id,
           FILES[1].ipfsHash,
           FILES[1].name,
           FILES[1].url,
           FILES[1].fileType
-        ).send({gas: 500000}))
+        ).send({gas: 500000}), 'Must have projectId')
       })
 
       it("should revert() if ipfsHash is empty", async () => {
-        await reverting(fileReg.methods.addFilePublic(
+        await expectRevert(fileReg.methods.addFilePublic(
           FILES[1].id,
           FILES[0].ipfsHash,
           FILES[1].name,
           FILES[1].url,
           FILES[1].fileType
-        ).send({gas: 500000}));
+        ).send({gas: 500000}), 'Must have non-zero IPFS hash');
       })
 
       it("should revert() if fileType is incorrect", async () => {
-        await reverting(fileReg.methods.addFilePublic(
+        await expectRevert(fileReg.methods.addFilePublic(
           FILES[1].id,
           FILES[1].ipfsHash,
           FILES[1].name,
           FILES[1].url,
           FILES[0].fileType
-        ).send({gas: 500000}));
+        ).send({gas: 500000}), "FileType must be correct value");
       });
 
       it("should add file to registry", async () => {
@@ -163,12 +163,11 @@ contract("FileRegistry", (accounts) => {
 
         printGas(txReceipt, "Add one file", 9);
         let NewFile = getEvent(txReceipt, "NewFile");
-        NewFile.projectId.should.eq(FILES[1].id);
-        NewFile.ipfsHash.should.eq(FILES[1].ipfsHash);
-        NewFile.name.should.eq(FILES[1].name);
-        NewFile.url.should.eq(FILES[1].url);
-        new BN(NewFile.fileType).toNumber().should.eq(FILES[1].fileType);
-
+        assert.equal(NewFile.projectId, FILES[1].id, "project ID incorrect")
+        assert.equal(NewFile.ipfsHash, FILES[1].ipfsHash, "ipfsHash incorrect")
+        assert.equal(NewFile.name, FILES[1].name, "name incorrect")
+        assert.equal(NewFile.url, FILES[1].url, "url incorrect")
+        assert.equal(NewFile.fileType, FILES[1].fileType, "fileType incorrect")
         txReceipt = await fileReg.methods.addFilePublic(
           FILES[2].id,
           FILES[2].ipfsHash,
@@ -178,11 +177,11 @@ contract("FileRegistry", (accounts) => {
         ).send({gas: 500000});
 
         NewFile = getEvent(txReceipt, "NewFile");
-        NewFile.projectId.should.eq(FILES[2].id);
-        NewFile.ipfsHash.should.eq(FILES[2].ipfsHash);
-        NewFile.name.should.eq(FILES[2].name);
-        NewFile.url.should.eq(FILES[2].url);
-        new BN(NewFile.fileType).toNumber().should.eq(FILES[2].fileType);
+        assert.equal(NewFile.projectId, FILES[2].id, "project ID incorrect")
+        assert.equal(NewFile.ipfsHash, FILES[2].ipfsHash, "ipfsHash incorrect")
+        assert.equal(NewFile.name, FILES[2].name, "name incorrect")
+        assert.equal(NewFile.url, FILES[2].url, "url incorrect")
+        assert.equal(NewFile.fileType, FILES[2].fileType, "fileType incorrect")
       });
 
       it("should confirm that file is in registry", async () => {
@@ -233,11 +232,11 @@ contract("FileRegistry", (accounts) => {
 
       printGas(txReceipt, "Update one file", 9);
       let UpdateFile = getEvent(txReceipt, "UpdateFile");
-      UpdateFile.projectId.should.eq(FILES[1].id);
-      UpdateFile.ipfsHash.should.eq(FILES[1].ipfsHash);
-      UpdateFile.name.should.eq(FILES[2].name);
-      UpdateFile.url.should.eq(FILES[2].url);
-      new BN(UpdateFile.fileType).toNumber().should.eq(FILES[2].fileType);
+      assert.equal(UpdateFile.projectId, FILES[1].id, "project ID incorrect")
+      assert.equal(UpdateFile.ipfsHash, FILES[1].ipfsHash, "ipfsHash incorrect")
+      assert.equal(UpdateFile.name, FILES[2].name, "name incorrect")
+      assert.equal(UpdateFile.url, FILES[2].url, "url incorrect")
+      assert.equal(UpdateFile.fileType, FILES[2].fileType, "fileType incorrect")
 
       let files = await fileReg.methods.getFiles(FILES[1].id, FILES[2].fileType).call();
       assert.equal(FILES[2].fileType, files[0].fileType);
@@ -255,17 +254,17 @@ contract("FileRegistry", (accounts) => {
       printGas(txReceipt, "Delete one file", 9);
 
       let files = await fileReg.methods.getFiles(FILES[1].id, FILES[1].fileType).call();
-      files.should.eql([]);
+      assert.deepEqual(files, [], "files should be empty");
 
       let type = await fileReg.methods.getFileType(FILES[1].id, FILES[1].ipfsHash).call();
-      type.should.eq('0');
+      assert.equal(type, 0, "type should be empty");
 
       let isfile = await fileReg.methods.isProjectFile(FILES[1].id, FILES[1].ipfsHash).call();
       assert.equal(isfile, false);
     });
 
     it("should revert() while trying to remove non-existing file", async () => {
-      await reverting(fileReg.methods.removeFilePublic(FILES[1].id, FILES[1].ipfsHash).send());
+      await expectRevert.unspecified(fileReg.methods.removeFilePublic(FILES[1].id, FILES[1].ipfsHash).send());
     });
 
     it("should confirm that file is NOT in registry", async () => {
@@ -309,8 +308,8 @@ contract("FileRegistry", (accounts) => {
       it("should NOT validate signature for incorrect data", async () => {
         let hash = getHash(fileReg.options.address, "addFile", FILES[1], 10)
         let signature = Account.sign(hash, firstOwner.privateKey);
-        await reverting(fileReg.methods.validateSignature(hash, signature, random.address)
-          .send({from: admin, gas: 400000}))
+        await expectRevert(fileReg.methods.validateSignature(hash, signature, random.address)
+          .send({from: admin, gas: 400000}), "Message has not been signed properly by signer")
       })
     })
   })
@@ -375,11 +374,11 @@ contract("FileRegistry", (accounts) => {
       assert.equal(file.ipfsHash, FILES[3].ipfsHash)
 
       let NewFile = getEvent(txReceipt, "NewFile");
-      NewFile.projectId.should.eq(WorkRegistered.workId);
-      NewFile.ipfsHash.should.eq(FILES[3].ipfsHash);
-      NewFile.name.should.eq(FILES[3].name);
-      NewFile.url.should.eq(FILES[3].url);
-      new BN(NewFile.fileType).toNumber().should.eq(FILES[3].fileType);
+      assert.equal(NewFile.projectId, WorkRegistered.workId, "project ID incorrect")
+      assert.equal(NewFile.ipfsHash, FILES[3].ipfsHash, "ipfsHash incorrect")
+      assert.equal(NewFile.name, FILES[3].name, "name incorrect")
+      assert.equal(NewFile.url, FILES[3].url, "url incorrect")
+      assert.equal(NewFile.fileType, FILES[3].fileType, "fileType incorrect")
     })
 
     it("should updateFile()", async () => {
@@ -402,18 +401,18 @@ contract("FileRegistry", (accounts) => {
       assert.equal(file.ipfsHash, updateFileData.ipfsHash)
 
       let UpdateFile = getEvent(txReceipt, "UpdateFile");
-      UpdateFile.projectId.should.eq(updateFileData.id);
-      UpdateFile.ipfsHash.should.eq(updateFileData.ipfsHash);
-      UpdateFile.name.should.eq(updateFileData.name);
-      UpdateFile.url.should.eq(updateFileData.url);
-      new BN(UpdateFile.fileType).toNumber().should.eq(updateFileData.fileType);
+      assert.equal(UpdateFile.projectId, updateFileData.id, "project ID incorrect")
+      assert.equal(UpdateFile.ipfsHash, updateFileData.ipfsHash, "ipfsHash incorrect")
+      assert.equal(UpdateFile.name, updateFileData.name, "name incorrect")
+      assert.equal(UpdateFile.url, updateFileData.url, "url incorrect")
+      assert.equal(UpdateFile.fileType, updateFileData.fileType, "fileType incorrect")
     })
 
     it("should NOT updateFile() if not owner", async () => {
       let nonce = await fileReg.methods.nonce(random.address).call()
       let hash = getHash(fileReg.options.address, "updateFile", updateFileData, nonce)
       let signature = Account.sign(hash, random.privateKey)
-      await reverting(fileReg.methods.updateFile(
+      await expectRevert.unspecified(fileReg.methods.updateFile(
         updateFileData.id,
         updateFileData.ipfsHash,
         updateFileData.name,
@@ -437,7 +436,7 @@ contract("FileRegistry", (accounts) => {
       );
       let signature = Account.sign(hash, random.privateKey)
 
-      await reverting(fileReg.methods.removeFile(
+      await expectRevert.unspecified(fileReg.methods.removeFile(
         updateFileData.id,
         updateFileData.ipfsHash,
         signature,
@@ -475,8 +474,8 @@ contract("FileRegistry", (accounts) => {
       assert.equal(file.ipfsHash, '', "ipfsHash should be empty")
 
       let DeleteFile = getEvent(txReceipt, "DeleteFile");
-      DeleteFile.projectId.should.eq(updateFileData.id);
-      DeleteFile.ipfsHash.should.eq(updateFileData.ipfsHash);
+      assert.equal(DeleteFile.projectId, updateFileData.id, "id incorrect")
+      assert.equal(DeleteFile.ipfsHash, updateFileData.ipfsHash, "ipfsHash incorrect")
     })
   })
 })

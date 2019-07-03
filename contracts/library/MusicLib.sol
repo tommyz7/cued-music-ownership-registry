@@ -1,5 +1,4 @@
-pragma solidity ^0.4.24;
-pragma experimental "v0.5.0";
+pragma solidity >=0.5.0 <0.6.0;
 pragma experimental "ABIEncoderV2";
 
 library MusicLib {
@@ -20,7 +19,7 @@ library MusicLib {
     /**
      * For new work
      */
-    function getWorkHash(Work memory metadata, string func, bytes data, uint256 nonce)
+    function getWorkHash(Work memory metadata, string memory func, bytes memory data, uint256 nonce)
         public
         view
         returns (bytes32)
@@ -47,7 +46,7 @@ library MusicLib {
     /**
      * For current work
      */
-    function getWorkHash(Work memory metadata, string func, bytes32 workId, uint256 nonce)
+    function getWorkHash(Work memory metadata, string memory func, bytes32 workId, uint256 nonce)
         public
         view
         returns (bytes32)
@@ -74,7 +73,7 @@ library MusicLib {
     /**
      * For deleted work
      */
-    function getWorkHash(string func, bytes32 workId, uint256 nonce)
+    function getWorkHash(string memory func, bytes32 workId, uint256 nonce)
         public
         view
         returns (bytes32)
@@ -103,7 +102,7 @@ library MusicLib {
     /**
      * For new recording
      */
-    function getRecordingHash(Recording memory metadata, string func, bytes data, uint256 nonce)
+    function getRecordingHash(Recording memory metadata, string memory func, bytes memory data, uint256 nonce)
         public
         view
         returns (bytes32)
@@ -134,7 +133,7 @@ library MusicLib {
     /**
      * For current recording
      */
-    function getRecordingHash(Recording memory metadata, string func, bytes32 recordingId, uint256 nonce)
+    function getRecordingHash(Recording memory metadata, string memory func, bytes32 recordingId, uint256 nonce)
         public
         view
         returns (bytes32)
@@ -165,7 +164,7 @@ library MusicLib {
     /**
      * For deleted recording
      */
-    function getRecordingHash(string func, bytes32 recordingId, uint256 nonce)
+    function getRecordingHash(string memory func, bytes32 recordingId, uint256 nonce)
         public
         view
         returns (bytes32)

@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.5.0 <0.6.0;
 
 
 import "zos-lib/contracts/Initializable.sol";
@@ -27,7 +27,7 @@ contract ProxyFactory is Initializable, RBAC {
         implementation = _implementation;
     }
 
-    function deploy(address _admin, bytes _data) public onlyRole(REGISTRY) returns (address) {
+    function deploy(address _admin, bytes memory _data) public onlyRole(REGISTRY) returns (address) {
         AdminUpgradeabilityProxy proxy =
             new AdminUpgradeabilityProxy(implementation, _admin, _data);
         emit ProxyDeploy(address(proxy), _admin, msg.sender);
