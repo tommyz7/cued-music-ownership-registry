@@ -1,4 +1,4 @@
-import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
+const { expectRevert } = require('openzeppelin-test-helpers');
 import { IpfsHash, ZERO_ADDRESS, stripHexPrefix, getEvent, printGas } from './utils.js';
 import { shouldBehaveLikeInit, shouldBehaveLikeOwnershipRoyaltiesAgreements } from './ownership_royalties_agreements.behaviour.js';
 
@@ -18,19 +18,19 @@ function shouldBehaveLikeProxyFactory (Setup) {
       assert.equal(roleRegistry, true);
 
       let RoleAdded0 = getEvent(Setup.initialTX, 'RoleAdded', 0);
-      RoleAdded0.operator.should.eq(Setup.originalOwner);
-      RoleAdded0.role.should.eq("owner");
+      assert.equal(RoleAdded0.operator, Setup.originalOwner, "operator incorrect");
+      assert.equal(RoleAdded0.role, "owner", "role incorrect");
 
       let RoleAdded1 = getEvent(Setup.initialTX, 'RoleAdded', 1);
-      RoleAdded1.operator.should.eq(Setup.registry);
-      RoleAdded1.role.should.eq("registry");
+      assert.equal(RoleAdded1.operator, Setup.registry, "operator incorrent");
+      assert.equal(RoleAdded1.role, "registry", "role incorrent");
 
       let impl = await Setup.proxyFactory.methods.implementation().call();
       assert.equal(impl, Setup.wrongImplementation.options.address);
     });
 
     it("should revert() when run init() again", async () => {
-      await reverting(Setup.proxyFactory.methods.init(
+      await expectRevert.unspecified(Setup.proxyFactory.methods.init(
         Setup.originalOwner,
         Setup.registry,
         Setup.wrongImplementation.options.address
@@ -55,7 +55,7 @@ function shouldBehaveLikeProxyFactory (Setup) {
     });
 
     it("should revert() if not called by owner", async () => {
-      await reverting(Setup.proxyFactory.methods.setImplementation(
+      await expectRevert.unspecified(Setup.proxyFactory.methods.setImplementation(
         Setup.implementation.options.address
       ).send({from: Setup.admin}));
     });
@@ -98,7 +98,7 @@ function shouldBehaveLikeProxyFactory (Setup) {
     });
 
     it("should revert() deploy if not called by registry", async () => {
-      await reverting(Setup.proxyFactory.methods.deploy(Setup.proxyAdmin, '0x')
+      await expectRevert.unspecified(Setup.proxyFactory.methods.deploy(Setup.proxyAdmin, '0x')
         .send({from: Setup.fakeOwner, gas: 500000}));
     });
   });
@@ -128,7 +128,7 @@ function shouldBehaveLikeProxyFactory (Setup) {
         {from: Setup.proxyAdmin}
       );
 
-      await reverting(upgradedOwnershipContract.methods.getHashOfNumber(10).call());
+      await expectRevert.unspecified(upgradedOwnershipContract.methods.getHashOfNumber(10).call());
 
       let tx = await Setup.newAdminUpgradeabilityProxy.methods.upgradeTo(
         upgradeImpl.address

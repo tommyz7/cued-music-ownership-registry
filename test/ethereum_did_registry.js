@@ -3,7 +3,7 @@ var sha3 = require("js-sha3").keccak_256;
 var EthereumDIDRegistry = artifacts.require("./EthereumDIDRegistry.sol");
 var BN = require("bn.js");
 import { IpfsHash, ZERO_ADDRESS, stripHexPrefix } from './utils.js';
-import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
+const { expectRevert } = require('openzeppelin-test-helpers');
 
 contract("EthereumDIDRegistry", function(accounts) {
   let didReg;
@@ -184,13 +184,13 @@ contract("EthereumDIDRegistry", function(accounts) {
 
       describe("as original owner", () => {
         it("should fail", async () => {
-          await reverting(didReg.addOwner(identity, identity, {from: identity}))
+          await expectRevert.unspecified(didReg.addOwner(identity, identity, {from: identity}))
         });
       });
 
       describe("as attacker", () => {
         it("should fail", async () => {
-          await reverting(didReg.addOwner(identity, badboy, {from: badboy}))
+          await expectRevert.unspecified(didReg.addOwner(identity, badboy, {from: badboy}))
         });
       });
     });
@@ -318,7 +318,7 @@ contract("EthereumDIDRegistry", function(accounts) {
 
       describe("as attacker", () => {
         it("should fail", async () => {
-          await reverting(didReg.addDelegate(
+          await expectRevert.unspecified(didReg.addDelegate(
             identity,
             web3.utils.asciiToHex("attestor"),
             badboy,
@@ -439,7 +439,7 @@ contract("EthereumDIDRegistry", function(accounts) {
       });
       describe("as attacker", () => {
         it("should fail", async () => {
-          await reverting(didReg.revokeDelegate(
+          await expectRevert.unspecified(didReg.revokeDelegate(
             identity,
             web3.utils.asciiToHex("attestor"),
             badboy,
@@ -541,7 +541,7 @@ contract("EthereumDIDRegistry", function(accounts) {
 
       describe("as attacker", () => {
         it("should fail", async () => {
-          await reverting(didReg.setAttribute(
+          await expectRevert.unspecified(didReg.setAttribute(
             identity,
             web3.utils.asciiToHex("encryptionKey"),
             web3.utils.asciiToHex("mykey"),
@@ -635,7 +635,7 @@ contract("EthereumDIDRegistry", function(accounts) {
 
       describe("as attacker", () => {
         it("should fail", async () => {
-          await reverting(didReg.revokeAttribute(
+          await expectRevert.unspecified(didReg.revokeAttribute(
             identity,
             web3.utils.asciiToHex("encryptionKey"),
             web3.utils.asciiToHex("mykey"),

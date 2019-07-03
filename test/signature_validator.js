@@ -1,8 +1,8 @@
 import { stripHexPrefix } from './utils.js';
-var SignatureValidator = artifacts.require("./mock/SignatureValidatorPublic.sol");
+var SignatureDecoder = artifacts.require("./mock/SignatureDecoderPublic.sol");
 var Account = require("eth-lib/lib/account");
 
-contract("SignatureValidator", (accounts) => {
+contract("SignatureDecoder", (accounts) => {
   let SigVal;
   let accountsPrivate = [];
   for (var i = 10 - 1; i >= 0; i--) {
@@ -10,7 +10,7 @@ contract("SignatureValidator", (accounts) => {
   }
 
   before(async () => {
-    SigVal = await SignatureValidator.new()
+    SigVal = await SignatureDecoder.new()
   })
 
   describe("recoverKey()", () => {

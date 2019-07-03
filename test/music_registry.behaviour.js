@@ -1,6 +1,6 @@
-import { reverting } from 'openzeppelin-solidity/test/helpers/shouldFail';
+const { expectRevert } = require('openzeppelin-test-helpers');
 import { shouldBehaveLikeOwnershipRoyaltiesAgreements } from './ownership_royalties_agreements.behaviour.js';
-import { IpfsHash,ZERO_ADDRESS, stripHexPrefix, getEvent, printGas } from './utils.js';
+import { IpfsHash, ZERO_ADDRESS, ZERO_BYTES32, stripHexPrefix, getEvent, printGas } from './utils.js';
 
 var BN = web3.utils.BN;
 var Account = require("eth-lib/lib/account");
@@ -161,11 +161,11 @@ function shouldBehaveLikeInit(Setup) {
       "EthereumDIDRegistry address has not been set correctly");
 
     let EthRegistrySet = getEvent(Setup.initialTX, 'EthRegistrySet');
-    EthRegistrySet.reg.should.eq(Setup.ethDIDReg.address);
+    assert.equal(EthRegistrySet.reg, Setup.ethDIDReg.address, "ethDIDReg.address incorrect");
   });
 
   it("should revert() when run init() again", async () => {
-    await reverting(Setup.musicRegistryConstant.contract.methods.init(
+    await expectRevert.unspecified(Setup.musicRegistryConstant.contract.methods.init(
       Setup.ethDIDReg.address,
       Setup.proxyFactory.address
     ).send({from: Setup.admin, gas: 500000}));
@@ -250,14 +250,14 @@ function shouldBehaveLikeValidateSignature(Setup) {
     let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
     let wrongData = await getWorkHash(Setup, Setup.musicRegistryPublicConstant, Setup.firstOwner.address, "WRONG___registerWork", 0, Setup.works[0]);
 
-    await reverting(Setup.musicRegistryPublicConstant.contract.methods.validateSignature(wrongData.hash, signature, Setup.firstOwner.address).call());
+    await expectRevert(Setup.musicRegistryPublicConstant.contract.methods.validateSignature(wrongData.hash, signature, Setup.firstOwner.address).call(), "Message has not been signed properly by signer");
   });
 
   it("should NOT validate signature with wrong signer", async () => {
     let obj = await getWorkHash(Setup, Setup.musicRegistryPublicConstant, Setup.firstOwner.address, "registerWork", 0, Setup.works[0]);
     let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
 
-    await reverting(Setup.musicRegistryPublicConstant.contract.methods.validateSignature(obj.hash, signature, Setup.random.address).call());
+    await expectRevert(Setup.musicRegistryPublicConstant.contract.methods.validateSignature(obj.hash, signature, Setup.random.address).call(), "Message has not been signed properly by signer");
   });
 
 }
@@ -277,65 +277,65 @@ function shouldBehaveLikeRegisterWork(Setup) {
     it("should revert() if metadata.title is missing", async () => {
       let metadata = Setup.works[9];
       metadata.title = '';
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerWork(
         metadata,
         signature,
         data,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "metadata.title is required")
     });
 
     // titleSoundRecording is no longer required
     // it("should revert() if metadata.titleSoundRecording is missing", async () => {
     //   let metadata = Setup.works[8];
     //   metadata.titleSoundRecording = '';
-    //   await reverting(Setup.musicRegistryConstant.contract.methods.registerWork(
+    //   await expectRevert(Setup.musicRegistryConstant.contract.methods.registerWork(
     //       metadata,
     //       signature,
     //       data,
     //       Setup.firstOwner.address
-    //   ).send({from: Setup.admin, gas: 1900000}))
+    //   ).send({from: Setup.admin, gas: 1900000}), "metadata.titleSoundRecording is required")
     // });
 
     it("should revert() if signature is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerWork(
           Setup.works[0],
-          "0x0",
+          "0x",
           data,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "signature is required")
     });
 
     it("should revert() if signer is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerWork(
           Setup.works[0],
           signature,
           data,
           ZERO_ADDRESS
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "signer is required")
     });
 
     it("should revert() if function name is corrupted", async () => {
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "WRONG___registerWork", 0, Setup.works[0]);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerWork(
           Setup.works[0],
           signature,
           data,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "Message has not been signed properly by signer")
     });
 
     it("should revert() if nonce is corrupted", async () => {
       let nonce = await getNonce(Setup.musicRegistryConstant, Setup.firstOwner.address);
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "registerWork", 0, Setup.works[0], data, nonce+1);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerWork(
           Setup.works[0],
           signature,
           data,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "Message has not been signed properly by signer")
     });
   })
 
@@ -547,12 +547,12 @@ function shouldBehaveLikeUpdateWork(Setup) {
       let metadata = Setup.works[7];
       obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateWork", WorkRegistered.workId, metadata, data);
       signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
-        '0x0',
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateWork(
+        ZERO_BYTES32,
         metadata,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin}))
+      ).send({from: Setup.admin}), "projectId is required")
     });
 
     it("should revert() if workId is incorrect", async () => {
@@ -560,12 +560,12 @@ function shouldBehaveLikeUpdateWork(Setup) {
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateWork", wrongWorkId, Setup.works[7]);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
 
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateWork(
         wrongWorkId,
         Setup.works[7],
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "ownershipContract cannot be zero")
     });
 
     it("should revert() if metadata.title is missing", async () => {
@@ -573,12 +573,12 @@ function shouldBehaveLikeUpdateWork(Setup) {
       metadata.title = '';
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateWork", WorkRegistered.workId, metadata);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateWork(
         WorkRegistered.workId,
         metadata,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "metadata.title is required")
     });
 
     // titleSoundRecording is no longer required
@@ -587,69 +587,69 @@ function shouldBehaveLikeUpdateWork(Setup) {
     //   metadata.titleSoundRecording = '';
     //   let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateWork", WorkRegistered.workId, metadata);
     //   let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-    //   await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
+    //   await expectRevert(Setup.musicRegistryConstant.contract.methods.updateWork(
     //       WorkRegistered.workId,
     //       metadata,
     //       signature,
     //       Setup.firstOwner.address
-    //   ).send({from: Setup.admin, gas: 500000}))
+    //   ).send({from: Setup.admin, gas: 500000}), "metadata.titleSoundRecording is required")
     // });
 
     it("should revert() if signature is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateWork(
           WorkRegistered.workId,
           Setup.works[0],
-          "0x0",
+          "0x",
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "signature is required")
     });
 
     it("should revert() if signer is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateWork(
           WorkRegistered.workId,
           Setup.works[0],
           signature,
           ZERO_ADDRESS
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "sender is required")
     });
 
     it("should revert() if signer is not an owner", async () => {
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.random.address, "updateWork", WorkRegistered.workId, Setup.works[0]);
       let signature = Account.sign(obj.hash, Setup.random.privateKey);
 
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateWork(
           WorkRegistered.workId,
           Setup.works[0],
           signature,
           Setup.random.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "sender must have ownership")
     });
 
     it("should revert() if non owner in isOwner()", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.isOwner(WorkRegistered.workId, Setup.random.address).call())
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.isOwner(WorkRegistered.workId, Setup.random.address).call(), "sender must have ownership")
     });
 
     it("should revert() if function name is corrupted", async () => {
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "WRONG___registerWork", WorkRegistered.workId, Setup.works[1]);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateWork(
           WorkRegistered.workId,
           Setup.works[1],
           signature,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "Message has not been signed properly by signer")
     });
 
     it("should revert() if nonce is corrupted", async () => {
       let nonce = await getNonce(Setup.musicRegistryConstant, Setup.firstOwner.address);
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateWork", WorkRegistered.workId, Setup.works[1], null, nonce+1);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateWork(
           WorkRegistered.workId,
           Setup.works[1],
           signature,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "Message has not been signed properly by signer")
     });
   })
 
@@ -742,11 +742,11 @@ function shouldBehaveLikeRemoveWork(Setup) {
     })
 
     it("should revert() if workId is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeWork(
-        '0x0',
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeWork(
+        ZERO_BYTES32,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "projectId is required")
     });
 
     it("should revert() if workId is incorrect", async () => {
@@ -754,59 +754,59 @@ function shouldBehaveLikeRemoveWork(Setup) {
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "removeWork", wrongWorkId, '');
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
 
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeWork(
         wrongWorkId,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "ownershipContract cannot be zero")
     });
 
     it("should revert() if signature is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeWork(
         WorkRegistered.workId,
-        '0x0',
+        '0x',
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "signature is required")
     });
 
     it("should revert() if signer is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeWork(
         WorkRegistered.workId,
         signature,
         ZERO_ADDRESS
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "sender is required")
     });
 
     it("should revert() if signer is not an owner", async () => {
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.random.address, "removeWork", WorkRegistered.workId, '');
       let signature = Account.sign(obj.hash, Setup.random.privateKey);
 
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeWork(
         WorkRegistered.workId,
         signature,
         Setup.random.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "sender must have ownership")
     });
 
     it("should revert() if function name is corrupted", async () => {
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "WRONG___removeWork", WorkRegistered.workId, '');
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeWork(
         WorkRegistered.workId,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "Message has not been signed properly by signer")
     });
 
     it("should revert() if nonce is corrupted", async () => {
       let nonce = await getNonce(Setup.musicRegistryConstant, Setup.firstOwner.address);
       let obj = await getWorkHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "removeWork", WorkRegistered.workId, '', null, nonce+1);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeWork(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeWork(
         WorkRegistered.workId,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "Message has not been signed properly by signer")
     });
   })
 
@@ -875,53 +875,53 @@ function shouldBehaveLikeRegisterRecording(Setup) {
       obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "registerRecording", 0, metadata, data);
       signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
 
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerRecording(
         metadata,
         signature,
         data,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "metadata.title is required")
     });
 
     it("should revert() if signature is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerRecording(
           Setup.recordings[0],
-          "0x0",
+          "0x",
           data,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "signature is required")
     });
 
     it("should revert() if signer is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerRecording(
           Setup.recordings[0],
           signature,
           data,
           ZERO_ADDRESS
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "signer is required")
     });
 
     it("should revert() if function name is corrupted", async () => {
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "WRONG___registerRecording", 0, Setup.recordings[0]);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerRecording(
           Setup.recordings[0],
           signature,
           data,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "Message has not been signed properly by signer")
     });
 
     it("should revert() if nonce is corrupted", async () => {
       let nonce = await getNonce(Setup.musicRegistryConstant, Setup.firstOwner.address);
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "registerRecording", 0, Setup.recordings[0], data, nonce+1);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.registerRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.registerRecording(
           Setup.recordings[0],
           signature,
           data,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 1900000}))
+      ).send({from: Setup.admin, gas: 1900000}), "Message has not been signed properly by signer")
     });
   })
 
@@ -1141,12 +1141,12 @@ function shouldBehaveLikeUpdateRecording(Setup) {
 
     it("should revert() if recordingId is missing", async () => {
       let metadata = Setup.recordings[0];
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateRecording(
         '0x0',
         metadata,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "projectId is required")
     });
 
     it("should revert() if recordingId is incorrect", async () => {
@@ -1154,12 +1154,12 @@ function shouldBehaveLikeUpdateRecording(Setup) {
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateRecording", wrongRecordingId, Setup.recordings[7]);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
 
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateRecording(
         wrongRecordingId,
         Setup.recordings[7],
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "ownershipContract cannot be zero")
     });
 
     it("should revert() if metadata.title is missing", async () => {
@@ -1167,65 +1167,65 @@ function shouldBehaveLikeUpdateRecording(Setup) {
       metadata.title = '';
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateRecording", RecordingRegistered.recordingId, metadata);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateRecording(
         RecordingRegistered.recordingId,
         metadata,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "metadata.title is required")
     });
 
     it("should revert() if signature is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateRecording(
           RecordingRegistered.recordingId,
           Setup.recordings[0],
-          "0x0",
+          "0x",
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "signature is required")
     });
 
     it("should revert() if signer is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateRecording(
           RecordingRegistered.recordingId,
           Setup.recordings[0],
           signature,
           ZERO_ADDRESS
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "sender is required")
     });
 
     it("should revert() if signer is not an owner", async () => {
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.random.address, "updateRecording", RecordingRegistered.recordingId, Setup.recordings[0]);
       let signature = Account.sign(obj.hash, Setup.random.privateKey);
 
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateRecording(
           RecordingRegistered.recordingId,
           Setup.recordings[0],
           signature,
           Setup.random.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "sender must have ownership")
     });
 
     it("should revert() if function name is corrupted", async () => {
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "WRONG___updateRecording", RecordingRegistered.recordingId, Setup.recordings[1]);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateRecording(
           RecordingRegistered.recordingId,
           Setup.recordings[1],
           signature,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "Message has not been signed properly by signer")
     });
 
     it("should revert() if nonce is corrupted", async () => {
       let nonce = await getNonce(Setup.musicRegistryConstant, Setup.firstOwner.address);
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "updateRecording", RecordingRegistered.recordingId, Setup.recordings[1], null, nonce+1);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.updateRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.updateRecording(
           RecordingRegistered.recordingId,
           Setup.recordings[1],
           signature,
           Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "Message has not been signed properly by signer")
     });
   })
 
@@ -1320,11 +1320,11 @@ function shouldBehaveLikeRemoveRecording(Setup) {
     })
 
     it("should revert() if recordingId is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeRecording(
         '0x0',
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "projectId is required")
     });
 
     it("should revert() if recordingId is incorrect", async () => {
@@ -1332,59 +1332,59 @@ function shouldBehaveLikeRemoveRecording(Setup) {
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "removeRecording", wrongRecordingId, '');
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
 
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeRecording(
         wrongRecordingId,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "ownershipContract cannot be zero")
     });
 
     it("should revert() if signature is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeRecording(
         RecordingRegistered.recordingId,
-        '0x0',
+        '0x',
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "signature is required")
     });
 
     it("should revert() if signer is missing", async () => {
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeRecording(
         RecordingRegistered.recordingId,
         signature,
         ZERO_ADDRESS
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "sender is required")
     });
 
     it("should revert() if signer is not an owner", async () => {
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.random.address, "removeRecording", RecordingRegistered.recordingId, '');
       let signature = Account.sign(obj.hash, Setup.random.privateKey);
 
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeRecording(
         RecordingRegistered.recordingId,
         signature,
         Setup.random.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "sender must have ownership")
     });
 
     it("should revert() if function name is corrupted", async () => {
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "WRONG___removeRecording", RecordingRegistered.recordingId, '');
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeRecording(
         RecordingRegistered.recordingId,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "Message has not been signed properly by signer")
     });
 
     it("should revert() if nonce is corrupted", async () => {
       let nonce = await getNonce(Setup.musicRegistryConstant, Setup.firstOwner.address);
       let obj = await getRecordingHash(Setup, Setup.musicRegistryConstant, Setup.firstOwner.address, "removeRecording", RecordingRegistered.recordingId, '', null, nonce+1);
       let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
-      await reverting(Setup.musicRegistryConstant.contract.methods.removeRecording(
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.removeRecording(
         RecordingRegistered.recordingId,
         signature,
         Setup.firstOwner.address
-      ).send({from: Setup.admin, gas: 500000}))
+      ).send({from: Setup.admin, gas: 500000}), "Message has not been signed properly by signer")
     });
   })
 

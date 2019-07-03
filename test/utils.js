@@ -2,7 +2,7 @@ const AssertionError = require('assertion-error');
 
 export const IpfsHash = '0x407d73d8a49eeb85d32cf465507dd71d507100c1000000000000000000000000'
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
-
+export const ZERO_BYTES32 = '0x0000000000000000000000000000000000000000000000000000000000000000'
 export function stripHexPrefix(str) {
   if (str.startsWith("0x")) {
     return str.slice(2);
