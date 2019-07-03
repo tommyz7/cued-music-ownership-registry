@@ -2,10 +2,10 @@ pragma solidity >=0.5.0 <0.6.0;
 pragma experimental "ABIEncoderV2";
 
 import "zos-lib/contracts/Initializable.sol";
-import "./SignatureValidator.sol";
+import "./SignatureDecoder.sol";
 import "./interface/MusicRegistryI.sol";
 
-contract FileRegistry is Initializable, SignatureValidator {
+contract FileRegistry is Initializable, SignatureDecoder {
 
     MusicRegistryI public musicRegistry;
     event MusicRegistrySet(address musicRegistry);

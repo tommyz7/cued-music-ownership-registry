@@ -5,11 +5,11 @@ pragma experimental "ABIEncoderV2";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "zos-lib/contracts/Initializable.sol";
 import "./EthereumDIDResolver.sol";
-import "./SignatureValidator.sol";
+import "./SignatureDecoder.sol";
 // import "./library/Transfers.sol";
 
 
-contract OwnershipRoyaltiesAgreements is Initializable, EthereumDIDResolver, SignatureValidator {
+contract OwnershipRoyaltiesAgreements is Initializable, EthereumDIDResolver, SignatureDecoder {
     using SafeMath for uint256;
     // use that lib after migration to slidity version 0.5.0
     // using Transfers for *;

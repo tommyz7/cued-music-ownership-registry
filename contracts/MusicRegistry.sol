@@ -7,7 +7,7 @@ import "./interface/OwnershipRoyaltiesAgreementsI.sol";
 import "./interface/ProxyFactoryI.sol";
 import "./UUIDCounter.sol";
 import "./EthereumDIDResolver.sol";
-import "./SignatureValidator.sol";
+import "./SignatureDecoder.sol";
 import "./library/MusicLib.sol";
 
 /**
@@ -19,7 +19,7 @@ import "./library/MusicLib.sol";
  * See https://omi01.docs.apiary.io/#reference/work-related-apis/works-collection/register-a-work
  *
  */
-contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, SignatureValidator {
+contract MusicRegistry is Initializable, EthereumDIDResolver, UUIDCounter, SignatureDecoder {
 
     using MusicLib for MusicLib.Work;
     using MusicLib for MusicLib.Recording;

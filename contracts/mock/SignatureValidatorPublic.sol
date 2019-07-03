@@ -1,8 +1,8 @@
 pragma solidity >=0.5.0 <0.6.0;
 
-import "../SignatureValidator.sol";
+import "../SignatureDecoder.sol";
 
-contract SignatureValidatorPublic is SignatureValidator{
+contract SignatureDecoderPublic is SignatureDecoder{
 
     function getHash(string memory str) public pure returns(bytes32) {
         return keccak256(abi.encodePacked(str));
