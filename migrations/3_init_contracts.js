@@ -4,12 +4,13 @@ var OwnershipRoyaltiesAgreements = artifacts.require("./OwnershipRoyaltiesAgreem
 var EthereumDIDRegistry = artifacts.require("./EthereumDIDRegistry.sol");
 
 module.exports = async function(deployer, network, accounts) {
-  let mr = await MusicRegistry.deployed();
-  let ora = await OwnershipRoyaltiesAgreements.deployed();
-  let pf = await ProxyFactory.deployed();
-  let er = await EthereumDIDRegistry.deployed();
+  // let musicRegistry = await MusicRegistry.deployed();
+  // let ownershipContract = await OwnershipRoyaltiesAgreements.deployed();
+  // let proxyFactory = await ProxyFactory.deployed();
+  // let didReg = await EthereumDIDRegistry.deployed();
 
-  let tx = await pf.contract.methods.init(accounts[0], mr.address, ora.address).send({from: accounts[0], gas: 2000000});
-  tx = await mr.contract.methods.init(er.address, pf.address).send({from: accounts[0], gas: 2000000});
-  tx = await ora.contract.methods.init(accounts[0], er.address).send({from: accounts[0], gas: 2000000})
+  // console.log('Setting _owner, _registry, _implementation for ProxyFactory');
+  // let tx = await proxyFactory.contract.methods.init(accounts[0], musicRegistry.address, ownershipContract.address).send({from: accounts[0], gas: 2000000});
+  // console.log('Setting ethDIDAddress, factory for MusicRegistry');
+  // tx = await musicRegistry.contract.methods.init(didReg.address, proxyFactory.address).send({from: accounts[0], gas: 2000000});
 };

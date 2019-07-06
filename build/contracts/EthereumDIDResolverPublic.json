@@ -1,0 +1,509 @@
+{
+  "contractName": "EthereumDIDResolverPublic",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "actor",
+          "type": "address"
+        }
+      ],
+      "name": "getIdentity",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "ethDIDReg",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "identity",
+          "type": "address"
+        },
+        {
+          "name": "actor",
+          "type": "address"
+        }
+      ],
+      "name": "isIdentityOwner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "reg",
+          "type": "address"
+        }
+      ],
+      "name": "EthRegistrySet",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_ethDID",
+          "type": "address"
+        }
+      ],
+      "name": "_setRegistry",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"name\":\"actor\",\"type\":\"address\"}],\"name\":\"getIdentity\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_ethDID\",\"type\":\"address\"}],\"name\":\"_setRegistry\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ethDIDReg\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"identity\",\"type\":\"address\"},{\"name\":\"actor\",\"type\":\"address\"}],\"name\":\"isIdentityOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"reg\",\"type\":\"address\"}],\"name\":\"EthRegistrySet\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/tom/www/music-smart-contracts/contracts/mock/EthereumDIDResolverPublic.sol\":\"EthereumDIDResolverPublic\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/tom/www/music-smart-contracts/contracts/EthereumDIDResolver.sol\":{\"keccak256\":\"0x8dbace90b3ba314da155015d3da53a491e4bcfb377e44c407b75bcfd67df5b38\",\"urls\":[\"bzzr://2be241c36996ae080c799eccf38d3a7a7aa28987ad9796f53d702720b1f17fa3\",\"dweb:/ipfs/QmUJy1i28fJRuHG7hKhbSvs1SPYYGv82G4kR7SmxtjTbGW\"]},\"/Users/tom/www/music-smart-contracts/contracts/interface/EthereumDIDRegistryI.sol\":{\"keccak256\":\"0x3ceef175a8ab764ae13496411a0173d95546e8a66ba52dcce64f2e7ab84c197c\",\"urls\":[\"bzzr://61ca9ca54df9bd2c30fb3e33921c5947a7d74e0a4e0a392b8e2cd1d218909e21\",\"dweb:/ipfs/Qmc9UqM1Xeqf53huB1fM7X4ffchbqjJ5oFkEd1qCU8mH1b\"]},\"/Users/tom/www/music-smart-contracts/contracts/mock/EthereumDIDResolverPublic.sol\":{\"keccak256\":\"0xed3a4e4d82535115f52bd2e42153d7a426fc97267a63836bba406115b1f770ec\",\"urls\":[\"bzzr://adb531f5da71ca9d9902de3013f5c3d08ddd80ed127ebdcd8c2ea28e3f15861b\",\"dweb:/ipfs/Qmadf8CZjZRPVojkotkGPw6QUvajNhQZK2t3vR2DvhBDnx\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061062d806100206000396000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c80632fea7b81146100515780638b1ac3a014610081578063e71758131461009d578063fd2aa0b4146100bb575b600080fd5b61006b600480360361006691908101906103b3565b6100eb565b60405161007891906104ee565b60405180910390f35b61009b600480360361009691908101906103b3565b610213565b005b6100a561021f565b6040516100b291906104ee565b60405180910390f35b6100d560048036036100d09190810190610405565b610244565b6040516100e29190610532565b60405180910390f35b6000806000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16632fea7b81846040518263ffffffff1660e01b815260040161014891906104ee565b60206040518083038186803b15801561016057600080fd5b505afa158015610174573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525061019891908101906103dc565b9050600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141561020a576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004016102019061054d565b60405180910390fd5b80915050919050565b61021c816102fa565b50565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663fd2aa0b484846040518363ffffffff1660e01b81526004016102a2929190610509565b60206040518083038186803b1580156102ba57600080fd5b505afa1580156102ce573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052506102f29190810190610441565b905092915050565b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055507f43bb990ead28e2cb3ea8b26e045448500f1cd58ccf150c95dd8e7e14dd12b7fa8160405161036991906104ee565b60405180910390a150565b600081359050610383816105bc565b92915050565b600081519050610398816105bc565b92915050565b6000815190506103ad816105d3565b92915050565b6000602082840312156103c557600080fd5b60006103d384828501610374565b91505092915050565b6000602082840312156103ee57600080fd5b60006103fc84828501610389565b91505092915050565b6000806040838503121561041857600080fd5b600061042685828601610374565b925050602061043785828601610374565b9150509250929050565b60006020828403121561045357600080fd5b60006104618482850161039e565b91505092915050565b6104738161057e565b82525050565b61048281610590565b82525050565b600061049560318361056d565b91507f307830204964656e74697479206973206e6f7420616c6c6f77656420746f207060008301527f6572666f726d20616e7920616374696f6e0000000000000000000000000000006020830152604082019050919050565b6000602082019050610503600083018461046a565b92915050565b600060408201905061051e600083018561046a565b61052b602083018461046a565b9392505050565b60006020820190506105476000830184610479565b92915050565b6000602082019050818103600083015261056681610488565b9050919050565b600082825260208201905092915050565b60006105898261059c565b9050919050565b60008115159050919050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6105c58161057e565b81146105d057600080fd5b50565b6105dc81610590565b81146105e757600080fd5b5056fea365627a7a72305820963fb448dd5bb64e102a431bad0d847c7d9904058ae96ec22a9f06638086ef6a6c6578706572696d656e74616cf564736f6c634300050a0040",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004c5760003560e01c80632fea7b81146100515780638b1ac3a014610081578063e71758131461009d578063fd2aa0b4146100bb575b600080fd5b61006b600480360361006691908101906103b3565b6100eb565b60405161007891906104ee565b60405180910390f35b61009b600480360361009691908101906103b3565b610213565b005b6100a561021f565b6040516100b291906104ee565b60405180910390f35b6100d560048036036100d09190810190610405565b610244565b6040516100e29190610532565b60405180910390f35b6000806000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16632fea7b81846040518263ffffffff1660e01b815260040161014891906104ee565b60206040518083038186803b15801561016057600080fd5b505afa158015610174573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525061019891908101906103dc565b9050600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16141561020a576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004016102019061054d565b60405180910390fd5b80915050919050565b61021c816102fa565b50565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663fd2aa0b484846040518363ffffffff1660e01b81526004016102a2929190610509565b60206040518083038186803b1580156102ba57600080fd5b505afa1580156102ce573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052506102f29190810190610441565b905092915050565b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055507f43bb990ead28e2cb3ea8b26e045448500f1cd58ccf150c95dd8e7e14dd12b7fa8160405161036991906104ee565b60405180910390a150565b600081359050610383816105bc565b92915050565b600081519050610398816105bc565b92915050565b6000815190506103ad816105d3565b92915050565b6000602082840312156103c557600080fd5b60006103d384828501610374565b91505092915050565b6000602082840312156103ee57600080fd5b60006103fc84828501610389565b91505092915050565b6000806040838503121561041857600080fd5b600061042685828601610374565b925050602061043785828601610374565b9150509250929050565b60006020828403121561045357600080fd5b60006104618482850161039e565b91505092915050565b6104738161057e565b82525050565b61048281610590565b82525050565b600061049560318361056d565b91507f307830204964656e74697479206973206e6f7420616c6c6f77656420746f207060008301527f6572666f726d20616e7920616374696f6e0000000000000000000000000000006020830152604082019050919050565b6000602082019050610503600083018461046a565b92915050565b600060408201905061051e600083018561046a565b61052b602083018461046a565b9392505050565b60006020820190506105476000830184610479565b92915050565b6000602082019050818103600083015261056681610488565b9050919050565b600082825260208201905092915050565b60006105898261059c565b9050919050565b60008115159050919050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6105c58161057e565b81146105d057600080fd5b50565b6105dc81610590565b81146105e757600080fd5b5056fea365627a7a72305820963fb448dd5bb64e102a431bad0d847c7d9904058ae96ec22a9f06638086ef6a6c6578706572696d656e74616cf564736f6c634300050a0040",
+  "sourceMap": "107:149:18:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;107:149:18;;;;;;;",
+  "deployedSourceMap": "107:149:18:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;107:149:18;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;529:253:2;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;171:83:18;;;;;;;;;;;;;;;;:::i;:::-;;152:24:2;;;:::i;:::-;;;;;;;;;;;;;;;;350:173;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;529:253;586:7;605:10;639:9;;;;;;;;;;;618:43;;;662:5;618:50;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;618:50:2;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;618:50:2;;;;;;;101:4:-1;97:9;90:4;84;80:15;76:31;69:5;65:43;126:6;120:4;113:20;0:138;618:50:2;;;;;;;;;605:63;;700:1;686:16;;:2;:16;;;;678:78;;;;;;;;;;;;;;;;;;;;;;773:2;766:9;;;529:253;;;:::o;171:83:18:-;227:20;239:7;227:11;:20::i;:::-;171:83;:::o;152:24:2:-;;;;;;;;;;;;;:::o;350:173::-;429:4;473:9;;;;;;;;;;;452:47;;;500:8;510:5;452:64;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;452:64:2;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;452:64:2;;;;;;;101:4:-1;97:9;90:4;84;80:15;76:31;69:5;65:43;126:6;120:4;113:20;0:138;452:64:2;;;;;;;;;445:71;;350:173;;;;:::o;223:121::-;292:7;280:9;;:19;;;;;;;;;;;;;;;;;;314:23;329:7;314:23;;;;;;;;;;;;;;;223:121;:::o;5:130:-1:-;;85:6;72:20;63:29;;97:33;124:5;97:33;;;57:78;;;;;142:134;;226:6;220:13;211:22;;238:33;265:5;238:33;;;205:71;;;;;283:128;;364:6;358:13;349:22;;376:30;400:5;376:30;;;343:68;;;;;418:241;;522:2;510:9;501:7;497:23;493:32;490:2;;;538:1;535;528:12;490:2;573:1;590:53;635:7;626:6;615:9;611:22;590:53;;;580:63;;552:97;484:175;;;;;666:263;;781:2;769:9;760:7;756:23;752:32;749:2;;;797:1;794;787:12;749:2;832:1;849:64;905:7;896:6;885:9;881:22;849:64;;;839:74;;811:108;743:186;;;;;936:366;;;1057:2;1045:9;1036:7;1032:23;1028:32;1025:2;;;1073:1;1070;1063:12;1025:2;1108:1;1125:53;1170:7;1161:6;1150:9;1146:22;1125:53;;;1115:63;;1087:97;1215:2;1233:53;1278:7;1269:6;1258:9;1254:22;1233:53;;;1223:63;;1194:98;1019:283;;;;;;1309:257;;1421:2;1409:9;1400:7;1396:23;1392:32;1389:2;;;1437:1;1434;1427:12;1389:2;1472:1;1489:61;1542:7;1533:6;1522:9;1518:22;1489:61;;;1479:71;;1451:105;1383:183;;;;;1573:113;1656:24;1674:5;1656:24;;;1651:3;1644:37;1638:48;;;1693:104;1770:21;1785:5;1770:21;;;1765:3;1758:34;1752:45;;;1805:465;;1965:67;2029:2;2024:3;1965:67;;;1958:74;;2065:66;2061:1;2056:3;2052:11;2045:87;2166:66;2161:2;2156:3;2152:12;2145:88;2261:2;2256:3;2252:12;2245:19;;1951:319;;;;2278:213;;2396:2;2385:9;2381:18;2373:26;;2410:71;2478:1;2467:9;2463:17;2454:6;2410:71;;;2367:124;;;;;2498:324;;2644:2;2633:9;2629:18;2621:26;;2658:71;2726:1;2715:9;2711:17;2702:6;2658:71;;;2740:72;2808:2;2797:9;2793:18;2784:6;2740:72;;;2615:207;;;;;;2829:201;;2941:2;2930:9;2926:18;2918:26;;2955:65;3017:1;3006:9;3002:17;2993:6;2955:65;;;2912:118;;;;;3037:407;;3228:2;3217:9;3213:18;3205:26;;3278:9;3272:4;3268:20;3264:1;3253:9;3249:17;3242:47;3303:131;3429:4;3303:131;;;3295:139;;3199:245;;;;3452:163;;3567:6;3562:3;3555:19;3604:4;3599:3;3595:14;3580:29;;3548:67;;;;;3623:91;;3685:24;3703:5;3685:24;;;3674:35;;3668:46;;;;3721:85;;3794:5;3787:13;3780:21;3769:32;;3763:43;;;;3813:121;;3886:42;3879:5;3875:54;3864:65;;3858:76;;;;3941:117;4010:24;4028:5;4010:24;;;4003:5;4000:35;3990:2;;4049:1;4046;4039:12;3990:2;3984:74;;4065:111;4131:21;4146:5;4131:21;;;4124:5;4121:32;4111:2;;4167:1;4164;4157:12;4111:2;4105:71;",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\npragma experimental \"ABIEncoderV2\";\n\nimport '../EthereumDIDResolver.sol';\n\ncontract EthereumDIDResolverPublic is EthereumDIDResolver {\n    function _setRegistry(address _ethDID) public {\n        setRegistry(_ethDID);\n    }\n}\n",
+  "sourcePath": "/Users/tom/www/music-smart-contracts/contracts/mock/EthereumDIDResolverPublic.sol",
+  "ast": {
+    "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/mock/EthereumDIDResolverPublic.sol",
+    "exportedSymbols": {
+      "EthereumDIDResolverPublic": [
+        4839
+      ]
+    },
+    "id": 4840,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4824,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:18"
+      },
+      {
+        "id": 4825,
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:35:18"
+      },
+      {
+        "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/EthereumDIDResolver.sol",
+        "file": "../EthereumDIDResolver.sol",
+        "id": 4826,
+        "nodeType": "ImportDirective",
+        "scope": 4840,
+        "sourceUnit": 1184,
+        "src": "69:36:18",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 4827,
+              "name": "EthereumDIDResolver",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1183,
+              "src": "145:19:18",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_EthereumDIDResolver_$1183",
+                "typeString": "contract EthereumDIDResolver"
+              }
+            },
+            "id": 4828,
+            "nodeType": "InheritanceSpecifier",
+            "src": "145:19:18"
+          }
+        ],
+        "contractDependencies": [
+          1183
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 4839,
+        "linearizedBaseContracts": [
+          4839,
+          1183
+        ],
+        "name": "EthereumDIDResolverPublic",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4837,
+              "nodeType": "Block",
+              "src": "217:37:18",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 4834,
+                        "name": "_ethDID",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 4830,
+                        "src": "239:7:18",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 4833,
+                      "name": "setRegistry",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1136,
+                      "src": "227:11:18",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
+                        "typeString": "function (address)"
+                      }
+                    },
+                    "id": 4835,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "227:20:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4836,
+                  "nodeType": "ExpressionStatement",
+                  "src": "227:20:18"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 4838,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_setRegistry",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4831,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4830,
+                  "name": "_ethDID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4838,
+                  "src": "193:15:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4829,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "193:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "192:17:18"
+            },
+            "returnParameters": {
+              "id": 4832,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "217:0:18"
+            },
+            "scope": 4839,
+            "src": "171:83:18",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 4840,
+        "src": "107:149:18"
+      }
+    ],
+    "src": "0:257:18"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/mock/EthereumDIDResolverPublic.sol",
+    "exportedSymbols": {
+      "EthereumDIDResolverPublic": [
+        4839
+      ]
+    },
+    "id": 4840,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4824,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:18"
+      },
+      {
+        "id": 4825,
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:35:18"
+      },
+      {
+        "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/EthereumDIDResolver.sol",
+        "file": "../EthereumDIDResolver.sol",
+        "id": 4826,
+        "nodeType": "ImportDirective",
+        "scope": 4840,
+        "sourceUnit": 1184,
+        "src": "69:36:18",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 4827,
+              "name": "EthereumDIDResolver",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1183,
+              "src": "145:19:18",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_EthereumDIDResolver_$1183",
+                "typeString": "contract EthereumDIDResolver"
+              }
+            },
+            "id": 4828,
+            "nodeType": "InheritanceSpecifier",
+            "src": "145:19:18"
+          }
+        ],
+        "contractDependencies": [
+          1183
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 4839,
+        "linearizedBaseContracts": [
+          4839,
+          1183
+        ],
+        "name": "EthereumDIDResolverPublic",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4837,
+              "nodeType": "Block",
+              "src": "217:37:18",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 4834,
+                        "name": "_ethDID",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 4830,
+                        "src": "239:7:18",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 4833,
+                      "name": "setRegistry",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1136,
+                      "src": "227:11:18",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
+                        "typeString": "function (address)"
+                      }
+                    },
+                    "id": 4835,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "227:20:18",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 4836,
+                  "nodeType": "ExpressionStatement",
+                  "src": "227:20:18"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 4838,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "_setRegistry",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4831,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4830,
+                  "name": "_ethDID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4838,
+                  "src": "193:15:18",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4829,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "193:7:18",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "192:17:18"
+            },
+            "returnParameters": {
+              "id": 4832,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "217:0:18"
+            },
+            "scope": 4839,
+            "src": "171:83:18",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 4840,
+        "src": "107:149:18"
+      }
+    ],
+    "src": "0:257:18"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-07-06T21:23:24.948Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

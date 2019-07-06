@@ -1,0 +1,15 @@
+{
+  "name": "cued-smart-contracts",
+  "version": "0.1.0",
+  "description": "Smart contract artifacts for CUED app",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "http://bitbucket.coreum.io/scm/cor/music-smart-contracts.git"
+  },
+  "author": "Tomasz Zacharczuk <tom@coreum.io>",
+  "license": "ISC",
+  "publishConfig": {
+    "registry": "https://nexus.coreum.io/repository/npm-private/"
+  }
+}

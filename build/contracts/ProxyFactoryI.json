@@ -1,0 +1,372 @@
+{
+  "contractName": "ProxyFactoryI",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_admin",
+          "type": "address"
+        },
+        {
+          "name": "_data",
+          "type": "bytes"
+        }
+      ],
+      "name": "deploy",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"_admin\",\"type\":\"address\"},{\"name\":\"_data\",\"type\":\"bytes\"}],\"name\":\"deploy\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/tom/www/music-smart-contracts/contracts/interface/ProxyFactoryI.sol\":\"ProxyFactoryI\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/tom/www/music-smart-contracts/contracts/interface/ProxyFactoryI.sol\":{\"keccak256\":\"0x304df03d6bbf10daff8d57fa8601088d4b4a4e2f263314d73bdf67d28b154097\",\"urls\":[\"bzzr://1804939d2e975f74dfd946ce7fea643a52f8536c31b069fe7959049acff175f8\",\"dweb:/ipfs/QmQutgpQqKcTciy33D65Gz11kFjyZd3xSV84HQsBJpKiaD\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\npragma experimental \"ABIEncoderV2\";\n\n\ninterface ProxyFactoryI {\n    function deploy(address _admin, bytes calldata _data) external returns (address);\n}\n",
+  "sourcePath": "/Users/tom/www/music-smart-contracts/contracts/interface/ProxyFactoryI.sol",
+  "ast": {
+    "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/interface/ProxyFactoryI.sol",
+    "exportedSymbols": {
+      "ProxyFactoryI": [
+        4519
+      ]
+    },
+    "id": 4520,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4508,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:16"
+      },
+      {
+        "id": 4509,
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:35:16"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 4519,
+        "linearizedBaseContracts": [
+          4519
+        ],
+        "name": "ProxyFactoryI",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 4518,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "deploy",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4514,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4511,
+                  "name": "_admin",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4518,
+                  "src": "116:14:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4510,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "116:7:16",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4513,
+                  "name": "_data",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4518,
+                  "src": "132:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4512,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "132:5:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "115:38:16"
+            },
+            "returnParameters": {
+              "id": 4517,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4516,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4518,
+                  "src": "172:7:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4515,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "172:7:16",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "171:9:16"
+            },
+            "scope": 4519,
+            "src": "100:81:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4520,
+        "src": "70:113:16"
+      }
+    ],
+    "src": "0:184:16"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/interface/ProxyFactoryI.sol",
+    "exportedSymbols": {
+      "ProxyFactoryI": [
+        4519
+      ]
+    },
+    "id": 4520,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4508,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:16"
+      },
+      {
+        "id": 4509,
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:35:16"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 4519,
+        "linearizedBaseContracts": [
+          4519
+        ],
+        "name": "ProxyFactoryI",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 4518,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "deploy",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4514,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4511,
+                  "name": "_admin",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4518,
+                  "src": "116:14:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4510,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "116:7:16",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4513,
+                  "name": "_data",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4518,
+                  "src": "132:20:16",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 4512,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "132:5:16",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "115:38:16"
+            },
+            "returnParameters": {
+              "id": 4517,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4516,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4518,
+                  "src": "172:7:16",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4515,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "172:7:16",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "171:9:16"
+            },
+            "scope": 4519,
+            "src": "100:81:16",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4520,
+        "src": "70:113:16"
+      }
+    ],
+    "src": "0:184:16"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-07-06T21:23:24.859Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

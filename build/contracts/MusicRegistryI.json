@@ -1,0 +1,528 @@
+{
+  "contractName": "MusicRegistryI",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "projectId",
+          "type": "bytes32"
+        },
+        {
+          "name": "sender",
+          "type": "address"
+        }
+      ],
+      "name": "isOwner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"projectId\",\"type\":\"bytes32\"},{\"name\":\"sender\",\"type\":\"address\"}],\"name\":\"isOwner\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/tom/www/music-smart-contracts/contracts/interface/MusicRegistryI.sol\":\"MusicRegistryI\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/tom/www/music-smart-contracts/contracts/interface/MusicRegistryI.sol\":{\"keccak256\":\"0x310258b6f61b68d36cc9e95dc95d69814736868c84804788ed48e8463f3da180\",\"urls\":[\"bzzr://d761f193fa77e30a4153044fbfebec5622672fbbd8c5ebbd6eb8baf1262c46f2\",\"dweb:/ipfs/QmVgxb946HRKGpkZmy9jh3dkCXiKXAf7oVQJAXkaMC9AnP\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\npragma experimental \"ABIEncoderV2\";\n\n\ninterface MusicRegistryI {\n    modifier onlyRole(bytes16 _projectId, string memory _role){_;}\n    function isOwner(bytes32 projectId, address sender) external returns (bool);\n}\n",
+  "sourcePath": "/Users/tom/www/music-smart-contracts/contracts/interface/MusicRegistryI.sol",
+  "ast": {
+    "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/interface/MusicRegistryI.sol",
+    "exportedSymbols": {
+      "MusicRegistryI": [
+        4486
+      ]
+    },
+    "id": 4487,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4467,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:14"
+      },
+      {
+        "id": 4468,
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:35:14"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 4486,
+        "linearizedBaseContracts": [
+          4486
+        ],
+        "name": "MusicRegistryI",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4475,
+              "nodeType": "Block",
+              "src": "160:4:14",
+              "statements": [
+                {
+                  "id": 4474,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "161:1:14"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 4476,
+            "name": "onlyRole",
+            "nodeType": "ModifierDefinition",
+            "parameters": {
+              "id": 4473,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4470,
+                  "name": "_projectId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4476,
+                  "src": "120:18:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes16",
+                    "typeString": "bytes16"
+                  },
+                  "typeName": {
+                    "id": 4469,
+                    "name": "bytes16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "120:7:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes16",
+                      "typeString": "bytes16"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4472,
+                  "name": "_role",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4476,
+                  "src": "140:19:14",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 4471,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "140:6:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "119:41:14"
+            },
+            "src": "102:62:14",
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 4485,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isOwner",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4481,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4478,
+                  "name": "projectId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4485,
+                  "src": "186:17:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4477,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "186:7:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4480,
+                  "name": "sender",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4485,
+                  "src": "205:14:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4479,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "205:7:14",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "185:35:14"
+            },
+            "returnParameters": {
+              "id": 4484,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4483,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4485,
+                  "src": "239:4:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4482,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "239:4:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "238:6:14"
+            },
+            "scope": 4486,
+            "src": "169:76:14",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4487,
+        "src": "71:176:14"
+      }
+    ],
+    "src": "0:248:14"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/interface/MusicRegistryI.sol",
+    "exportedSymbols": {
+      "MusicRegistryI": [
+        4486
+      ]
+    },
+    "id": 4487,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 4467,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:14"
+      },
+      {
+        "id": 4468,
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "33:35:14"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 4486,
+        "linearizedBaseContracts": [
+          4486
+        ],
+        "name": "MusicRegistryI",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 4475,
+              "nodeType": "Block",
+              "src": "160:4:14",
+              "statements": [
+                {
+                  "id": 4474,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "161:1:14"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 4476,
+            "name": "onlyRole",
+            "nodeType": "ModifierDefinition",
+            "parameters": {
+              "id": 4473,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4470,
+                  "name": "_projectId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4476,
+                  "src": "120:18:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes16",
+                    "typeString": "bytes16"
+                  },
+                  "typeName": {
+                    "id": 4469,
+                    "name": "bytes16",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "120:7:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes16",
+                      "typeString": "bytes16"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4472,
+                  "name": "_role",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4476,
+                  "src": "140:19:14",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 4471,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "140:6:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "119:41:14"
+            },
+            "src": "102:62:14",
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 4485,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isOwner",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 4481,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4478,
+                  "name": "projectId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4485,
+                  "src": "186:17:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 4477,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "186:7:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 4480,
+                  "name": "sender",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4485,
+                  "src": "205:14:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 4479,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "205:7:14",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "185:35:14"
+            },
+            "returnParameters": {
+              "id": 4484,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 4483,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 4485,
+                  "src": "239:4:14",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 4482,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "239:4:14",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "238:6:14"
+            },
+            "scope": 4486,
+            "src": "169:76:14",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 4487,
+        "src": "71:176:14"
+      }
+    ],
+    "src": "0:248:14"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-07-06T21:23:24.803Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
