@@ -1,0 +1,920 @@
+{
+  "contractName": "UUIDCounterPublic",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "counter",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "usedUUIDs",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "uuid",
+          "type": "bytes32"
+        }
+      ],
+      "name": "UUID",
+      "type": "event"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_uuid",
+          "type": "bytes32"
+        },
+        {
+          "name": "_flag",
+          "type": "uint8"
+        }
+      ],
+      "name": "perpendFlagPublic",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "workRecordingFlag",
+          "type": "uint8"
+        }
+      ],
+      "name": "newIDPublic",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.10+commit.5a6ea5b1\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"workRecordingFlag\",\"type\":\"uint8\"}],\"name\":\"newIDPublic\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"counter\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"usedUUIDs\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"_uuid\",\"type\":\"bytes32\"},{\"name\":\"_flag\",\"type\":\"uint8\"}],\"name\":\"perpendFlagPublic\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"uuid\",\"type\":\"bytes32\"}],\"name\":\"UUID\",\"type\":\"event\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{\"newIDPublic(uint8)\":{\"notice\":\"uint8 flag 87 for Work, 82 for Recording*\"}}}},\"settings\":{\"compilationTarget\":{\"/Users/tom/www/music-smart-contracts/contracts/mock/UUIDCounterPublic.sol\":\"UUIDCounterPublic\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/tom/www/music-smart-contracts/contracts/UUIDCounter.sol\":{\"keccak256\":\"0x2ea86a1f38b96ec4381651faa8023d50b58c6b48455d0d5add436422e5ef5c44\",\"urls\":[\"bzzr://fbbe57f36fe44334aa9557e5bb260f4497a1bea9eaf3f5f418f8d4ec741a22e6\",\"dweb:/ipfs/QmWYu4ob9ZovA49vgFnfJxFx8sXu9scCM42qQU4RQijMGt\"]},\"/Users/tom/www/music-smart-contracts/contracts/mock/UUIDCounterPublic.sol\":{\"keccak256\":\"0x8d0b2b22ef163c4ba2713b3fa7d61e195b84114b94e6ec30fb3f90f5ab7778b3\",\"urls\":[\"bzzr://b954a8aee9b109e06533a94bd588808e28344268b19fff3261162a1b4e2bf5a9\",\"dweb:/ipfs/QmbvTo28vF9TJFp4nh65at1F1sP24BUJVGga4TropRyFUB\"]}},\"version\":1}",
+  "bytecode": "0x6080604052600160005534801561001557600080fd5b506102b4806100256000396000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c80632799a00f1461005157806361bc221a14610096578063977c9073146100b45780639de9ce26146100fa575b600080fd5b6100806004803603602081101561006757600080fd5b81019080803560ff169060200190929190505050610149565b6040518082815260200191505060405180910390f35b61009e61015a565b6040518082815260200191505060405180910390f35b6100e0600480360360208110156100ca57600080fd5b8101908080359060200190929190505050610160565b604051808215151515815260200191505060405180910390f35b6101336004803603604081101561011057600080fd5b8101908080359060200190929190803560ff169060200190929190505050610180565b6040518082815260200191505060405180910390f35b600061015482610193565b50919050565b60005481565b60016020528060005260406000206000915054906101000a900460ff1681565b600061018c838361024d565b5092915050565b6000806000808154809291906001019190505560001b90506101b5818461024d565b90506001600082815260200190815260200160002060009054906101000a900460ff16156101e257600080fd5b600180600083815260200190815260200160002060006101000a81548160ff0219169083151502179055507f8b222dfb61492c0e76f692ad8bec6f8ec75dda958c940fc804b24f453e64a6d3816040518082815260200191505060405180910390a180915050919050565b60008160f81b7effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916831790509291505056fea265627a7a7230582073fda2954dd59a0be4fd8b1b5ed4422d7543fd6f8c187e9c0dfbac18826473f664736f6c634300050a0032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004c5760003560e01c80632799a00f1461005157806361bc221a14610096578063977c9073146100b45780639de9ce26146100fa575b600080fd5b6100806004803603602081101561006757600080fd5b81019080803560ff169060200190929190505050610149565b6040518082815260200191505060405180910390f35b61009e61015a565b6040518082815260200191505060405180910390f35b6100e0600480360360208110156100ca57600080fd5b8101908080359060200190929190505050610160565b604051808215151515815260200191505060405180910390f35b6101336004803603604081101561011057600080fd5b8101908080359060200190929190803560ff169060200190929190505050610180565b6040518082815260200191505060405180910390f35b600061015482610193565b50919050565b60005481565b60016020528060005260406000206000915054906101000a900460ff1681565b600061018c838361024d565b5092915050565b6000806000808154809291906001019190505560001b90506101b5818461024d565b90506001600082815260200190815260200160002060009054906101000a900460ff16156101e257600080fd5b600180600083815260200190815260200160002060006101000a81548160ff0219169083151502179055507f8b222dfb61492c0e76f692ad8bec6f8ec75dda958c940fc804b24f453e64a6d3816040518082815260200191505060405180910390a180915050919050565b60008160f81b7effffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916831790509291505056fea265627a7a7230582073fda2954dd59a0be4fd8b1b5ed4422d7543fd6f8c187e9c0dfbac18826473f664736f6c634300050a0032",
+  "sourceMap": "63:359:24:-;;;85:1:11;60:26;;63:359:24;8:9:-1;5:2;;;30:1;27;20:12;5:2;63:359:24;;;;;;;",
+  "deployedSourceMap": "63:359:24:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;63:359:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;308:112;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;308:112:24;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;60:26:11;;;:::i;:::-;;;;;;;;;;;;;;;;;;;92:42;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;92:42:11;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;111:127:24;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;111:127:24;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;308:112;370:7;389:24;395:17;389:5;:24::i;:::-;;308:112;;;:::o;60:26:11:-;;;;:::o;92:42::-;;;;;;;;;;;;;;;;;;;;;;:::o;111:127:24:-;187:7;206:25;218:5;225;206:11;:25::i;:::-;;111:127;;;;:::o;375:283:11:-;433:7;452:12;475:7;;:9;;;;;;;;;;;;467:18;;452:33;;502:36;514:4;520:17;502:11;:36::i;:::-;495:43;;557:9;:15;567:4;557:15;;;;;;;;;;;;;;;;;;;;;556:16;548:25;;;;;;601:4;583:9;:15;593:4;583:15;;;;;;;;;;;;:22;;;;;;;;;;;;;;;;;;620:10;625:4;620:10;;;;;;;;;;;;;;;;;;647:4;640:11;;;375:283;;;:::o;172:133::-;244:7;291:5;286:11;;278:20;;;270:5;:28;263:35;;172:133;;;;:::o",
+  "source": "pragma solidity >=0.5.0 <0.6.0;\n\nimport \"../UUIDCounter.sol\";\n\ncontract UUIDCounterPublic is UUIDCounter {\n    function perpendFlagPublic(bytes32 _uuid, uint8 _flag) public pure returns (bytes32) {\n        perpendFlag(_uuid, _flag);\n    }\n    /**\n     * uint8 flag 87 for Work, 82 for Recording\n     **/\n    function newIDPublic(uint8 workRecordingFlag) public returns (bytes32) {\n        newID(workRecordingFlag);\n    }\n}\n",
+  "sourcePath": "/Users/tom/www/music-smart-contracts/contracts/mock/UUIDCounterPublic.sol",
+  "ast": {
+    "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/mock/UUIDCounterPublic.sol",
+    "exportedSymbols": {
+      "UUIDCounterPublic": [
+        5270
+      ]
+    },
+    "id": 5271,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5239,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:24"
+      },
+      {
+        "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/UUIDCounter.sol",
+        "file": "../UUIDCounter.sol",
+        "id": 5240,
+        "nodeType": "ImportDirective",
+        "scope": 5271,
+        "sourceUnit": 4281,
+        "src": "33:28:24",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 5241,
+              "name": "UUIDCounter",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 4280,
+              "src": "93:11:24",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_UUIDCounter_$4280",
+                "typeString": "contract UUIDCounter"
+              }
+            },
+            "id": 5242,
+            "nodeType": "InheritanceSpecifier",
+            "src": "93:11:24"
+          }
+        ],
+        "contractDependencies": [
+          4280
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 5270,
+        "linearizedBaseContracts": [
+          5270,
+          4280
+        ],
+        "name": "UUIDCounterPublic",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 5256,
+              "nodeType": "Block",
+              "src": "196:42:24",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 5252,
+                        "name": "_uuid",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 5244,
+                        "src": "218:5:24",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 5253,
+                        "name": "_flag",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 5246,
+                        "src": "225:5:24",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      ],
+                      "id": 5251,
+                      "name": "perpendFlag",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4238,
+                      "src": "206:11:24",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_bytes32_$_t_uint8_$returns$_t_bytes32_$",
+                        "typeString": "function (bytes32,uint8) pure returns (bytes32)"
+                      }
+                    },
+                    "id": 5254,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "206:25:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "id": 5255,
+                  "nodeType": "ExpressionStatement",
+                  "src": "206:25:24"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 5257,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "perpendFlagPublic",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5247,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5244,
+                  "name": "_uuid",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5257,
+                  "src": "138:13:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5243,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "138:7:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5246,
+                  "name": "_flag",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5257,
+                  "src": "153:11:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 5245,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "153:5:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "137:28:24"
+            },
+            "returnParameters": {
+              "id": 5250,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5249,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5257,
+                  "src": "187:7:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5248,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "187:7:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "186:9:24"
+            },
+            "scope": 5270,
+            "src": "111:127:24",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 5268,
+              "nodeType": "Block",
+              "src": "379:41:24",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 5265,
+                        "name": "workRecordingFlag",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 5259,
+                        "src": "395:17:24",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      ],
+                      "id": 5264,
+                      "name": "newID",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4279,
+                      "src": "389:5:24",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_uint8_$returns$_t_bytes32_$",
+                        "typeString": "function (uint8) returns (bytes32)"
+                      }
+                    },
+                    "id": 5266,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "389:24:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "id": 5267,
+                  "nodeType": "ExpressionStatement",
+                  "src": "389:24:24"
+                }
+              ]
+            },
+            "documentation": "uint8 flag 87 for Work, 82 for Recording*",
+            "id": 5269,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "newIDPublic",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5260,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5259,
+                  "name": "workRecordingFlag",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5269,
+                  "src": "329:23:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 5258,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "329:5:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "328:25:24"
+            },
+            "returnParameters": {
+              "id": 5263,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5262,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5269,
+                  "src": "370:7:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5261,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "370:7:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "369:9:24"
+            },
+            "scope": 5270,
+            "src": "308:112:24",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 5271,
+        "src": "63:359:24"
+      }
+    ],
+    "src": "0:423:24"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/mock/UUIDCounterPublic.sol",
+    "exportedSymbols": {
+      "UUIDCounterPublic": [
+        5270
+      ]
+    },
+    "id": 5271,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 5239,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.5",
+          ".0",
+          "<",
+          "0.6",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:31:24"
+      },
+      {
+        "absolutePath": "/Users/tom/www/music-smart-contracts/contracts/UUIDCounter.sol",
+        "file": "../UUIDCounter.sol",
+        "id": 5240,
+        "nodeType": "ImportDirective",
+        "scope": 5271,
+        "sourceUnit": 4281,
+        "src": "33:28:24",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 5241,
+              "name": "UUIDCounter",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 4280,
+              "src": "93:11:24",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_UUIDCounter_$4280",
+                "typeString": "contract UUIDCounter"
+              }
+            },
+            "id": 5242,
+            "nodeType": "InheritanceSpecifier",
+            "src": "93:11:24"
+          }
+        ],
+        "contractDependencies": [
+          4280
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 5270,
+        "linearizedBaseContracts": [
+          5270,
+          4280
+        ],
+        "name": "UUIDCounterPublic",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 5256,
+              "nodeType": "Block",
+              "src": "196:42:24",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 5252,
+                        "name": "_uuid",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 5244,
+                        "src": "218:5:24",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 5253,
+                        "name": "_flag",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 5246,
+                        "src": "225:5:24",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      ],
+                      "id": 5251,
+                      "name": "perpendFlag",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4238,
+                      "src": "206:11:24",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_bytes32_$_t_uint8_$returns$_t_bytes32_$",
+                        "typeString": "function (bytes32,uint8) pure returns (bytes32)"
+                      }
+                    },
+                    "id": 5254,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "206:25:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "id": 5255,
+                  "nodeType": "ExpressionStatement",
+                  "src": "206:25:24"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 5257,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "perpendFlagPublic",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5247,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5244,
+                  "name": "_uuid",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5257,
+                  "src": "138:13:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5243,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "138:7:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5246,
+                  "name": "_flag",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5257,
+                  "src": "153:11:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 5245,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "153:5:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "137:28:24"
+            },
+            "returnParameters": {
+              "id": 5250,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5249,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5257,
+                  "src": "187:7:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5248,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "187:7:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "186:9:24"
+            },
+            "scope": 5270,
+            "src": "111:127:24",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 5268,
+              "nodeType": "Block",
+              "src": "379:41:24",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 5265,
+                        "name": "workRecordingFlag",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 5259,
+                        "src": "395:17:24",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      ],
+                      "id": 5264,
+                      "name": "newID",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 4279,
+                      "src": "389:5:24",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_nonpayable$_t_uint8_$returns$_t_bytes32_$",
+                        "typeString": "function (uint8) returns (bytes32)"
+                      }
+                    },
+                    "id": 5266,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "389:24:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "id": 5267,
+                  "nodeType": "ExpressionStatement",
+                  "src": "389:24:24"
+                }
+              ]
+            },
+            "documentation": "uint8 flag 87 for Work, 82 for Recording*",
+            "id": 5269,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "newIDPublic",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 5260,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5259,
+                  "name": "workRecordingFlag",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5269,
+                  "src": "329:23:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 5258,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "329:5:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "328:25:24"
+            },
+            "returnParameters": {
+              "id": 5263,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5262,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5269,
+                  "src": "370:7:24",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 5261,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "370:7:24",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "369:9:24"
+            },
+            "scope": 5270,
+            "src": "308:112:24",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 5271,
+        "src": "63:359:24"
+      }
+    ],
+    "src": "0:423:24"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-07-06T21:23:25.196Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {
+      "newIDPublic(uint8)": {
+        "notice": "uint8 flag 87 for Work, 82 for Recording*"
+      }
+    }
+  }
+}

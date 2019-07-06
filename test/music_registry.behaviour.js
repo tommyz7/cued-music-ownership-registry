@@ -250,14 +250,14 @@ function shouldBehaveLikeValidateSignature(Setup) {
     let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
     let wrongData = await getWorkHash(Setup, Setup.musicRegistryPublicConstant, Setup.firstOwner.address, "WRONG___registerWork", 0, Setup.works[0]);
 
-    await expectRevert(Setup.musicRegistryPublicConstant.contract.methods.validateSignature(wrongData.hash, signature, Setup.firstOwner.address).call(), "Message has not been signed properly by signer");
+    await expectRevert(Setup.musicRegistryPublicConstant.contract.methods.validateSignature(wrongData.hash, signature, Setup.firstOwner.address).send({from: Setup.admin}), "Message has not been signed properly by signer");
   });
 
   it("should NOT validate signature with wrong signer", async () => {
     let obj = await getWorkHash(Setup, Setup.musicRegistryPublicConstant, Setup.firstOwner.address, "registerWork", 0, Setup.works[0]);
     let signature = Account.sign(obj.hash, Setup.firstOwner.privateKey);
 
-    await expectRevert(Setup.musicRegistryPublicConstant.contract.methods.validateSignature(obj.hash, signature, Setup.random.address).call(), "Message has not been signed properly by signer");
+    await expectRevert(Setup.musicRegistryPublicConstant.contract.methods.validateSignature(obj.hash, signature, Setup.random.address).send({from: Setup.admin}), "Message has not been signed properly by signer");
   });
 
 }
@@ -626,7 +626,7 @@ function shouldBehaveLikeUpdateWork(Setup) {
     });
 
     it("should revert() if non owner in isOwner()", async () => {
-      await expectRevert(Setup.musicRegistryConstant.contract.methods.isOwner(WorkRegistered.workId, Setup.random.address).call(), "sender must have ownership")
+      await expectRevert(Setup.musicRegistryConstant.contract.methods.isOwner(WorkRegistered.workId, Setup.random.address).send({from: Setup.admin}), "sender must have ownership")
     });
 
     it("should revert() if function name is corrupted", async () => {

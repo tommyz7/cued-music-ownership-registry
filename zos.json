@@ -1,8 +1,17 @@
 {
-  "zosversion": "2",
+  "zosversion": "2.2",
+  "contracts": {
+    "EthereumDIDRegistry": "EthereumDIDRegistry",
+    "MusicRegistry": "MusicRegistry",
+    "ProxyFactory": "ProxyFactory"
+  },
+  "dependencies": {},
   "name": "music-smart-contracts",
   "version": "0.1.0",
-  "contracts": {
-    "CompositionRegistry": "CompositionRegistry"
+  "compiler": {
+    "manager": "truffle",
+    "compilerSettings": {
+      "optimizer": {}
+    }
   }
 }

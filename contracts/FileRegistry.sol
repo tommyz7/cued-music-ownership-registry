@@ -12,8 +12,7 @@ contract FileRegistry is Initializable, SignatureDecoder {
 
     mapping(address => uint256) public nonce;
 
-    string[] public FILE_TYPES =
-        ['Other', 'Agreement', 'Sheets', 'Notes', 'Stem', 'Track', 'Demo', 'FinalMix'];
+    string[] public FILE_TYPES;
 
     struct File {
         uint8 fileType;
@@ -49,6 +48,7 @@ contract FileRegistry is Initializable, SignatureDecoder {
     function init(address musicRegistryAddr) public initializer {
         musicRegistry = MusicRegistryI(musicRegistryAddr);
         emit MusicRegistrySet(musicRegistryAddr);
+        FILE_TYPES = ['Other', 'Agreement', 'Sheets', 'Notes', 'Stem', 'Track', 'Demo', 'FinalMix'];
     }
 
     function getAllFileTypes() public view returns (string[] memory) {

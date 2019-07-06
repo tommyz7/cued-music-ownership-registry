@@ -1,5 +1,5 @@
 {
-  "name": "truffle",
+  "name": "music-smart-contracts",
   "version": "1.0.0",
   "description": "",
   "main": "truffle.js",
@@ -7,27 +7,26 @@
     "test": "test"
   },
   "scripts": {
-    "test": "sh compose/production/test.sh",
-    "publish": "sh compose/production/nexus/npm/publish.sh"
+    "test_local": "truffle test --network local",
+    "publish": "sh compose/nexus/npm/publish.sh"
   },
   "dependencies": {
     "any-promise": "^1.3.0",
     "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
     "babel-register": "^6.26.0",
+    "chai": "^4.2.0",
     "chai-bignumber": "^3.0.0",
     "js-sha3": "^0.8.0",
     "openzeppelin-solidity": "^2.3.0",
+    "openzeppelin-test-helpers": "^0.4.0",
+    "solidity-coverage": "^0.5.11",
     "truffle-hdwallet-provider": "1.0.0-web3one.5",
     "web3": "^1.0.0-beta.37",
     "zos": "^2.4.0"
   },
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "babel-preset-stage-3": "^6.24.1",
-    "openzeppelin-test-helpers": "^0.4.0",
-    "solidity-coverage": "^0.5.11"
-  }
+  "license": "ISC"
 }
