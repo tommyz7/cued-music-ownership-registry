@@ -64,7 +64,6 @@ typings/
 # OS X
 .DS_Store
 
-# Truffle
-build/
-
 package-lock.json
+
+.zos.session
