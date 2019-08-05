@@ -4298,7 +4298,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-06T21:23:24.223Z",
+  "updatedAt": "2019-08-04T21:19:33.066Z",
   "devdoc": {
     "details": "This contract combines an upgradeability proxy with an authorization mechanism for administrative tasks. All external functions in this contract must be guarded by the `ifAdmin` modifier. See ethereum/solidity#3864 for a Solidity feature proposal that would enable this to be done automatically.",
     "methods": {

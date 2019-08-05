@@ -2553,7 +2553,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-06T21:23:24.751Z",
+  "updatedAt": "2019-08-04T21:19:33.259Z",
   "devdoc": {
     "details": "This contract implements a proxy that allows to change the implementation address to which it will delegate. Such a change is called an implementation upgrade.",
     "methods": {

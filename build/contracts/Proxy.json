@@ -852,7 +852,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-06T21:23:24.553Z",
+  "updatedAt": "2019-08-04T21:19:33.230Z",
   "devdoc": {
     "details": "Implements delegation of calls to other contracts, with proper forwarding of return values and bubbling of failures. It defines a fallback function that delegates all calls to the address returned by the abstract _implementation() internal function.",
     "methods": {},

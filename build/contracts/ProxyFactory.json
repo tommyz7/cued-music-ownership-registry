@@ -3060,8 +3060,8 @@
     "2833": {
       "events": {},
       "links": {},
-      "address": "0xD833215cBcc3f914bD1C9ece3EE7BF8B14f841bb",
-      "transactionHash": "0x7b02a77bec15ca5500eae462bac4f2ee162e56f394ddde82740d9d41b3d345b8"
+      "address": "0x8f2647337852D69971519388767b434A8C232512",
+      "transactionHash": "0xc45463e7b82238e791759d376769fd7c025fef3334261b9abb80bea77f942bc3"
     },
     "1562285448690": {
       "links": {},
@@ -3074,10 +3074,16 @@
       "links": {},
       "address": "0xF859B8c2000b8c52F5476bfe2F8B8F8a6FC38995",
       "transactionHash": "0x3bf34a681b82bbb3c510443cd818846218a1586bb8e87c30dcb299ed8f2880c1"
+    },
+    "1564957539465": {
+      "events": {},
+      "links": {},
+      "address": "0xD866c828E740dD301978bf4ad113F1078e7022C4",
+      "transactionHash": "0xd218a5263e195cb841fc1ed590cb50a99c316ce5602b48d447bc6812fcbf3868"
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-06T21:24:56.345Z",
+  "updatedAt": "2019-08-04T22:47:37.882Z",
   "devdoc": {
     "methods": {
       "hasRole(address,string)": {

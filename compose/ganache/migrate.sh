@@ -6,14 +6,14 @@ function shutdownGanache() {
 }
 
 function startupGanache() {
-    ganache-cli -d --networkId 2833 --db /var/ganache-cli/chaindata > /dev/null &
+    ganache-cli -d --networkId 2833 --db /var/ganache-cli/chaindata --account="0xF0F637DBBBB802D5DCEC6E7629F7AEE958235173222E8A5520DACCE760490CE6,1000000000000000000000000000" > /dev/null &
     export GANACHE_PID=$!
     echo "Started new Ganache CLI as process $GANACHE_PID"
 }
 
-
 startupGanache
-#give ganache a bit to startup
-sleep 2
+echo "Preparing smart contracts..."
 truffle migrate --reset --network development
 shutdownGanache
+echo "Smart Contract deployed"
+
