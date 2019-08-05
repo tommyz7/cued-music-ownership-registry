@@ -27345,18 +27345,24 @@
     "2833": {
       "events": {},
       "links": {},
-      "address": "0x9561C133DD8580860B6b7E504bC5Aa500f0f06a7",
-      "transactionHash": "0x6e345e51ae2e0e223dc03da0cb905953b4bb6700b3cceecc05bfad1506fc2052"
+      "address": "0x4d77DfF1Caeb5F8CB6b72079943A143F2dd80BAA",
+      "transactionHash": "0x0572ba35a4196bf49e2d209a01df18245fb0000029f0d3b112b3ff7d507129f8"
     },
     "1562395351904": {
       "events": {},
       "links": {},
       "address": "0x7567F6867d62DFe4cfc3bFeff2dBf312468b3bd2",
       "transactionHash": "0x5c426f8071c35be0731cbc054fe63db7ec006cc1beb9dc0004ac4ac1cfb8a54c"
+    },
+    "1564957539465": {
+      "events": {},
+      "links": {},
+      "address": "0x92b2CFCc3751994944193A2106e37C7310356c6a",
+      "transactionHash": "0x4306012cb235261dd50a52a18d17d0d2361e1e9945f27ac60942452eeeb06546"
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-06T21:24:56.360Z",
+  "updatedAt": "2019-08-04T22:47:37.901Z",
   "devdoc": {
     "methods": {
       "balanceOfOwnership(address)": {

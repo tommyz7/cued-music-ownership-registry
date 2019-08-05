@@ -23961,10 +23961,10 @@
     "2833": {
       "events": {},
       "links": {
-        "MusicLib": "0x254dffcd3277C0b1660F6d42EFbB754edaBAbC2B"
+        "MusicLib": "0x604EAF7d07B90282e8a02Fd8F264F3737B30955a"
       },
-      "address": "0xC89Ce4735882C9F0f0FE26686c53074E09B0D550",
-      "transactionHash": "0x25d738f27763bae972c6964117261f7754129c3254d785d08b02bff40ad933f2"
+      "address": "0xE89309a7253a19C8e9FC5b7868ECF34d086DF38f",
+      "transactionHash": "0xa8c9b93c817b4ca180d65f64dea5e7557d6ca58615050e1bd1e9cb9850383d75"
     },
     "1562285448690": {
       "links": {},
@@ -23979,10 +23979,18 @@
       },
       "address": "0xd252A272102F3F248a40402E1d82521e5d0a49Cc",
       "transactionHash": "0xc455cee6ebf4974a3e21da7da85d12a5b435d64e7fb5d117ebd862220b8d2f26"
+    },
+    "1564957539465": {
+      "events": {},
+      "links": {
+        "MusicLib": "0xe27b8b977489a6e5FDDf52127191216eA99c39b8"
+      },
+      "address": "0xBff8968A7Fc932459EfEff11E6532e888d39e21B",
+      "transactionHash": "0x1c85b3fb53426161cfca8de9154b1904bb76a067da3135b64a96281df9a80fa7"
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-07-06T21:24:56.252Z",
+  "updatedAt": "2019-08-04T22:47:37.857Z",
   "devdoc": {
     "details": "Smart Contract that stores Compositions and Recordings metadata. Data stored is     bassed on Open Music Initiative API. * See https://omi01.docs.apiary.io/#reference/work-related-apis/works-collection/register-a-work ",
     "methods": {},
