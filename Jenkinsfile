@@ -27,7 +27,7 @@ pipeline {
                 // sh 'docker build -t cued-blockchain -f compose/ganache/Dockerfile .'
                 echo "Building docker $branch"
                 script {
-                    image = docker.build("cued-blockchain:$branch-$gitCommit", "compose/ganache/Dockerfile")
+                    image = docker.build("cued_blockchain:$branch-$gitCommit", "compose/ganache/Dockerfile")
                     docker.withRegistry("https://registry.coreum.io/", "docker-registry") {
                         image.push()
                         image.push("$branch")
