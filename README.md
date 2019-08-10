@@ -1,27 +1,20 @@
-<img src="https://truffleframework.com/img/truffle-logo-dark.svg" width="200">
+Music Smart Contracts - CUED Music smart contracts
 
 -----------------------
+## Commands
+Run Ganache (dev blockchain) in deterministic mode:
+`ganache-cli -d`
 
+Compile smart contracts:
+`truffle compile --all`
 
-Truffle is a development environment, testing framework and asset pipeline for Ethereum, aiming to make life as an Ethereum developer easier. With Truffle, you get:
+Run unit tests
+`truffle test`
 
-Built-in smart contract compilation, linking, deployment and binary management.
-Automated contract testing with Mocha and Chai.
-Configurable build pipeline with support for custom build processes.
-Scriptable deployment & migrations framework.
-Network management for deploying to many public & private networks.
-Interactive console for direct contract communication.
-Instant rebuilding of assets during development.
-External script runner that executes scripts within a Truffle environment.
+Migrate (deploy) smart contracts to given network (if `--network` omitted, development by default):
+`truffle migrate --reset --network <network>`
 
+For development on Rinkeby or Mainnet networks, wallet private key is taken from `MNEMONIC` environment variable.
 
-## Setup
-- Build the image
-
-`docker-compose -f local.yml build`
-- Run docker container
-
-`docker-compose -f local.yml up`
-- Enter container terminal
-
-`docker exec -it musicsmartcontracts_truffle_1 sh`
+Build Ganache-cli docker image with pre-deployed CUED smart contracts
+`docker build -t cued_blockchain -f compose/ganache/Dockerfile .`
