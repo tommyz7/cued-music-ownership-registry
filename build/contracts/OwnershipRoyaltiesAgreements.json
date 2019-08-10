@@ -27336,6 +27336,12 @@
     "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
   },
   "networks": {
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0xd5E95241eaa2DE4B2811931B2c3533fa0AD8216a",
+      "transactionHash": "0xbff49ada2f4c5057dcdb4cc0d3ee14af10d4b26aca6e23590e8d36c36f0a900f"
+    },
     "50": {
       "events": {},
       "links": {},
@@ -27362,7 +27368,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-04T22:47:37.901Z",
+  "updatedAt": "2019-08-05T03:34:47.491Z",
   "devdoc": {
     "methods": {
       "balanceOfOwnership(address)": {

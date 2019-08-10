@@ -23950,6 +23950,14 @@
     "version": "0.5.10+commit.5a6ea5b1.Emscripten.clang"
   },
   "networks": {
+    "4": {
+      "events": {},
+      "links": {
+        "MusicLib": "0x10bbC65e1a5CCAC428DD16E0777339B94D8CFEE8"
+      },
+      "address": "0xefD157FE9Faae8F618A4B40d23654CD4400aad66",
+      "transactionHash": "0x7735bdb4e1893c40a5d269c6ed76d2e3a5a69b0addb92543e1101edd94ced23f"
+    },
     "50": {
       "events": {},
       "links": {
@@ -23990,7 +23998,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-04T22:47:37.857Z",
+  "updatedAt": "2019-08-05T03:34:47.427Z",
   "devdoc": {
     "details": "Smart Contract that stores Compositions and Recordings metadata. Data stored is     bassed on Open Music Initiative API. * See https://omi01.docs.apiary.io/#reference/work-related-apis/works-collection/register-a-work ",
     "methods": {},
