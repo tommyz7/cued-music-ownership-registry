@@ -10,6 +10,7 @@ pipeline {
     stages {
         stage('Run unit & integration tests') {
             steps {
+                sh 'whereis docker-compose'
                 sh '/usr/local/bin/docker-compose -f compose/docker-eth-env.yml build'
                 sh '/usr/local/bin/docker-compose -f compose/docker-eth-env.yml run --rm truffle npm run test_local'
                 sh '/usr/local/bin/docker-compose -f compose/docker-eth-env.yml kill ganache-cli'
