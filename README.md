@@ -17,4 +17,4 @@ Migrate (deploy) smart contracts to given network (if `--network` omitted, devel
 For development on Rinkeby or Mainnet networks, wallet private key is taken from `MNEMONIC` environment variable.
 
 Build Ganache-cli docker image with pre-deployed CUED smart contracts
-`docker build -t cued_blockchain -f compose/ganache/Dockerfile .`
+`docker build -t registry.coreum.io/cued_blockchain:master -f compose/ganache/Dockerfile .`
