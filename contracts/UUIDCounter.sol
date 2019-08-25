@@ -15,7 +15,7 @@ contract UUIDCounter {
     function newID(uint8 workRecordingFlag) internal returns (bytes32) {
         bytes32 uuid = bytes32(counter++);
         uuid = perpendFlag(uuid, workRecordingFlag);
-        require(!usedUUIDs[uuid]);
+        require(!usedUUIDs[uuid], "uuid has been already used");
         usedUUIDs[uuid] = true;
         emit UUID(uuid);
         return uuid;
