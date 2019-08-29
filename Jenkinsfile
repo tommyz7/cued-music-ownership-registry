@@ -5,6 +5,7 @@ pipeline {
         CI = 'true'
         branch = "${env.BRANCH_NAME}"
         gitCommit = "${env.GIT_COMMIT}"
+        buildNumber = "${env.BUILD_NUMBER}"
     }
 
     stages {
@@ -33,7 +34,7 @@ pipeline {
                 // sh 'docker build -t cued-blockchain -f compose/ganache/Dockerfile .'
                 echo "Building docker $branch"
                 script {
-                    image = docker.build("cued_blockchain:$branch-$gitCommit", "-f compose/ganache/Dockerfile .")
+                    image = docker.build("cued_blockchain:$branch-$buildNumber", "-f compose/ganache/Dockerfile .")
                     docker.withRegistry("https://registry.coreum.io/", "docker-registry") {
                         image.push()
                         image.push("$branch")

@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    name: {{ .Release.Name }} 
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      name: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        name: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ .Release.Name }}
+      imagePullSecrets:
+        - name: docker-registry
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}
+      containers:
+        - name: blockchain
+          image: "{{ .Values.image }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          command: ["/bin/sh"]
+          args: ["-c", "{{ .Values.command }}"]
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+          volumeMounts:
+          - mountPath: {{ .Values.volume.mount }}
+            name: data-volume
+          envFrom:
+          {{ if .Values.commonConfigName }}
+          - configMapRef:
+              name: "{{ .Values.commonConfigName }}"
+          {{ end }}
+          {{ if .Values.serviceConfigName }}
+          - configMapRef:
+              name: "{{ .Values.serviceConfigName }}"
+          {{ end }}
+          {{ if .Values.commonSecretName }}
+          - secretRef:
+              name: "{{ .Values.commonSecretName }}"
+          {{ end }}
+          {{ if .Values.serviceSecretName }}
+          - secretRef:
+              name: "{{ .Values.serviceSecretName }}"
+          {{ end }}

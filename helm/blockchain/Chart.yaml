@@ -1,0 +1,11 @@
+appVersion: 1.0
+description: Blockchain Helm Chart for Transaction Manager
+engine: gotpl
+home: https://www.cuedmusic.com
+keywords:
+- blockchain
+maintainers:
+- email: contact@cuedmusic.com
+  name: cuedmusic
+name: blockchain
+version: 1.0
