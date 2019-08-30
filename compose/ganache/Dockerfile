@@ -1,4 +1,3 @@
-# FROM node:10.16-alpine
 FROM trufflesuite/ganache-cli:v6.4.2
 
 RUN apk update && apk upgrade && \
