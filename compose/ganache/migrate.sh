@@ -16,4 +16,3 @@ echo "Preparing smart contracts..."
 truffle migrate --reset --network development
 shutdownGanache
 echo "Smart Contract deployed"
-
