@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# If an error occurs during migrations, cancel script
+set -e
+
 # Run database migratiosn
 /app/compose/ganache/migrate.sh
 
