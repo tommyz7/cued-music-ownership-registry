@@ -25,5 +25,6 @@ ENV DOCKER true
 
 EXPOSE 8545
 
-RUN sh ./compose/ganache/migrate.sh
-ENTRYPOINT ["node", "/app/ganache-core.docker.cli.js"]
+RUN chmod +x /app/compose/ganache/*.sh
+
+ENTRYPOINT ["/app/compose/ganache/entrypoint.sh"]

@@ -26,8 +26,6 @@ spec:
         - name: blockchain
           image: "{{ .Values.image }}"
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
-          command: ["/bin/sh"]
-          args: ["-c", "{{ .Values.command }}"]
           ports:
             - containerPort: {{ .Values.containerPort }}
           volumeMounts:
