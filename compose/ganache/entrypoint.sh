@@ -9,16 +9,16 @@ function shutdownGanache() {
 }
 
 function startupGanache() {
-    node /app/ganache-core.docker.cli.js -d cued --networkId 2833 --db /var/ganache-cli/chaindata > /dev/null &
+    node /app/ganache-core.docker.cli.js -d cued --networkId 2833 -p 9999 -e 1000000 --db /var/ganache-cli/chaindata > /dev/null &
     export GANACHE_PID=$!
     echo "Started new Ganache CLI as process $GANACHE_PID"
 }
 
 startupGanache
 echo "Preparing smart contracts..."
-truffle migrate --reset --network development
+truffle migrate --reset --network pytest
 shutdownGanache
 echo "Smart Contract deployed"
 
 # Start ganache-cli process
-node /app/ganache-core.docker.cli.js -d cued --blockTime 5 --networkId 2833 --db /var/ganache-cli/chaindata
+node /app/ganache-core.docker.cli.js -d cued --blockTime 5 -e 1000000 --networkId 2833 --db /var/ganache-cli/chaindata
