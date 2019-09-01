@@ -26742,9 +26742,9 @@
     "2833": {
       "links": {},
       "events": {},
-      "address": "0x2ffb8433896485CC9CB40e9A5B088f9C4436a754",
+      "address": "0xCfEB869F69431e42cdB54A4F4f105C19C080A601",
       "updated_at": 1562443196232,
-      "transactionHash": "0x4143e8d34d474e3349528c8dcdef6aa5f83da1ed2d1579bdead76ee46134d2dd"
+      "transactionHash": "0x7e526649cf805d57a15dc19692f6f8c06324f46d856faebcf161a071add8eaa2"
     },
     "1562285448690": {
       "links": {},
@@ -26766,7 +26766,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-05T03:34:47.537Z",
+  "updatedAt": "2019-09-01T04:31:56.538Z",
   "devdoc": {
     "methods": {}
   },

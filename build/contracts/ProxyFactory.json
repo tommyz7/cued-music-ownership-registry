@@ -3066,8 +3066,8 @@
     "2833": {
       "events": {},
       "links": {},
-      "address": "0x8f2647337852D69971519388767b434A8C232512",
-      "transactionHash": "0xc45463e7b82238e791759d376769fd7c025fef3334261b9abb80bea77f942bc3"
+      "address": "0xD833215cBcc3f914bD1C9ece3EE7BF8B14f841bb",
+      "transactionHash": "0x7b02a77bec15ca5500eae462bac4f2ee162e56f394ddde82740d9d41b3d345b8"
     },
     "1562285448690": {
       "links": {},
@@ -3089,7 +3089,7 @@
     }
   },
   "schemaVersion": "3.0.11",
-  "updatedAt": "2019-08-05T03:34:47.472Z",
+  "updatedAt": "2019-09-01T04:31:56.485Z",
   "devdoc": {
     "methods": {
       "hasRole(address,string)": {
