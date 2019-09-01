@@ -1,4 +1,4 @@
-FROM trufflesuite/ganache-cli:v6.6.0
+FROM trufflesuite/ganache-cli:v6.4.2
 
 RUN apk update && apk upgrade && \
     apk add --no-cache python make g++ git
@@ -15,7 +15,7 @@ COPY ./package.json /app
 
 RUN npm config set user 0
 RUN npm config set unsafe-perm true
-RUN npm install -g ganache-cli@6.6.0
+RUN npm install -g ganache-cli@6.4.2
 RUN npm install -g truffle@5.0.24
 RUN npm install
 RUN truffle version
