@@ -31,7 +31,6 @@ pipeline {
         }
         stage('Create ganache-cli with deployed contracts') {
             steps {
-                // sh 'docker build -t cued-blockchain -f compose/ganache/Dockerfile .'
                 echo "Building docker $branch"
                 script {
                     image = docker.build("cued_blockchain:$branch-$buildNumber", "-f compose/ganache/Dockerfile .")
