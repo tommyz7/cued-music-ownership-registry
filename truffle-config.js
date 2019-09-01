@@ -56,6 +56,12 @@ module.exports = {
     //  port: 8545,            // Standard Ethereum port (default: none)
     //  network_id: "*",       // Any network (default: none)
     // },
+    pytest: {
+      host: "localhost",
+      port: 9999,
+      network_id: "*",
+      gas: 6721975
+    },
     development: {
       host: "localhost",
       port: 8545,
