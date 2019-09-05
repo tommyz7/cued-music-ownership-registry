@@ -9,7 +9,10 @@ servicePort: 8545
 containerPort: 8545
 
 ## Volume Config
+## Volume creation disabled by default
+## Set "create: true" to create and attach a volume
 volume:
+  create: false
   size: 8Gi
   class: do-block-storage
   mode: Filesystem
