@@ -18,19 +18,23 @@ spec:
       serviceAccountName: {{ .Release.Name }}
       imagePullSecrets:
         - name: docker-registry
+      {{ if .Values.volume.create }}
       volumes:
         - name: data-volume
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}
+      {{ end }}
       containers:
         - name: blockchain
           image: "{{ .Values.image }}"
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
             - containerPort: {{ .Values.containerPort }}
+          {{ if .Values.volume.create }}
           volumeMounts:
           - mountPath: {{ .Values.volume.mount }}
             name: data-volume
+          {{ end }}
           envFrom:
           {{ if .Values.commonConfigName }}
           - configMapRef:
