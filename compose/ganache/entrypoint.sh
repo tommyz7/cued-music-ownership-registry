@@ -21,4 +21,4 @@ shutdownGanache
 echo "Smart Contract deployed"
 
 # Start ganache-cli process
-node /app/ganache-core.docker.cli.js -d cued --blockTime 5 -e 1000000 --networkId 2833 --db /var/ganache-cli/chaindata
+node /app/ganache-core.docker.cli.js -d cued --blockTime 1 -e 1000000 --networkId 2833 --db /var/ganache-cli/chaindata
