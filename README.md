@@ -3,7 +3,7 @@ Music Smart Contracts - CUED Music smart contracts
 -----------------------
 ## Commands
 Run Ganache (dev blockchain) in deterministic mode:
-`ganache-cli -d`
+`ganache-cli -d cued`
 
 Compile smart contracts:
 `truffle compile --all`
